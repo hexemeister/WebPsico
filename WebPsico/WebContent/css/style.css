@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+.ui-growl {
+	top: 90px;
+	right: 40px;
+}
+
+.value{
+	width: 1000px;
+	margin-left: -500px;
+	left: 50%;
+	position: absolute;
+}
