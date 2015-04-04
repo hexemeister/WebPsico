@@ -1,18 +1,19 @@
-package Persistence;
+package persistence;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-public abstract class GenericDao<T> implements IGenericDao<T>, Serializable{
-	
+public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Class<T> classe;
 	private EntityManager em;
 
-	public GenericDao(Class<T> classe){
+	public GenericDao(Class<T> classe) {
 		super();
 		this.classe = classe;
 		this.em = new PersistenceUtil().getEntityManager();
@@ -37,7 +38,7 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable{
 		em.getTransaction().begin();
 		em.remove(entity);
 		em.getTransaction().commit();
-		
+
 	}
 
 	@Override
@@ -54,16 +55,16 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable{
 		return entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findAll() {
-		return em.createQuery("from" + classe.getName()).getResultList();
+		return getEntityManager().createQuery(
+				"from " + classe.getSimpleName() + " u").getResultList();
 	}
 
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
 	}
-	
-	
-	
+
 }

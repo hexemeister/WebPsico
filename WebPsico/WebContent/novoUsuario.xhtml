@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+	<p:panel header="Cadastro de Usuário">
+		<h:form id="novoUsuario">
+			<p:focus />
+			<p:panelGrid columns="2">
+				<p:outputLabel for="nome" value="Nome Completo" />
+				<p:inputText id="nome" required="true" placeholder="Nome Completo"
+					requiredMessage="Informe o nome completo, por favor!" size="45" />
+
+				<p:outputLabel for="login" value="Login" />
+				<p:inputText id="login" required="true" placeholder="Login"
+					requiredMessage="Informe o login, por favor!" size="45" />
+
+				<p:outputLabel for="senha1" value="Senha" />
+				<p:password id="senha1" required="true" placeholder="Senha"
+					match="senha2" requiredMessage="Informe a senha, por favor!" size="45" />
+
+				<p:outputLabel for="senha2" value="Confirmação de senha" />
+				<p:password id="senha2" required="true"
+					placeholder="Confirmação de senha"
+					requiredMessage="Informe a senha, por favor!" size="45" />
+
+				<p:outputLabel for="perfil" value="Perfil" />
+				<p:selectOneButton id="perfil" required="true"
+					requiredMessage="Selecione um perfil, por favor!">
+					<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+					<f:selectItem itemLabel="Psicóloga" itemValue="Psicóloga" />
+					<f:selectItem itemLabel="Atendente" itemValue="Atendente" />
+				</p:selectOneButton>
+
+				<p:outputLabel for="email" value="Email" />
+				<p:inputText id="email" required="true" placeholder="E-mail"
+					requiredMessage="Informe o e-mail, por favor!" size="45" />
+			</p:panelGrid>
+			<p:spacer width="0" height="40" />
+			<p:commandButton value="Salvar" />
+		</h:form>
+	</p:panel>
+</h:body>
+</html>

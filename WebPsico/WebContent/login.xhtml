@@ -9,24 +9,25 @@
 
 <h:head />
 <h:body>
-		<p:panel header="Login">
-			<h:form id="form1">
-				<p:focus />
-				<p:panelGrid columns="2">
-					<h:outputText value="Login" />
-					<p:inputText value="#{mblogin.usuario.login}" required="true"
-						title="Login" placeholder="Login"
-						requiredMessage="Digite um nome de usuário, por favor!" />
-					<h:outputText value="Senha" />
-					<p:password value="#{mblogin.usuario.senha}" required="true"
-						title="Senha" placeholder="Senha"
-						requiredMessage="Digite uma senha, por favor!" />
-				</p:panelGrid>
-				<p />
-				<p:commandButton value="Logar" action="#{mblogin.logar}"
-					ajax="false" />
-			</h:form>
-			<p:messages />
-		</p:panel>
+	<p:dialog modal="true" visible="true" closable="false" showEffect="bounce" 
+		resizable="false" draggable="false" header="Login" >
+		<h:form id="form1">
+			<p:focus />
+			<p:spacer height="10" />
+			<p:panelGrid columns="2">
+				<h:outputText value="Login" />
+				<p:inputText value="#{loginMB.usuario.login}" required="true"
+					title="Login" placeholder="Login"
+					requiredMessage="Digite um nome de usuário, por favor!" />
+				<h:outputText value="Senha" />
+				<p:password value="#{loginMB.usuario.senha}" required="true"
+					title="Senha" placeholder="Senha"
+					requiredMessage="Digite uma senha, por favor!" />
+			</p:panelGrid>
+			<p:spacer width="0" height="40" />
+			<p:commandButton value="Logar" action="#{loginMB.logar}" ajax="false" />
+		</h:form>
+		<p:messages />
+	</p:dialog>
 </h:body>
 </html>

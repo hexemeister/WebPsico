@@ -5,20 +5,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import persistence.UsuarioDao;
 import modelo.Usuario;
-import Persistence.UsuarioDao;
 
-@ManagedBean(name = "mblogin")
+@ManagedBean(name = "loginMB")
 @SessionScoped
-public class ManagerBean {
+public class LoginMB {
 
 	private Usuario usuario = new Usuario();
 	private Usuario logado = new Usuario();
 
-	public ManagerBean() {
+	public LoginMB() {
 	}
 
-	public ManagerBean(Usuario usuario, Usuario logado) {
+	public LoginMB(Usuario usuario, Usuario logado) {
 		super();
 		this.usuario = usuario;
 		this.logado = logado;

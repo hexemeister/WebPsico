@@ -19,9 +19,14 @@ import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
-@ManagedBean(name = "scheduleView")
+@ManagedBean(name = "scheduleViewMB")
 @ViewScoped
 public class ScheduleViewMB implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private ScheduleModel eventModel;
 
