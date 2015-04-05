@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+
+.ui-growl {
+	top: 70px;
+	right: 10px;
+}
+
+.value {
+	width: 1000px;
+	margin-left: -500px;
+	left: 50%;
+	position: absolute;
+}
+
+.ui-layout-unit-content {
+	background-image: url('./images/psi.png');
+}
+
+.ui-layout-center {
+	overflow-y: hidden !important;
+}
+
+.ui-layout-center .ui-layout-unit-content {
+	overflow-y: hidden !important;
+}

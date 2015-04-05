@@ -9,10 +9,10 @@
 
 <h:head />
 <h:body>
-	<p:panel header="Cadastro de Usuário">
+	<p:panel header="Gerenciar de Usuário">
 		<h:form id="novoUsuario">
 			<p:focus />
-			<p:panelGrid columns="2">
+			<p:panelGrid columns="2" >
 				<p:outputLabel for="nome" value="Nome Completo" />
 				<p:inputText id="nome" required="true" placeholder="Nome Completo"
 					requiredMessage="Informe o nome completo, por favor!" size="45" />
@@ -41,10 +41,26 @@
 				<p:outputLabel for="email" value="Email" />
 				<p:inputText id="email" required="true" placeholder="E-mail"
 					requiredMessage="Informe o e-mail, por favor!" size="45" />
+				
+				<p:outputLabel for="basic" value="Desativado"/>	
+			    <p:selectManyCheckbox id="basic" value="#{checkboxView.selectedConsoles}">
+ 			         <f:selectItem itemLabel="" itemValue="Desativado" />
+      	        </p:selectManyCheckbox>
+ 					
 			</p:panelGrid>
-			<p:spacer width="0" height="40" />
-			<p:commandButton value="Salvar" />
+				<p:spacer width="0" height="40" />
+				<p:commandButton value="Salvar" />
+				<p:spacer width="40"/>
+				<p:commandButton value="Alterar" />
 		</h:form>
 	</p:panel>
+	<p:separator />
+		<h:form id="pesquisa">
+			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
+			<p:inputText id="loginPesquisa" placeholder="Login procurado"
+					requiredMessage="Informe o login a ser pesquisado" size="40" />
+			<p:spacer width="20"/>
+			<p:commandButton value="Pesquisar" />
+		</h:form>
 </h:body>
 </html>

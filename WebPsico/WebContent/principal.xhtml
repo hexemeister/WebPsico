@@ -7,111 +7,104 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 
-<h:head >
-<link rel="stylesheet" type="text/css" href="${request.contextPath}/css/style.css" />
+<h:head>
+	<link rel="stylesheet" type="text/css"
+		href="${request.contextPath}/resources/css/style.css" />
+	<h:outputScript library="js" name="locale.js" /> 
 </h:head>
 <h:body>
-	<h:form>  
-    <p:growl id="messages" />
-    <p:menubar>
-        <p:submenu label="Cadastro" >
-            <p:menuitem value="Novo Usuário" url="/novoUsuario.jsf" />
-            <p:menuitem value="Novo Paciente" url="#" />
-            <p:menuitem value="Novo Contato" url="#" />
-        </p:submenu>
- 
-        <p:submenu label="Agenda" >
-            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
-        </p:submenu>
- 
-        <p:menuitem value="Evolução" />
- 
-        <p:submenu label="Relatórios" >
-            <p:submenu label="Ajax" icon="ui-icon-refresh">
-                <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
-                <p:menuitem value="Update" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
-            </p:submenu>
-            <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-                <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
-            </p:submenu>
-        </p:submenu>
- 
-        <p:menuitem value="Configurações" url="http://www.primefaces.org" />
+	<h:form>
+		<p:growl id="messages" />
+		<p:menubar>
+			<p:submenu label="Cadastro">
+				<p:menuitem value="Novo Usuário" url="/gerenciaUsuario.jsf" />
+				<p:menuitem value="Novo Paciente" url="#" />
+				<p:menuitem value="Novo Contato" url="/gerenciaContato.jsf" />
+			</p:submenu>
 
-        <p:menuitem value="Ajuda" url="http://www.primefaces.org" icon="ui-icon-help" />
- 
-        <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
-            <p:commandButton type="button" value="#{loginMB.logado.login}" icon="ui-icon-extlink" />
-        </f:facet>
-    </p:menubar>
-    
-    
-    
-    <h:panelGrid columnClasses="value">
-        <p:schedule id="schedule" value="#{scheduleViewMB.eventModel}" widgetVar="myschedule" axisFormat="H:mm" timeFormat="H:mm" timeZone="GMT-3" locale="pt_br">
- 
-            <p:ajax event="dateSelect" listener="#{scheduleViewMB.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-            <p:ajax event="eventSelect" listener="#{scheduleViewMB.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-            <p:ajax event="eventMove" listener="#{scheduleViewMB.onEventMove}" update="messages" />
-            <p:ajax event="eventResize" listener="#{scheduleViewMB.onEventResize}" update="messages" />
- 
-        </p:schedule>
- 
-    </h:panelGrid>
-    <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
-        <h:panelGrid id="eventDetails" columns="2">
-            <h:outputLabel for="title" value="Title:" />
-            <p:inputText id="title" value="#{scheduleViewMB.event.title}" required="true" />
- 
-            <h:outputLabel for="from" value="From:" />
-            <p:inputMask id="from" value="#{scheduleViewMB.event.startDate}" mask="99/99/9999">
-                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
-            </p:inputMask>
- 
-            <h:outputLabel for="to" value="To:" />
-            <p:inputMask id="to" value="#{scheduleViewMB.event.endDate}" mask="99/99/9999">
-                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
-            </p:inputMask>
- 
-            <h:outputLabel for="allDay" value="All Day:" />
-            <h:selectBooleanCheckbox id="allDay" value="#{scheduleViewMB.event.allDay}" />
- 
-            <p:commandButton type="reset" value="Reset" />
-            <p:commandButton id="addButton" value="Save" actionListener="#{scheduleViewMB.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
-        </h:panelGrid>
-    </p:dialog>    
-    <script type="text/javascript">
-    PrimeFaces.locales['pt_br'] = {
-        closeText: 'Fechar',
-        prevText: 'Ontem',
-        nextText: 'Amanhã',
-        currentText: 'hoje',
-        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
-            'Jul','Ago','Set','Out','Nov','Dez'],
-        dayNames: ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'],
-        dayNamesShort: ['Sab','Dom','Seg','Ter','Qua','Qui','Sex'],
-        dayNamesMin: ['Sab','Dom','Seg','Ter','Qua','Qui','Sex'],
-        weekHeader: 'Semana',
-        firstDay: 1,
-        isRTL: false,
-        showMonthAfterYear: false,
-        yearSuffix: '',
-        timeOnlyTitle: 'Só Horas',
-        timeText: 'Tempo',
-        hourText: 'Hora',
-        minuteText: 'Minuto',
-        secondText: 'Segundo',
-        ampm: false,
-        month: 'Mês',
-        week: 'Semana',
-        day: 'Dia',
-        allDayText : 'Dia Todo'
-    };
-</script>
-</h:form>
+			<p:submenu label="Agenda">
+				<p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+			</p:submenu>
+
+			<p:menuitem value="Evolução" />
+
+			<p:submenu label="Relatórios">
+				<p:submenu label="Ajax" icon="ui-icon-refresh">
+					<p:menuitem value="Save" actionListener="#{menuView.save}"
+						icon="ui-icon-disk" update="messages" />
+					<p:menuitem value="Update" actionListener="#{menuView.update}"
+						icon="ui-icon-arrowrefresh-1-w" update="messages" />
+				</p:submenu>
+				<p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+					<p:menuitem value="Delete" actionListener="#{menuView.delete}"
+						icon="ui-icon-close" update="messages" ajax="false" />
+				</p:submenu>
+			</p:submenu>
+
+			<p:menuitem value="Configurações" url="http://www.primefaces.org" />
+
+			<p:menuitem value="Ajuda" url="http://www.primefaces.org"
+				icon="ui-icon-help" />
+
+			<f:facet name="options">
+				<p:inputText style="margin-right:10px" placeholder="Search" />
+				<p:commandButton type="button" value="#{loginMB.logado.login}"
+					icon="ui-icon-extlink" />
+			</f:facet>
+		</p:menubar>
+
+
+
+		<h:panelGrid columnClasses="value">
+			<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}"
+				widgetVar="myschedule" axisFormat="H:mm" timeFormat="H:mm"
+				timeZone="GMT-3" locale="pt_br">
+
+				<p:ajax event="dateSelect" listener="#{scheduleViewMB.onDateSelect}"
+					update="eventDetails" oncomplete="PF('eventDialog').show();" />
+				<p:ajax event="eventSelect"
+					listener="#{scheduleViewMB.onEventSelect}" update="eventDetails"
+					oncomplete="PF('eventDialog').show();" />
+				<p:ajax event="eventMove" listener="#{scheduleViewMB.onEventMove}"
+					update="messages" />
+				<p:ajax event="eventResize"
+					listener="#{scheduleViewMB.onEventResize}" update="messages" />
+
+			</p:schedule>
+
+		</h:panelGrid>
+		<p:dialog widgetVar="eventDialog" header="Event Details"
+			showEffect="clip" hideEffect="clip">
+			<h:panelGrid id="eventDetails" columns="2">
+				<h:outputLabel for="title" value="Title:" />
+				<p:inputText id="title" value="#{scheduleViewMB.event.title}"
+					required="true" />
+
+				<h:outputLabel for="from" value="From:" />
+				<p:inputMask id="from" value="#{scheduleViewMB.event.startDate}"
+					mask="99/99/9999">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+				</p:inputMask>
+
+				<h:outputLabel for="to" value="To:" />
+				<p:inputMask id="to" value="#{scheduleViewMB.event.endDate}"
+					mask="99/99/9999">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+				</p:inputMask>
+
+				<h:outputLabel for="allDay" value="All Day:" />
+				<h:selectBooleanCheckbox id="allDay"
+					value="#{scheduleViewMB.event.allDay}" />
+
+				<p:commandButton type="reset" value="Reset" />
+				<p:commandButton id="addButton" value="Save"
+					actionListener="#{scheduleViewMB.addEvent}"
+					oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+			</h:panelGrid>
+		</p:dialog>
+
+
+	</h:form>
 </h:body>
 </html>

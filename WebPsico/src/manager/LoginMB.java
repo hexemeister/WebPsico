@@ -4,9 +4,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.NonUniqueResultException;
 
-import persistence.UsuarioDao;
 import modelo.Usuario;
+import persistence.UsuarioDao;
 
 @ManagedBean(name = "loginMB")
 @SessionScoped
@@ -44,12 +45,28 @@ public class LoginMB {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			logado = new UsuarioDao().findByLogin(usuario);
-			if (logado != null) {
+			if (logado != null && logado.getDesativado() == false) {
 				fc.addMessage("form1", new FacesMessage("Login com sucesso!!!"));
 				return "principal.jsf";
+			} else if (logado != null && logado.getDesativado() == true) {
+				fc.addMessage("form1", new FacesMessage(
+						FacesMessage.SEVERITY_ERROR,
+						"Usuário desativado pelo Administrador!",
+						"Usuário desativado pelo Administrador!"));
 			} else {
-				fc.addMessage("form1", new FacesMessage("Tente outra vez!"));
+				fc.addMessage("form1", new FacesMessage(
+						FacesMessage.SEVERITY_WARN,
+						"Login e/ou senha errados!",
+						"Login e/ou senha errados!"));
 			}
+			System.out.println(new FacesMessage().getSummary());
+		} catch (NonUniqueResultException e) {
+			fc.addMessage(
+					"form1",
+					new FacesMessage(
+							FacesMessage.SEVERITY_FATAL,
+							"Existem mais de uma conta com o mesmo login - Fale com o administrador!",
+							"Banco de dados comprometido - Mais de uma conta com o mesmo login!"));
 		} catch (Exception e) {
 			fc.addMessage("form1", new FacesMessage(e.getMessage()));
 			e.printStackTrace();

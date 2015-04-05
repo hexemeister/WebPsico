@@ -8,7 +8,7 @@
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.password" value="admin123"/>
 			<property name="eclipselink.logging.level" value="FINE"/>
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
 		</properties>
 	</persistence-unit>
 </persistence>

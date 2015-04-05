@@ -9,6 +9,11 @@ import modelo.Usuario;
 
 public class UsuarioDao extends GenericDao<Usuario>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	Query query;
 	EntityManager em;
 	
