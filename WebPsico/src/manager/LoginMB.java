@@ -51,8 +51,8 @@ public class LoginMB {
 			} else if (logado != null && logado.getDesativado() == true) {
 				fc.addMessage("form1", new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
-						"Usuário desativado pelo Administrador!",
-						"Usuário desativado pelo Administrador!"));
+						"Usuï¿½rio desativado pelo Administrador!",
+						"Usuï¿½rio desativado pelo Administrador!"));
 			} else {
 				fc.addMessage("form1", new FacesMessage(
 						FacesMessage.SEVERITY_WARN,
@@ -68,7 +68,7 @@ public class LoginMB {
 							"Existem mais de uma conta com o mesmo login - Fale com o administrador!",
 							"Banco de dados comprometido - Mais de uma conta com o mesmo login!"));
 		} catch (Exception e) {
-			fc.addMessage("form1", new FacesMessage(e.getMessage()));
+			fc.addMessage("form1", new FacesMessage(FacesMessage.SEVERITY_FATAL,e.getMessage(),e.getMessage()));
 			e.printStackTrace();
 		}
 		return null;
