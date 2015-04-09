@@ -12,7 +12,7 @@
 	<p:panel header="Gerenciar Paciente">
 		<h:form>
 			<p:growl id="growl" sticky="true" showDetail="true" />
-			<p:wizard flowListener="">
+			<p:wizard flowListener="#{userWizard.onFlowProcess}" backLabel="Anterior" nextLabel="Próximo" >
 				<p:tab id="personal" title="Dados Pessoais">
 					<p:panel header="Dados Pessoais">
 						<p:messages />
@@ -167,7 +167,7 @@
 								mask="99:99" />
 
 							<p:outputLabel for="precoCombinado" value="Preço Combinado:" />
-							<p:inputMask id="precoCombinado" value="#{maskView.}"
+							<p:inputMask id="precoCombinado" value="#{maskView.time}"
 								mask="999,99" />
 
 							<h:outputText value="Skip to last: " />

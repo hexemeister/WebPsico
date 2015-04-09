@@ -4,8 +4,8 @@ import modelo.Contato;
 
 public class ContatoDao extends GenericDao<Contato> {
 
-	public ContatoDao(Class<Contato> classe) {
-		super(classe);
+	public ContatoDao() {
+		super(Contato.class);
 		// TODO Auto-generated constructor stub
 	}
 

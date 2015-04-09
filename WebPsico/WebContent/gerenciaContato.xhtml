@@ -190,5 +190,15 @@
 			</p:wizard>
 		</h:form>
 	</p:panel>
+	
+	
+	<p:separator />
+		<h:form id="pesquisa">
+			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
+			<p:inputText id="loginPesquisa" placeholder="Login procurado"
+					requiredMessage="Informe o login a ser pesquisado" size="40" />
+			<p:spacer width="20"/>
+			<p:commandButton value="Pesquisar" />
+		</h:form>
 </h:body>
 </html>

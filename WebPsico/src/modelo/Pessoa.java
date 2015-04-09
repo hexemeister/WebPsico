@@ -15,18 +15,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPessoa;
 	private String nome;
 	private String email;
 	private String sexo;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Calendar dataNascimento;
 	private String endereco;
@@ -35,7 +35,7 @@ public abstract class Pessoa implements Serializable {
 	private String telefone;
 	private String naturalidade;
 	private String nacionalidade;
-	
+
 	@Enumerated(EnumType.STRING)
 	private EstadoCivil estadoCivil;
 	private String grauDeInstrucao;
@@ -49,8 +49,8 @@ public abstract class Pessoa implements Serializable {
 	public Pessoa(Integer idPessoa, String nome, String email, String sexo,
 			Calendar dataNascimento, String endereco, String cpf,
 			Integer idade, String telefone, String naturalidade,
-			String nacionalidade, EstadoCivil estadoCivil, String grauDeInstrucao,
-			String profissao) {
+			String nacionalidade, EstadoCivil estadoCivil,
+			String grauDeInstrucao, String profissao) {
 		super();
 		this.idPessoa = idPessoa;
 		this.nome = nome;
@@ -79,7 +79,6 @@ public abstract class Pessoa implements Serializable {
 				+ ", grauDeInstrucao=" + grauDeInstrucao + ", profissao="
 				+ profissao + ", desativado=" + desativado + "]";
 	}
-
 
 	public Integer getIdPessoa() {
 		return idPessoa;
@@ -153,7 +152,7 @@ public abstract class Pessoa implements Serializable {
 		this.idade = idade;
 	}
 
-	public String  getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
