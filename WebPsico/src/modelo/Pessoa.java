@@ -2,8 +2,9 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
-import javax.persistence.Entity;
+import javax.persistence.CascadeType;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -11,10 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+@MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Pessoa implements Serializable {
 
@@ -22,78 +26,82 @@ public abstract class Pessoa implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idPessoa;
+	private Integer id;
 	private String nome;
 	private String email;
-	private String sexo;
+
+	@Enumerated(EnumType.STRING)
+	private Sexo sexo;
 
 	@Temporal(TemporalType.DATE)
 	private Calendar dataNascimento;
-	private String endereco;
+	// private Integer idade;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;
 	private String cpf;
-	private Integer idade;
-	private String telefone;
-	private String naturalidade;
-	private String nacionalidade;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name="CONTATO_TELEFONE", joinColumns= @JoinColumn(name="ID_CONTATO"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
+	private List<Telefone> telefones;
+
+	@Enumerated(EnumType.STRING)
+	private Uf naturalidade;
+	private String nacionalidade = "Brasileiro";
 
 	@Enumerated(EnumType.STRING)
 	private EstadoCivil estadoCivil;
-	private String grauDeInstrucao;
+	@Enumerated(EnumType.STRING)
+	private Escolaridade escolaridade;
 	private String profissao;
-	private Boolean desativado;
+	private Boolean desativado = false;
+
+	private String obs; // observacoes sobre o paciente
 
 	public Pessoa() {
-		super();
 	}
 
-	public Pessoa(Integer idPessoa, String nome, String email, String sexo,
-			Calendar dataNascimento, String endereco, String cpf,
-			Integer idade, String telefone, String naturalidade,
-			String nacionalidade, EstadoCivil estadoCivil,
-			String grauDeInstrucao, String profissao) {
+	public Pessoa(Integer id, String nome, String email, Sexo sexo,
+			Calendar dataNascimento, Endereco endereco, String cpf,
+			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
+			EstadoCivil estadoCivil, Escolaridade escolaridade,
+			String profissao, Boolean desativado, String obs) {
 		super();
-		this.idPessoa = idPessoa;
+		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.sexo = sexo;
 		this.dataNascimento = dataNascimento;
 		this.endereco = endereco;
 		this.cpf = cpf;
-		this.idade = idade;
-		this.telefone = telefone;
+		this.telefones = telefones;
 		this.naturalidade = naturalidade;
 		this.nacionalidade = nacionalidade;
 		this.estadoCivil = estadoCivil;
-		this.grauDeInstrucao = grauDeInstrucao;
+		this.escolaridade = escolaridade;
 		this.profissao = profissao;
+		this.desativado = desativado;
+		this.obs = obs;
 	}
 
 	@Override
 	public String toString() {
-		return "Pessoa [idPessoa=" + idPessoa + ", nome=" + nome + ", email="
-				+ email + ", sexo=" + sexo + ", dataNascimento="
-				+ dataNascimento + ", endereco=" + endereco + ", cpf=" + cpf
-				+ ", idade=" + idade + ", telefone=" + telefone
-				+ ", naturalidade=" + naturalidade + ", nacionalidade="
-				+ nacionalidade + ", estadoCivil=" + estadoCivil
-				+ ", grauDeInstrucao=" + grauDeInstrucao + ", profissao="
-				+ profissao + ", desativado=" + desativado + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email
+				+ ", sexo=" + sexo + ", dataNascimento=" + dataNascimento
+				+ ", endereco=" + endereco + ", cpf=" + cpf + ", telefones="
+				+ telefones + ", naturalidade=" + naturalidade
+				+ ", nacionalidade=" + nacionalidade + ", estadoCivil="
+				+ estadoCivil + ", escolaridade=" + escolaridade
+				+ ", profissao=" + profissao + ", desativado=" + desativado
+				+ ", obs=" + obs + "]";
 	}
 
-	public Integer getIdPessoa() {
-		return idPessoa;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdPessoa(Integer idPessoa) {
-		this.idPessoa = idPessoa;
-	}
-
-	public Boolean getDesativado() {
-		return desativado;
-	}
-
-	public void setDesativado(Boolean desativado) {
-		this.desativado = desativado;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -112,11 +120,11 @@ public abstract class Pessoa implements Serializable {
 		this.email = email;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
@@ -128,11 +136,11 @@ public abstract class Pessoa implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(String endereco) {
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 
@@ -144,27 +152,19 @@ public abstract class Pessoa implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public Integer getIdade() {
-		return idade;
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 
-	public void setIdade(Integer idade) {
-		this.idade = idade;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public String getNaturalidade() {
+	public Uf getNaturalidade() {
 		return naturalidade;
 	}
 
-	public void setNaturalidade(String naturalidade) {
+	public void setNaturalidade(Uf naturalidade) {
 		this.naturalidade = naturalidade;
 	}
 
@@ -184,12 +184,12 @@ public abstract class Pessoa implements Serializable {
 		this.estadoCivil = estadoCivil;
 	}
 
-	public String getGrauDeInstrucao() {
-		return grauDeInstrucao;
+	public Escolaridade getEscolaridade() {
+		return escolaridade;
 	}
 
-	public void setGrauDeInstrucao(String grauDeInstrucao) {
-		this.grauDeInstrucao = grauDeInstrucao;
+	public void setEscolaridade(Escolaridade escolaridade) {
+		this.escolaridade = escolaridade;
 	}
 
 	public String getProfissao() {
@@ -198,6 +198,26 @@ public abstract class Pessoa implements Serializable {
 
 	public void setProfissao(String profissao) {
 		this.profissao = profissao;
+	}
+
+	public Boolean getDesativado() {
+		return desativado;
+	}
+
+	public void setDesativado(Boolean desativado) {
+		this.desativado = desativado;
+	}
+
+	public String getObs() {
+		return obs;
+	}
+
+	public void setObs(String obs) {
+		this.obs = obs;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
@@ -213,22 +233,21 @@ public abstract class Pessoa implements Serializable {
 		result = prime * result
 				+ ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result
+				+ ((escolaridade == null) ? 0 : escolaridade.hashCode());
+		result = prime * result
 				+ ((estadoCivil == null) ? 0 : estadoCivil.hashCode());
-		result = prime * result
-				+ ((grauDeInstrucao == null) ? 0 : grauDeInstrucao.hashCode());
-		result = prime * result
-				+ ((idPessoa == null) ? 0 : idPessoa.hashCode());
-		result = prime * result + ((idade == null) ? 0 : idade.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((nacionalidade == null) ? 0 : nacionalidade.hashCode());
 		result = prime * result
 				+ ((naturalidade == null) ? 0 : naturalidade.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((obs == null) ? 0 : obs.hashCode());
 		result = prime * result
 				+ ((profissao == null) ? 0 : profissao.hashCode());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
 		result = prime * result
-				+ ((telefone == null) ? 0 : telefone.hashCode());
+				+ ((telefones == null) ? 0 : telefones.hashCode());
 		return result;
 	}
 
@@ -266,55 +285,43 @@ public abstract class Pessoa implements Serializable {
 				return false;
 		} else if (!endereco.equals(other.endereco))
 			return false;
-		if (estadoCivil == null) {
-			if (other.estadoCivil != null)
-				return false;
-		} else if (!estadoCivil.equals(other.estadoCivil))
+		if (escolaridade != other.escolaridade)
 			return false;
-		if (grauDeInstrucao == null) {
-			if (other.grauDeInstrucao != null)
-				return false;
-		} else if (!grauDeInstrucao.equals(other.grauDeInstrucao))
+		if (estadoCivil != other.estadoCivil)
 			return false;
-		if (idPessoa == null) {
-			if (other.idPessoa != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idPessoa.equals(other.idPessoa))
-			return false;
-		if (idade == null) {
-			if (other.idade != null)
-				return false;
-		} else if (!idade.equals(other.idade))
+		} else if (!id.equals(other.id))
 			return false;
 		if (nacionalidade == null) {
 			if (other.nacionalidade != null)
 				return false;
 		} else if (!nacionalidade.equals(other.nacionalidade))
 			return false;
-		if (naturalidade == null) {
-			if (other.naturalidade != null)
-				return false;
-		} else if (!naturalidade.equals(other.naturalidade))
+		if (naturalidade != other.naturalidade)
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
+		if (obs == null) {
+			if (other.obs != null)
+				return false;
+		} else if (!obs.equals(other.obs))
+			return false;
 		if (profissao == null) {
 			if (other.profissao != null)
 				return false;
 		} else if (!profissao.equals(other.profissao))
 			return false;
-		if (sexo == null) {
-			if (other.sexo != null)
-				return false;
-		} else if (!sexo.equals(other.sexo))
+		if (sexo != other.sexo)
 			return false;
-		if (telefone == null) {
-			if (other.telefone != null)
+		if (telefones == null) {
+			if (other.telefones != null)
 				return false;
-		} else if (!telefone.equals(other.telefone))
+		} else if (!telefones.equals(other.telefones))
 			return false;
 		return true;
 	}

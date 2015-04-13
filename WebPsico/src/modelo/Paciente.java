@@ -2,75 +2,75 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 
 @Entity
 public class Paciente extends Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String indicacao; // nome do profissional que indicou a psicologa
-	private String profissional; // função do profissional que indicou a psicologa
-	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn
+	private Indicacao indicacao; // profissional que indicou a psicologa
+
 	@Temporal(TemporalType.DATE)
 	private Calendar dataInicio; // data da primeira consulta
-	private Integer sessao;
-	private String frequencia; // preferencia de frequencia de marcação das sessões, meramente informativo
-	private Integer horaMarcada; // preferencia de horario para marcação
-	private Double preco; // Valor combinado entre o psicologo e o paciente
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar dataUtimaSessao; // Última sessão que o paciente esteve
+										// presente
+	private String frequencia; // preferencia de frequencia de marcacao das
+								// sessoes, meramente informativo
+	@Enumerated(EnumType.STRING)
+	private Turno preferenciaTurno; // preferencia de horario para marcacao
+	private Double preco; // Valor combinado entre o psicologo e o paciente por
+							// mês
 
 	public Paciente() {
-		super();
 	}
 
-	public Paciente(Integer idPessoa, String nome, String email, String sexo,
-			Calendar dataNascimento, String endereco, String cpf,
-			Integer idade, String telefone, String naturalidade,
-			String nacionalidade, EstadoCivil estadoCivil, String grauDeInstrucao,
-			String profissao, String indicacao, String profissional,
-			Calendar dataInicio, Integer sessao, String frequencia,
-			Integer horaMarcada, Double preco) {
-		super(idPessoa, nome, email, sexo, dataNascimento, endereco, cpf,
-				idade, telefone, naturalidade, nacionalidade, estadoCivil,
-				grauDeInstrucao, profissao);
+	public Paciente(Integer id, String nome, String email, Sexo sexo,
+			Calendar dataNascimento, Endereco endereco, String cpf,
+			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
+			EstadoCivil estadoCivil, Escolaridade escolaridade,
+			String profissao, Boolean desativado, String obs,
+			Indicacao indicacao, Calendar dataInicio, Calendar dataUtimaSessao,
+			String frequencia, Turno preferenciaTurno, Double preco) {
+		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
+				telefones, naturalidade, nacionalidade, estadoCivil,
+				escolaridade, profissao, desativado, obs);
 		this.indicacao = indicacao;
-		this.profissional = profissional;
 		this.dataInicio = dataInicio;
-		this.sessao = sessao;
+		this.dataUtimaSessao = dataUtimaSessao;
 		this.frequencia = frequencia;
-		this.horaMarcada = horaMarcada;
+		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
 	}
 
 	@Override
 	public String toString() {
-		return "Paciente [indicacao=" + indicacao + ", profissional="
-				+ profissional + ", dataInicio=" + dataInicio + ", sessao="
-				+ sessao + ", frequencia=" + frequencia + ", horaMarcada="
-				+ horaMarcada + ", preco=" + preco + "]" + super.toString();
+		return "Paciente [indicacao=" + indicacao + ", dataInicio="
+				+ dataInicio + ", dataUtimaSessao=" + dataUtimaSessao
+				+ ", frequencia=" + frequencia + ", preferenciaTurno="
+				+ preferenciaTurno + ", preco=" + preco + "]"
+				+ super.toString();
 	}
 
-	public String getIndicacao() {
+	public Indicacao getIndicacao() {
 		return indicacao;
 	}
 
-	public void setIndicacao(String indicacao) {
+	public void setIndicacao(Indicacao indicacao) {
 		this.indicacao = indicacao;
-	}
-
-	public String getProfissional() {
-		return profissional;
-	}
-
-	public void setProfissional(String profissional) {
-		this.profissional = profissional;
 	}
 
 	public Calendar getDataInicio() {
@@ -81,12 +81,12 @@ public class Paciente extends Pessoa implements Serializable {
 		this.dataInicio = dataInicio;
 	}
 
-	public Integer getSessao() {
-		return sessao;
+	public Calendar getDataUtimaSessao() {
+		return dataUtimaSessao;
 	}
 
-	public void setSessao(Integer sessao) {
-		this.sessao = sessao;
+	public void setDataUtimaSessao(Calendar dataUtimaSessao) {
+		this.dataUtimaSessao = dataUtimaSessao;
 	}
 
 	public String getFrequencia() {
@@ -97,12 +97,12 @@ public class Paciente extends Pessoa implements Serializable {
 		this.frequencia = frequencia;
 	}
 
-	public Integer getHoraMarcada() {
-		return horaMarcada;
+	public Turno getPreferenciaTurno() {
+		return preferenciaTurno;
 	}
 
-	public void setHoraMarcada(Integer horaMarcada) {
-		this.horaMarcada = horaMarcada;
+	public void setPreferenciaTurno(Turno preferenciaTurno) {
+		this.preferenciaTurno = preferenciaTurno;
 	}
 
 	public Double getPreco() {
@@ -113,6 +113,10 @@ public class Paciente extends Pessoa implements Serializable {
 		this.preco = preco;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -120,15 +124,15 @@ public class Paciente extends Pessoa implements Serializable {
 		result = prime * result
 				+ ((dataInicio == null) ? 0 : dataInicio.hashCode());
 		result = prime * result
-				+ ((frequencia == null) ? 0 : frequencia.hashCode());
+				+ ((dataUtimaSessao == null) ? 0 : dataUtimaSessao.hashCode());
 		result = prime * result
-				+ ((horaMarcada == null) ? 0 : horaMarcada.hashCode());
+				+ ((frequencia == null) ? 0 : frequencia.hashCode());
 		result = prime * result
 				+ ((indicacao == null) ? 0 : indicacao.hashCode());
 		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
-		result = prime * result
-				+ ((profissional == null) ? 0 : profissional.hashCode());
-		result = prime * result + ((sessao == null) ? 0 : sessao.hashCode());
+		result = prime
+				* result
+				+ ((preferenciaTurno == null) ? 0 : preferenciaTurno.hashCode());
 		return result;
 	}
 
@@ -146,15 +150,15 @@ public class Paciente extends Pessoa implements Serializable {
 				return false;
 		} else if (!dataInicio.equals(other.dataInicio))
 			return false;
+		if (dataUtimaSessao == null) {
+			if (other.dataUtimaSessao != null)
+				return false;
+		} else if (!dataUtimaSessao.equals(other.dataUtimaSessao))
+			return false;
 		if (frequencia == null) {
 			if (other.frequencia != null)
 				return false;
 		} else if (!frequencia.equals(other.frequencia))
-			return false;
-		if (horaMarcada == null) {
-			if (other.horaMarcada != null)
-				return false;
-		} else if (!horaMarcada.equals(other.horaMarcada))
 			return false;
 		if (indicacao == null) {
 			if (other.indicacao != null)
@@ -166,17 +170,167 @@ public class Paciente extends Pessoa implements Serializable {
 				return false;
 		} else if (!preco.equals(other.preco))
 			return false;
-		if (profissional == null) {
-			if (other.profissional != null)
-				return false;
-		} else if (!profissional.equals(other.profissional))
-			return false;
-		if (sessao == null) {
-			if (other.sessao != null)
-				return false;
-		} else if (!sessao.equals(other.sessao))
+		if (preferenciaTurno != other.preferenciaTurno)
 			return false;
 		return true;
 	}
 
+	public static class Builder {
+		private Indicacao indicacao;
+		private Calendar dataInicio;
+		private Calendar dataUtimaSessao;
+		private String frequencia;
+		private Turno preferenciaTurno;
+		private Double preco;
+
+		private Integer id;
+		private String nome;
+		private String email;
+		private Sexo sexo;
+		private Calendar dataNascimento;
+		private Endereco endereco;
+		private String cpf;
+		private List<Telefone> telefones;
+		private Uf naturalidade;
+		private String nacionalidade;
+		private EstadoCivil estadoCivil;
+		private Escolaridade escolaridade;
+		private String profissao;
+		private Boolean desativado;
+		private String obs;
+
+		public Builder indicacao(Indicacao indicacao) {
+			this.indicacao = indicacao;
+			return this;
+		}
+
+		public Builder dataInicio(Calendar dataInicio) {
+			this.dataInicio = dataInicio;
+			return this;
+		}
+
+		public Builder dataUtimaSessao(Calendar dataUtimaSessao) {
+			this.dataUtimaSessao = dataUtimaSessao;
+			return this;
+		}
+
+		public Builder frequencia(String frequencia) {
+			this.frequencia = frequencia;
+			return this;
+		}
+
+		public Builder preferenciaTurno(Turno preferenciaTurno) {
+			this.preferenciaTurno = preferenciaTurno;
+			return this;
+		}
+
+		public Builder preco(Double preco) {
+			this.preco = preco;
+			return this;
+		}
+
+		public Builder id(Integer id) {
+			this.id= id;
+			return this;
+		}
+
+		public Builder nome(String nome) {
+			this.nome = nome;
+			return this;
+		}
+
+		public Builder email(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public Builder sexo(Sexo sexo) {
+			this.sexo = sexo;
+			return this;
+		}
+
+		public Builder dataNascimento(Calendar dataNascimento) {
+			this.dataNascimento = dataNascimento;
+			return this;
+		}
+
+		public Builder endereco(Endereco endereco) {
+			this.endereco = endereco;
+			return this;
+		}
+
+		public Builder cpf(String cpf) {
+			this.cpf = cpf;
+			return this;
+		}
+
+		public Builder telefones(List<Telefone> telefones) {
+			this.telefones = telefones;
+			return this;
+		}
+
+		public Builder naturalidade(Uf naturalidade) {
+			this.naturalidade = naturalidade;
+			return this;
+		}
+
+		public Builder nacionalidade(String nacionalidade) {
+			this.nacionalidade = nacionalidade;
+			return this;
+		}
+
+		public Builder estadoCivil(EstadoCivil estadoCivil) {
+			this.estadoCivil = estadoCivil;
+			return this;
+		}
+
+		public Builder escolaridade(Escolaridade escolaridade) {
+			this.escolaridade = escolaridade;
+			return this;
+		}
+
+		public Builder profissao(String profissao) {
+			this.profissao = profissao;
+			return this;
+		}
+
+		public Builder desativado(Boolean desativado) {
+			this.desativado = desativado;
+			return this;
+		}
+
+		public Builder obs(String obs) {
+			this.obs = obs;
+			return this;
+		}
+
+		public Paciente build() {
+			return new Paciente(this);
+		}
+	}
+
+	private Paciente(Builder builder) {
+		this.indicacao = builder.indicacao;
+		this.dataInicio = builder.dataInicio;
+		this.dataUtimaSessao = builder.dataUtimaSessao;
+		this.frequencia = builder.frequencia;
+		this.preferenciaTurno = builder.preferenciaTurno;
+		this.preco = builder.preco;
+
+		this.setId(builder.id);
+		this.setNome(builder.nome);
+		this.setEmail(builder.email);
+		this.setSexo(builder.sexo);
+		this.setDataNascimento(builder.dataNascimento);
+		this.setEndereco(builder.endereco);
+		this.setCpf(builder.cpf);
+		this.setTelefones(builder.telefones);
+		this.setNaturalidade(builder.naturalidade);
+		this.setNacionalidade(builder.nacionalidade);
+		this.setEstadoCivil(builder.estadoCivil);
+		this.setEscolaridade(builder.escolaridade);
+		this.setProfissao(builder.profissao);
+		this.setDesativado(builder.desativado);
+		this.setObs(builder.obs);
+	}
 }

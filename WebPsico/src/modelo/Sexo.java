@@ -1,11 +1,7 @@
 package modelo;
 
 public enum Sexo {
-	F("Feminino"), M("Masculino");
 
-	private String sexo;
+	FEMININO, MASCULINO;
 
-	Sexo(String sexo) {
-		this.sexo = sexo;
-	}
 }
