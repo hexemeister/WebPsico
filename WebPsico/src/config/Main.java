@@ -1,4 +1,4 @@
-package ajudantes;
+package config;
 
 public class Main {
 

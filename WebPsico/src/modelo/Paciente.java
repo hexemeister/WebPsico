@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,8 +37,34 @@ public class Paciente extends Pessoa implements Serializable {
 	private Double preco; // Valor combinado entre o psicologo e o paciente por
 							// mês
 
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="PACIENTE_TELEFONE", joinColumns= @JoinColumn(name="ID_PACIENTE"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
+	private List<Telefone> telefones;
+	
 	public Paciente() {
 	}
+		
+	public Paciente(Integer id, String nome, String email, Sexo sexo,
+			Calendar dataNascimento, Endereco endereco, String cpf,
+			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
+			EstadoCivil estadoCivil, Escolaridade escolaridade,
+			String profissao, Boolean desativado, String obs,
+			Indicacao indicacao, Calendar dataInicio, Calendar dataUtimaSessao,
+			String frequencia, Turno preferenciaTurno, Double preco,
+			List<Telefone> telefones2) {
+		super(id, nome, email, sexo, dataNascimento, endereco, cpf, telefones,
+				naturalidade, nacionalidade, estadoCivil, escolaridade,
+				profissao, desativado, obs);
+		this.indicacao = indicacao;
+		this.dataInicio = dataInicio;
+		this.dataUtimaSessao = dataUtimaSessao;
+		this.frequencia = frequencia;
+		this.preferenciaTurno = preferenciaTurno;
+		this.preco = preco;
+		telefones = telefones2;
+	}
+
+
 
 	public Paciente(Integer id, String nome, String email, Sexo sexo,
 			Calendar dataNascimento, Endereco endereco, String cpf,
@@ -113,8 +141,12 @@ public class Paciente extends Pessoa implements Serializable {
 		this.preco = preco;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
 	@Override

@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
@@ -16,9 +20,27 @@ public class Contato extends Pessoa implements Serializable {
 
 	private String religiao;
 	private String parentesco;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="CONTATO_TELEFONE", joinColumns= @JoinColumn(name="ID_CONTATO"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
+	private List<Telefone> telefones;
 
 	public Contato() {
 		super();
+	}
+		
+	public Contato(Integer id, String nome, String email, Sexo sexo,
+			Calendar dataNascimento, Endereco endereco, String cpf,
+			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
+			EstadoCivil estadoCivil, Escolaridade escolaridade,
+			String profissao, Boolean desativado, String obs, String religiao,
+			String parentesco, List<Telefone> telefones2) {
+		super(id, nome, email, sexo, dataNascimento, endereco, cpf, telefones,
+				naturalidade, nacionalidade, estadoCivil, escolaridade,
+				profissao, desativado, obs);
+		this.religiao = religiao;
+		this.parentesco = parentesco;
+		telefones = telefones2;
 	}
 
 	public Contato(Integer id, String nome, String email, Sexo sexo,
@@ -54,6 +76,14 @@ public class Contato extends Pessoa implements Serializable {
 
 	public void setParentesco(String parentesco) {
 		this.parentesco = parentesco;
+	}
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
 	@Override

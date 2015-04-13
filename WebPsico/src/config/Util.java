@@ -1,4 +1,4 @@
-package ajudantes;
+package config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,13 +70,39 @@ public class Util {
 											.religiao("Espírita")
 											.parentesco("Mãe")
 											.desativado(false)
+											.obs("Ligar na parte da tarde.")
 											.build();
+		Contato c2 = new Contato.Builder().nome("Luiz Augusto Andrade de Moraes")
+				.email("luiz@gmail.com")
+				.sexo(Sexo.MASCULINO)
+				.dataNascimento(new GregorianCalendar(1952, 3, 16))
+				.endereco(new Endereco.Builder()
+								.logradouro("Rua Primeiros Sonhos")
+								.numero("123")
+								.bairro("Ilha do Governador")
+								.complemento("Jardim Guanabara")
+								.cidade("Rio de Janeiro")
+								.cep("21920-321")
+								.uf(Uf.RJ)
+								.build()
+							)
+				.cpf("22222222222")
+				.telefones(new ArrayList<Telefone>(Arrays.asList(new Telefone(null,"21","988972975",TipoTelefone.CELULAR))))
+				.naturalidade(Uf.RJ)
+				.nacionalidade("Brasileiro")
+				.estadoCivil(EstadoCivil.VIUVO)
+				.escolaridade(Escolaridade.MEDIO_COMPLETO)
+				.profissao("Aposentado")
+				.religiao("Católico")
+				.parentesco("Pai")
+				.desativado(false)
+				.build();
 											
 		ContatoDao cdao = new ContatoDao();
 
 		List<Contato> lista = new ArrayList<Contato>();
 		lista.add(c1);
-		// lista.add(c2);
+		lista.add(c2);
 		// lista.add(c3);
 		// lista.add(c4);
 		for (Contato contato : lista) {
