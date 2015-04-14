@@ -6,7 +6,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
-
+	
+	/**
+	 * Classe abstrata genérica para dar poder de CRUD para quaisquer classes que herdarem dela 
+	 * @author Renato Moraes
+	 */
 	private static final long serialVersionUID = 1L;
 
 	private Class<T> classe;

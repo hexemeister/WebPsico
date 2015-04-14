@@ -7,7 +7,6 @@ public class Main {
 		Util.populaBancoComUsuarios();
 		Util.populaBancoComContatos();
 		Util.populaBancoComPacientes();
-
 	}
 
 }
