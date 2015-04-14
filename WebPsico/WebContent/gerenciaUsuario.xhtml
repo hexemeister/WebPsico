@@ -58,7 +58,8 @@
 		<h:form id="pesquisa">
 			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
 			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" 
-					value="#{usuarioMB.resposta}" completeMethod="#{usuarioMB.buscaUsuario()}" forceSelection="true"/>
+					value="#{usuarioMB.s}" completeMethod="#{usuarioMB.listaUsuarios()}" 
+					var="usuario" itemLabel="#{usuario.login}" itemValue="#{usuario}"  forceSelection="true"/>
 			<p:spacer width="20"/>
 			<p:commandButton value="Pesquisar" />
 		</h:form>
