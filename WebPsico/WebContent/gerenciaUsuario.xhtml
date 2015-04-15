@@ -10,7 +10,7 @@
 <h:head />
 <h:body>
 	<p:panel header="Gerenciar de Usuário">
-		<h:form id="novoUsuario">
+		<h:form id="gerenciaUsuario">
 			<p:focus />
 			<p:panelGrid columns="2" >
 				<p:outputLabel for="nome" value="Nome Completo" />
@@ -62,7 +62,7 @@
 					var="usuario" itemLabel="#{usuario.login} - #{usuario.nomeCompleto}" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" />
 					
 			<p:spacer width="20"/>
-			<p:commandButton value="Pesquisar" />
+			<p:commandButton value="Confirma" />
 		</h:form>
 </h:body>
 </html>
