@@ -15,6 +15,7 @@ public class UsuarioConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
 		u.setLogin(string);
+		System.out.println(u);
 		Usuario usuario = (Usuario) new UsuarioDao().findByLogin(u);
 		return usuario;
 	}
@@ -22,6 +23,7 @@ public class UsuarioConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object o) {
 		u = (Usuario) o;
+		System.out.println(u);
 		return u.getLogin();
 	}
 

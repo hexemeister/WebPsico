@@ -3,18 +3,23 @@ package manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import modelo.Usuario;
+
+import org.primefaces.event.SelectEvent;
+
 import persistence.UsuarioDao;
 
 @ManagedBean
 @RequestScoped
 public class UsuarioMB {
 
-	Usuario usuarioSelecionado;
-	List<Usuario> listaUsuario = new ArrayList<Usuario>();
+	Usuario usuarioSelecionado = new Usuario();
+	List<Usuario> listaUsuario;
 
 	public UsuarioMB() {
 
@@ -45,6 +50,13 @@ public class UsuarioMB {
 			}
 		}
 		return sugestoes;
+	}
+	
+	public void onItemSelect(SelectEvent event) {
+		
+			usuarioSelecionado = (Usuario) event.getObject();
+			System.out.println(usuarioSelecionado);
+//			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Item Selected", usuarioSelecionado.toString()));
 	}
 
 }
