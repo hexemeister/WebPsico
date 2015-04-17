@@ -25,7 +25,7 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		super(Usuario.class);
 	}
 
-	public Usuario findByLogin(Usuario usuario) {
+	public Usuario findByLoginAndSenha(Usuario usuario) {
 		Usuario resp;
 		try {
 			em = super.getEntityManager();
@@ -41,13 +41,12 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> findByLoginOrNomeActives(String string) {
+	public List<Usuario> findByLoginOrNome(String string) {
 		List<Usuario> resp = new ArrayList<Usuario>();
 		try {
 			em = super.getEntityManager();
 			query = em.createQuery("from Usuario u where u.login LIKE '%"
-					+ string + "%' OR u.nomeCompleto LIKE '%" + string
-					+ "%' and u.desativado = false");
+					+ string + "%' OR u.nomeCompleto LIKE '%" + string + "%'");
 			resp = query.getResultList();
 		} catch (NoResultException e) {
 			resp = new ArrayList<Usuario>();

@@ -44,7 +44,7 @@ public class LoginMB {
 	public String logar() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
-			logado = new UsuarioDao().findByLogin(usuario);
+			logado = new UsuarioDao().findByLoginAndSenha(usuario);
 			if (logado != null && logado.getDesativado() == false) {
 				fc.addMessage("form1", new FacesMessage("Login com sucesso!!!"));
 				return "principal.jsf";

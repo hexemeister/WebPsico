@@ -20,7 +20,7 @@
 					requiredMessage="Informe o nome completo, por favor!" size="45" />
 
 				<p:outputLabel for="login" value="Login" />
-				<p:inputText id="login" required="true" placeholder="Login"
+				<p:inputText id="login" required="true" placeholder="Login" value="#{usuarioMB.usuarioSelecionado.login}"
 					requiredMessage="Informe o login, por favor!" size="45" />
 
 				<p:outputLabel for="senha1" value="Senha" />
@@ -33,40 +33,38 @@
 					requiredMessage="Informe a senha, por favor!" size="45" />
 
 				<p:outputLabel for="perfil" value="Perfil" />
-				<p:selectOneButton id="perfil" required="true"
+				<p:selectOneButton id="perfil" required="true" value="#{usuarioMB.usuarioSelecionado.perfil}"
 					requiredMessage="Selecione um perfil, por favor!">
-					<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-					<f:selectItem itemLabel="Psicóloga" itemValue="Psicóloga" />
-					<f:selectItem itemLabel="Atendente" itemValue="Atendente" />
+					<f:selectItem itemLabel="Administrador" itemValue="ADMINISTRADOR" />
+					<f:selectItem itemLabel="Psicóloga" itemValue="PSICOLOGA" />
+					<f:selectItem itemLabel="Atendente" itemValue="ATENDENTE" />
 				</p:selectOneButton>
 
 				<p:outputLabel for="email" value="Email" />
-				<p:inputText id="email" required="true" placeholder="E-mail"
+				<p:inputText id="email" required="true" placeholder="E-mail" value="#{usuarioMB.usuarioSelecionado.email}"
 					requiredMessage="Informe o e-mail, por favor!" size="45" />
 				
-				<p:outputLabel for="basic" value="Desativado"/>	
-			    <p:selectManyCheckbox id="basic" value="#{checkboxView.selectedConsoles}">
- 			         <f:selectItem itemLabel="" itemValue="Desativado" />
-      	        </p:selectManyCheckbox>
+				<p:outputLabel for="desativado" value="Desativado"/>	
+			    <p:selectBooleanCheckbox id="desativado" value="#{usuarioMB.usuarioSelecionado.desativado}" />
  					
 			</p:panelGrid>
 				<p:spacer width="0" height="40" />
 				<p:commandButton value="Salvar" />
 				<p:spacer width="40"/>
-				<p:commandButton value="Alterar" />
+				<p:commandButton value="Limpar" />
 		</h:form>
 	</p:panel>
 	<p:separator />
 		<h:form id="pesquisa">
-		<p:messages id="msgs" />
-		<p:outputLabel value="teste" />
+		<p:growl id="msgs" />
 		<p:outputLabel id="teste" value="#{usuarioMB.usuarioSelecionado.nomeCompleto}"  />
 			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
+			<p:focus for="loginPesquisa" />
 			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" 
-					value="#{usuarioMB.usuarioSelecionado}" completeMethod="#{usuarioMB.listaUsuarios}"
+					value="#{usuarioMB.usuarioSelecionado}" completeMethod="#{usuarioMB.listaUsuarios}" minQueryLength="1" effect="fade"
 					var="usuario" itemLabel="#{usuario.login}" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" >
-					<p:column headerText="Login" style="width:50%;text-align:center">#{usuario.login}</p:column> 
-					<p:column headerText="Nome Completo" style="width:50%;text-align:center">#{usuario.nomeCompleto}</p:column>
+					<p:column headerText="Login" style="width:30%;text-align:center">#{usuario.login}</p:column> 
+					<p:column headerText="Nome Completo" style="width:70%;text-align:center">#{usuario.nomeCompleto}</p:column>
 					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs" />
 			</p:autoComplete>
 			<p:spacer width="20"/>

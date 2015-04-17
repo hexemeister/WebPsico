@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 import modelo.Usuario;
 
@@ -15,10 +15,10 @@ import org.primefaces.event.SelectEvent;
 import persistence.UsuarioDao;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class UsuarioMB {
 
-	Usuario usuarioSelecionado = new Usuario();
+	Usuario usuarioSelecionado;
 	List<Usuario> listaUsuario;
 
 	public UsuarioMB() {
@@ -42,21 +42,13 @@ public class UsuarioMB {
 	}
 
 	public List<Usuario> listaUsuarios(String query) {
-		this.listaUsuario = new UsuarioDao().findByLoginOrNomeActives(query);
-		List<Usuario> sugestoes = new ArrayList<Usuario>();
-		for (Usuario usuario : listaUsuario) {
-			if (usuario.getLogin().contains(query) || usuario.getNomeCompleto().contains(query)) {
-				sugestoes.add(usuario);
-			}
-		}
-		return sugestoes;
+		return this.listaUsuario = new UsuarioDao().findByLoginOrNome(query);
 	}
 	
 	public void onItemSelect(SelectEvent event) {
 		
 			usuarioSelecionado = (Usuario) event.getObject();
-			System.out.println(usuarioSelecionado);
-//			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Item Selected", usuarioSelecionado.toString()));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Usuário Selecionado", usuarioSelecionado.toString()));
 	}
 
 }
