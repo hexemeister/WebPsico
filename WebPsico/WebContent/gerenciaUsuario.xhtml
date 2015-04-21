@@ -9,7 +9,6 @@
 
 <h:head />
 <h:body>
-
 	<p:panel header="Gerenciar de Usuário">
 		<h:form id="gerenciaUsuario">
 
@@ -22,13 +21,17 @@
 				<p:outputLabel for="login" value="Login" />
 				<p:inputText id="login" required="true" placeholder="Login" value="#{usuarioMB.usuarioSelecionado.login}"
 					requiredMessage="Informe o login, por favor!" size="45" />
-
-				<p:outputLabel for="senha1" value="Senha" />
-				<p:password id="senha1" required="true" placeholder="Senha"
-					match="senha2" requiredMessage="Informe a senha, por favor!" size="45" />
+				
+				<p:outputLabel for="senhaAtual" value="Senha Atual" />
+				<p:password id="senhaAtual" required="true" placeholder="Senha Atual" value="#{usuarioMB.senhaAtual}"
+					requiredMessage="Informe a senha, por favor!" size="45" />
+				
+				<p:outputLabel for="senha1" value="Nova Senha" />
+				<p:password id="senha1" placeholder="Nova Senha"
+					match="senha2" requiredMessage="Informe a senha, por favor!" size="45"  />
 
 				<p:outputLabel for="senha2" value="Confirmação de senha" />
-				<p:password id="senha2" required="true"
+				<p:password id="senha2"
 					placeholder="Confirmação de senha"
 					requiredMessage="Informe a senha, por favor!" size="45" />
 
@@ -49,26 +52,26 @@
  					
 			</p:panelGrid>
 				<p:spacer width="0" height="40" />
-				<p:commandButton value="Salvar" />
+				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" />
 				<p:spacer width="40"/>
-				<p:commandButton value="Limpar" />
+				<p:commandButton id="limpa" value="Limpar" immediate="true" ajax="true"
+					update=":gerenciaUsuario, :pesquisa:msgs" action="#{usuarioMB.limpaCampos}" >
+					<p:resetInput target="gerenciaUsuario" />
+				</p:commandButton>
 		</h:form>
 	</p:panel>
 	<p:separator />
 		<h:form id="pesquisa">
 		<p:growl id="msgs" />
-		<p:outputLabel id="teste" value="#{usuarioMB.usuarioSelecionado.nomeCompleto}"  />
 			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
 			<p:focus for="loginPesquisa" />
-			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" 
+			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" size="55" maxResults="5"
 					value="#{usuarioMB.usuarioSelecionado}" completeMethod="#{usuarioMB.listaUsuarios}" minQueryLength="1" effect="fade"
-					var="usuario" itemLabel="#{usuario.login}" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" >
+					var="usuario" itemLabel="" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" >
 					<p:column headerText="Login" style="width:30%;text-align:center">#{usuario.login}</p:column> 
 					<p:column headerText="Nome Completo" style="width:70%;text-align:center">#{usuario.nomeCompleto}</p:column>
 					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs" />
 			</p:autoComplete>
-			<p:spacer width="20"/>
-			<p:commandButton value="Confirma" action="PF('gerenciaUsuario')."/>
 		</h:form>
 </h:body>
 </html>

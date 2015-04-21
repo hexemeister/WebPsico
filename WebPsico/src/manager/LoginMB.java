@@ -47,6 +47,7 @@ public class LoginMB {
 			logado = new UsuarioDao().findByLoginAndSenha(usuario);
 			if (logado != null && logado.getDesativado() == false) {
 				fc.addMessage("form1", new FacesMessage("Login com sucesso!!!"));
+//				usuario = new Usuario();
 				return "principal.jsf";
 			} else if (logado != null && logado.getDesativado() == true) {
 				fc.addMessage("form1", new FacesMessage(

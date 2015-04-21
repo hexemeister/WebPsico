@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import modelo.Contato;
 import modelo.Endereco;
@@ -28,6 +31,12 @@ import persistence.UsuarioDao;
 public class Util {
 	static EntityManager em = new PersistenceUtil().getEntityManager();
 
+	public static <T> Object getObjectSession(String attribute){        
+	    HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();    
+	    HttpSession session = request.getSession(true);    
+	    return session.getAttribute(attribute);               
+	}
+	
 	/**
 	 * popula Usuarios no banco
 	 */
