@@ -54,4 +54,18 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		return resp;
 	}
 
+	public Usuario findLogin(Usuario usuario) {
+		Usuario resp;
+		try {
+			em = super.getEntityManager();
+			query = em
+					.createQuery("from Usuario u where u.login = :login");
+			query.setParameter("login", usuario.getLogin());
+			resp = (Usuario) query.getSingleResult();
+		} catch (NoResultException e) {
+			resp = null;
+		}
+		return resp;
+	}
+	
 }

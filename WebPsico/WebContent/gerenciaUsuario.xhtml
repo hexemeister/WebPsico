@@ -27,11 +27,11 @@
 					requiredMessage="Informe a senha, por favor!" size="45" />
 				
 				<p:outputLabel for="senha1" value="Nova Senha" />
-				<p:password id="senha1" placeholder="Nova Senha"
+				<p:password id="senha1" placeholder="Nova Senha" value="#{usuarioMB.novaSenha1}" validatorMessage="Senha não confere!"
 					match="senha2" requiredMessage="Informe a senha, por favor!" size="45"  />
 
 				<p:outputLabel for="senha2" value="Confirmação de senha" />
-				<p:password id="senha2"
+				<p:password id="senha2" value="#{usuarioMB.novaSenha2}"
 					placeholder="Confirmação de senha"
 					requiredMessage="Informe a senha, por favor!" size="45" />
 
