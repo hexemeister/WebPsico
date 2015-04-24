@@ -49,6 +49,11 @@ public class ScheduleViewMB implements Serializable {
 
 		lazyEventModel = new LazyScheduleModel() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void loadEvents(Date start, Date end) {
 				Date random = getRandomDate(start);

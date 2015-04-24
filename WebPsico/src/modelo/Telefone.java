@@ -23,6 +23,10 @@ public class Telefone implements Serializable {
 	@ManyToMany(mappedBy = "telefones")
 	private List<Paciente> pacientes;
 
+	@ManyToMany(mappedBy = "telefones")
+	
+	private List<Contato> contatos;
+	
 	private String ddd;
 	private String telefone;
 

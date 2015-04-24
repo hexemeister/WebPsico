@@ -42,7 +42,7 @@ public abstract class Pessoa implements Serializable {
 	private String cpf;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name="CONTATO_TELEFONE", joinColumns= @JoinColumn(name="ID_CONTATO"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
+	// @JoinTable(name="CONTATO_TELEFONE", joinColumns=@JoinColumn(name="ID_CONTATO"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
 	private List<Telefone> telefones;
 
 	@Enumerated(EnumType.STRING)

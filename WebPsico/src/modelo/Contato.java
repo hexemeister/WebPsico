@@ -13,22 +13,22 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Contato extends Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String religiao;
 	private String parentesco;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="CONTATO_TELEFONE", joinColumns= @JoinColumn(name="ID_CONTATO"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
+	@JoinTable(name = "contato_telefone", joinColumns = @JoinColumn(name = "ID_CONTATO"), inverseJoinColumns = @JoinColumn(name = "ID_TELEFONE"))
 	private List<Telefone> telefones;
 
 	public Contato() {
 		super();
 	}
-		
+
 	public Contato(Integer id, String nome, String email, Sexo sexo,
 			Calendar dataNascimento, Endereco endereco, String cpf,
 			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
@@ -49,9 +49,9 @@ public class Contato extends Pessoa implements Serializable {
 			EstadoCivil estadoCivil, Escolaridade escolaridade,
 			String profissao, Boolean desativado, String obs, String religiao,
 			String parentesco) {
-		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
-				telefones, naturalidade, nacionalidade, estadoCivil,
-				escolaridade, profissao, desativado, obs);
+		super(id, nome, email, sexo, dataNascimento, endereco, cpf, telefones,
+				naturalidade, nacionalidade, estadoCivil, escolaridade,
+				profissao, desativado, obs);
 		this.religiao = religiao;
 		this.parentesco = parentesco;
 	}
@@ -77,7 +77,7 @@ public class Contato extends Pessoa implements Serializable {
 	public void setParentesco(String parentesco) {
 		this.parentesco = parentesco;
 	}
-	
+
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
@@ -140,7 +140,7 @@ public class Contato extends Pessoa implements Serializable {
 		private String obs;
 
 		public Builder id(Integer id) {
-			this.id= id;
+			this.id = id;
 			return this;
 		}
 
