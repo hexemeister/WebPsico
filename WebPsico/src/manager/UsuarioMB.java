@@ -2,10 +2,13 @@ package manager;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.el.PropertyNotFoundException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.faces.validator.ValidatorException;
 
 import modelo.Usuario;
 
@@ -24,6 +27,18 @@ public class UsuarioMB {
 	String senhaAtual;
 	String novaSenha1;
 	String novaSenha2;
+
+	UsuarioDao udao;
+
+	public UsuarioMB() {
+		init();
+	}
+
+	@PostConstruct
+	public void init() {
+		usuarioSelecionado = ((LoginMB) Util.getObjectSession("loginMB"))
+				.getLogado();
+	}
 
 	public String getNovaSenha1() {
 		return novaSenha1;
@@ -49,11 +64,6 @@ public class UsuarioMB {
 		this.senhaAtual = senhaAtual;
 	}
 
-	public UsuarioMB() {
-		usuarioSelecionado = ((LoginMB) Util.getObjectSession("loginMB"))
-				.getLogado();
-	}
-
 	public Usuario getUsuarioSelecionado() {
 		return usuarioSelecionado;
 	}
@@ -75,7 +85,7 @@ public class UsuarioMB {
 	}
 
 	public void limpaCampos() {
-		this.usuarioSelecionado = new Usuario();
+		usuarioSelecionado = new Usuario();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Campos Limpos", "Campos Limpos"));
 	}
@@ -87,43 +97,54 @@ public class UsuarioMB {
 	}
 
 	public void salvar() {
+		udao = new UsuarioDao();
 		try {
-			UsuarioDao udao = new UsuarioDao();
-			if (senhaAtual != null
-					&& senhaAtual.equals((udao.FindById(usuarioSelecionado
-							.getId()).getSenha()))) {
-				if (usuarioSelecionado.getId().equals(
-						udao.FindById(usuarioSelecionado.getId()))
-						&& usuarioSelecionado.getLogin() != udao
-								.findByLoginAndSenha(usuarioSelecionado)
-								.getLogin()) {
-					if (udao.findLogin(usuarioSelecionado) == null) {
-						throw new Exception();
+			// se for um usuario novo...
+			if (usuarioSelecionado.getId() == null) {
+				usuarioSelecionado.setSenha(getSenhaAtual());
+				udao.create(usuarioSelecionado);
+			} else {
+				// usuario do banco
+				Usuario u = udao.FindById(usuarioSelecionado.getId());
+				// se nao for, verifica condições e altera
+				// verifica se o login e senha informadas no form é o login e a
+				// senha do banco
+				if ((senhaAtual != null | senhaAtual != "")
+						&& senhaAtual.equals(u.getSenha())) {
+					// verifica se o login foi alterado
+					if (!usuarioSelecionado.getLogin().equals(u.getLogin())) {
+						// se foi, verifica se o novo login já existe
+						if (udao.findLogin(usuarioSelecionado) != null) {
+							throw new Exception();
+						}
 					}
-				}
-				if (novaSenha1.equals(novaSenha2) && novaSenha1 != null
-						&& novaSenha1 != "") {
-					usuarioSelecionado.setSenha(novaSenha1);
-				} else if(!novaSenha1.equals(novaSenha2) ) {
+					// verifica se vai haver alteração de senha, se a
+					// confirmação foi feita
+					if (novaSenha1.equals(novaSenha2)
+							&& (novaSenha1 != null | novaSenha1 != "")) {
+						usuarioSelecionado.setSenha(senhaAtual);
+						// verifica se a senha foi informada 2 vezes
+					} else {
+						if (!novaSenha1.equals(novaSenha2)) {
+							throw new ValidatorException(new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									"Senha Não Confere!",
+									"Digite a senha correta, por favor!"));
+						}
+					}
+					udao.update(usuarioSelecionado);
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage("Usuario "
+									+ usuarioSelecionado.getLogin() + " Salvo",
+									"Usuário Salvo"));
+				} else {
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
-									"Senha Não Confere!",
+									"Senha Não Confere",
 									"Digite a senha correta, por favor!"));
 				}
-				udao.update(usuarioSelecionado);
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage("Usuario "
-								+ usuarioSelecionado.getLogin() + " Salvo",
-								"Usuário Salvo"));
-				limpaCampos();
-			} else {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Senha Não Confere",
-								"Digite a senha correta, por favor!"));
 			}
 		} catch (Exception e) {
 			FacesContext
@@ -134,6 +155,6 @@ public class UsuarioMB {
 									"Login já existe",
 									"Já existe um usuário com este login, escolha outro!"));
 		}
-
+		// limpaCampos();
 	}
 }

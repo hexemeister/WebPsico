@@ -1,63 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head />
-<h:body>
-	<p:panel header="Gerenciar Paciente">
-		<h:form>
-			<p:growl id="growl" sticky="true" showDetail="true" />
-			<p:wizard flowListener="#{userWizard.onFlowProcess}" backLabel="Anterior" nextLabel="Próximo" >
-				<p:tab id="personal" title="Dados Pessoais">
-					<p:panel header="Dados Pessoais">
+<ui:define name="corpo">
+		<p:panel header="Gerenciar Paciente">
+			<h:form id="fromPac">
+				<p:tabView id="abas">
+					<p:growl id="growl" sticky="true" showDetail="true" />
+					<p:tab id="personal" title="Dados Pessoais">
 						<p:messages />
-						<h:panelGrid columns="2" columnClasses="label, value">
+						<h:panelGrid columns="5" id="dados"
+							columnClasses="label, value, ,label, value">
+
 							<h:outputText value="Nome Completo: *" />
 							<p:inputText value="#{userWizard.user.firstname}" required="true"
-								label="Nome Completo" placeholder="Nome Completo" />
+								label="Nome Completo" placeholder="Nome Completo" size="30" />
+							<p style="width: 150px" />
+							<p:outputLabel for="cpf" value="CPF: " />
+							<p:inputMask id="cpf" value="#{maskView.date}"
+								mask="999.999.999-99" required="true" />
 
 							<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
 							<p:calendar id="dataNascimento" value="#{calendarView.date5}"
 								locale="de" navigator="true" pattern="dd-MM-yyyy"
 								mask="99/99/9999" />
-
+							<p style="width: 150px" />
 							<h:outputText value="Idade: " />
 							<p:inputText value="#{userWizard.user.age}" />
-
-							<p:outputLabel for="cpf" value="CPF: *" />
-							<p:inputMask id="cpf" value="#{maskView.date}"
-								mask="999.999.999-99" required="true" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
 							<p:selectOneMenu id="sexo" value="#{selectOneMenuView.console}">
 								<f:selectItem itemLabel="Feminino" itemValue="F" />
 								<f:selectItem itemLabel="Masculino" itemValue="M" />
 							</p:selectOneMenu>
-
-							<p:outputLabel for="cel" value="Celular: *" />
-							<p:inputMask id="cel" value="#{maskView.phone}"
-								mask="(99) 99999-9999" required="true" />
-
-							<p:outputLabel for="tel" value="Telefone Residencial: " />
-							<p:inputMask id="tel" value="#{maskView.phone}"
-								mask="(99) 9999-9999" />
-							<h:outputText value="Skip to last: " />
-							<h:selectBooleanCheckbox value="#{userWizard.skip}" />
-						</h:panelGrid>
-					</p:panel>
-				</p:tab>
-				<p:tab id="complementares" title="Dados Complementares">
-					<p:panel header="Dados Complementares:">
-						<p:messages />
-						<h:panelGrid columns="2" columnClasses="label, value">
-							<p:outputLabel for="email" value="Email:" />
-							<p:inputText id="email" placeholder="E-mail@algo.com" />
-
+							<p style="width: 150px" />
 							<p:outputLabel for="estadoCivil" value="Estado Civil:" />
 							<p:selectOneMenu id="estadoCivil"
 								value="#{selectOneMenuView.console}">
@@ -84,219 +66,121 @@
 								<f:selectItem itemLabel="Ensino Superior Completo"
 									itemValue="EnsSuperiorCompleto" />
 							</p:selectOneMenu>
-
+							<p style="width: 150px" />
 							<p:outputLabel for="profissao" value="Profissão:" />
-							<p:inputText id="profissao" placeholder="Qual a Profissão" />
+							<p:inputText id="profissao" placeholder="Qual a Profissão"
+								size="30" />
 
 							<p:outputLabel for="nacionalidade" value="Nacionalidade:" />
 							<p:inputText id="nacionalidade"
-								placeholder="Qual pais que nasceu" />
-
+								placeholder="Qual pais que nasceu" size="30" />
+							<p style="width: 150px" />
 							<p:outputLabel for="naturalidade" value="Naturalidade:" />
 							<p:inputText id="naturalidade"
-								placeholder="Qual estado que nasceu" />
+								placeholder="Qual estado que nasceu" size="30" />
+
+							<p:outputLabel for="email" value="Email:" />
+							<p:inputText id="email" placeholder="E-mail@algo.com" size="30" />
 						</h:panelGrid>
-					</p:panel>
-				</p:tab>
-				<p:tab id="endereço" title="Endereço Pessoal">
-					<p:panel header="Endereço Pessoal: ">
-						<p:messages />
-						<h:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="Endereço: *" />
+
+					</p:tab>
+					<p:tab id="enderecoPac" title="Endereço Pessoal">
+						<p:messages id="msg"/>
+						<h:panelGrid id="endereco" columns="5" 
+							columnClasses="label, value, ,label, value">
+
+							<h:outputText value="Logradouro: *" />
 							<p:inputText value="#{userWizard.user.firstname}" required="true"
-								label="endereço" placeholder="Rua, Av., Est." />
-
-							<p:outputLabel for="numero" value="Número: *" />
-							<p:calendar id="numero" required="true"
-								value="#{userWizard.user.firstname1}" />
-
-							<p:outputLabel for="complemento" value="Complemento:" />
-							<p:calendar id="complemento"
-								value="#{userWizard.user.firstname2}" />
-
+								label="endereço" placeholder="Rua, Av., Est." size="40" />
+							<p style="width: 100px" />
 							<h:outputText value="CEP: *" />
 							<p:inputText value="#{userWizard.user.date}" mask="99999-999"
 								required="true" />
 
-							<!-- dropdown <p:outputLabel for="estado" value="Estado: " />
-           				  <p:selectOneMenu id="estado" value="#{dropdownView.country}" >
-             			  <p:ajax listener="#{dropdownView.onCountryChange}" update="cidade" />
-                				<f:selectItem itemLabel="Selecionar um estado" itemValue="" noSelectionOption="true" />
-                				<f:selectItems value="#{dropdownView.countries}" />
-            			 </p:selectOneMenu>
- 
-            			 <p:outputLabel for="cidade" value="Cidade: " />
-  				         <p:selectOneMenu id="cidade" value="#{dropdownView.city}" >
-                			<f:selectItem itemLabel="Selecionar uma Cidade" itemValue="" noSelectionOption="true" />
-                			<f:selectItems value="#{dropdownView.cities}" />
-          				  </p:selectOneMenu>   -->
+							<p:outputLabel for="numero" value="Numero:" />
+							<p:inputText id="numero"  />
+							<p style="width: 150px" />
+							<p:outputLabel for="complemento" value="Complemento:" />
+							<p:inputText id="complemento" size="30" />
 
-						</h:panelGrid>
-					</p:panel>
-				</p:tab>
-				<p:tab id="sessao" title="Dados da sessão">
-					<p:panel header="Dados da Sessão:">
-						<p:messages />
-						<h:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="Profissional: *" />
-							<p:inputText value="#{userWizard.user.firstnamer}"
-								required="true" placeholder="Qual o profissional"
-								label="profissional" />
+							<p:outputLabel for="cel" value="Celular: " />
+							<p:inputMask id="cel" value="#{maskView.phone}"
+								mask="(99) 99999-9999" required="true" />
+							<p style="width: 150px" />
+							<p:outputLabel for="tel" value="Telefone Residencial: " />
+							<p:inputMask id="tel" value="#{maskView.phone}"
+								mask="(99) 9999-9999" />
 
-							<h:outputText value="Nome da Indicação: *" />
-							<p:inputText value="#{userWizard.user.firstnamee}"
-								required="true" placeholder="Nome de quem indicou"
-								label="indicou" />
+							<p:outputLabel id="bai" for="bairro" value="Bairro: " />
+							<p:inputText id="bairro" placeholder="Qual o Bairro" size="30" />
+							<p style="width: 150px" />
+							<p:outputLabel id="cid" for="cidade" value="Cidade: " />
+							<p:inputText id="cidade" size="30" placeholder="Qual a cidade"/>
 
-							<p:outputLabel for="dataInicio" value="Data da Avaliação:" />
-							<p:calendar id="dataInicio" value="#{calendarView.date5}"
-								locale="de" navigator="true" pattern="dd-MMM-yyyy"
-								required="true" mask="99/99/9999" />
-
-							<p:outputLabel for="frequencia" value="Frequencia das sessões: " />
-							<p:selectOneMenu id="frequencia"
-								value="#{selectOneMenuView.console}">
-								<f:selectItem itemLabel="1x por Semana" itemValue="1xporSemana" />
-								<f:selectItem itemLabel="a cada 15 dias" itemValue="15dias" />
-								<f:selectItem itemLabel="a cada 20 dias" itemValue="20dias" />
-								<f:selectItem itemLabel="1x por Mês" itemValue="1xporMes" />
+							<p:outputLabel for="estado" value="Estado: " />
+							<p:selectOneMenu id="estado" value="#{dropdownView.country}">
+								<p:ajax listener="#{dropdownView.onCountryChange}"/>
+								<f:selectItem itemLabel="Selecionar um estado" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{dropdownView.countries}" />
 							</p:selectOneMenu>
-
-							<p:outputLabel for="horaMarcada" value="Hora Marcada:" />
-							<p:inputMask id="horaMarcada" value="#{maskView.time}"
-								mask="99:99" />
-
-							<p:outputLabel for="precoCombinado" value="Preço Combinado:" />
-							<p:inputMask id="precoCombinado" value="#{maskView.time}"
-								mask="999,99" />
-
-							<h:outputText value="Skip to last: " />
-							<h:selectBooleanCheckbox value="#{userWizard.skip}" />
 						</h:panelGrid>
-					</p:panel>
-				</p:tab>
-				<p:tab id="contato" title="Adicionar Contatos">
+					</p:tab>
+					
+					<p:tab id="sessao" title="Dados da Sessão">
+						<p:messages />
+							<h:panelGrid columns="5" columnClasses="label, value, ,label, value" >
+							
+								<h:outputText value="Profissional: *" />
+								<p:inputText value="#{userWizard.user.firstnamer}"
+									required="true" placeholder="Qual o profissional"
+									label="profissional" size="30"/>
+								<p style="width: 150px" />
+								<h:outputText value="Nome da Indicação: *" />
+								<p:inputText value="#{userWizard.user.firstnamee}"
+									required="true" placeholder="Nome de quem indicou"
+									label="indicou" size="30" />
 
-					<!--  aki podia levar para os contatos 
+								<p:outputLabel for="dataInicio" value="Data da Avaliação:" />
+								<p:calendar id="dataInicio" value="#{calendarView.date5}"
+									locale="de" navigator="true" pattern="dd-MMM-yyyy"
+									required="true" mask="99/99/9999" />
+								<p style="width: 150px" />
+								<p:outputLabel for="frequencia" value="Frequencia das sessões: " />
+								<p:selectOneMenu id="frequencia"
+									value="#{selectOneMenuView.console}">
+									<f:selectItem itemLabel="Manhã" itemValue="manha" />
+									<f:selectItem itemLabel="Tarde" itemValue="tarde" />
+									<f:selectItem itemLabel="Noite" itemValue="noite" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="horaMarcada" value="Hora Marcada:" />
+								<p:inputMask id="horaMarcada" value="#{maskView.time}"
+									mask="99:99" />
+								<p style="width: 150px" />
+								<p:outputLabel for="precoCombinado" value="Preço Combinado:" />
+								<p:inputMask id="precoCombinado" value="#{maskView.time}"
+									mask="999,99" />
+							</h:panelGrid>
+					</p:tab>
+					<p:tab id="contato" title="Adicionar Contatos">
+						<!--  aki podia levar para os contatos 
 e para adicionar + um contato 
 -->
-				</p:tab>
-				<p:tab id="confirma" title="Confirmação">
-					<p:panel header="Confirmação:">
-						<h:panelGrid id="confirmar" columns="4"
-							columnClasses="grid,grid,grid,grid">
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Nome Completo: " />
-								<h:outputText value="#{userWizard.user.firstname}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Data de Nascimento: " />
-								<h:outputText value="#{calendarView.date5}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Idade: " />
-								<h:outputText value="#{userWizard.user.age}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="CPF: " />
-								<h:outputText value="#{userWizard.user.cpf}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Sexo:" />
-								<h:outputText value="#{userWizard.user.sexo}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Celular:" />
-								<h:outputText value="#{userWizard.user.cel}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Telefone Residencial:" />
-								<h:outputText value="#{userWizard.user.tel}"
-									styleClass="outputLabel" />
-							</h:panelGrid>
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Email: " />
-								<h:outputText value="#{userWizard.user.email}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Estado Civil: " />
-								<h:outputText value="#{userWizard.user.estadoCivil}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Grau de Instrução: " />
-								<h:outputText value="#{userWizard.user.grau}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Profissão: " />
-								<h:outputText value="#{userWizard.user.profissao}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Nacionalidade: " />
-								<h:outputText value="#{userWizard.user.nacionalidade}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Naturalidade: " />
-								<h:outputText value="#{userWizard.user.naturalidade}"
-									styleClass="outputLabel" />
-							</h:panelGrid>
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Endereço: " />
-								<h:outputText value="#{userWizard.user.endereco}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Numero: " />
-								<h:outputText value="#{userWizard.user.numero}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Complemento: " />
-								<h:outputText value="#{userWizard.user.complemento}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="CEP: " />
-								<h:outputText value="#{userWizard.user.cep}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Estado: " />
-								<h:outputText value="#{userWizard.user.estado}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Cidade: " />
-								<h:outputText value="#{userWizard.user.cidade}"
-									styleClass="outputLabel" />
-							</h:panelGrid>
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Profissional: " />
-								<h:outputText value="#{userWizard.user.profissional}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Nome da Indicação: " />
-								<h:outputText value="#{userWizard.user.nomeIndicacao}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Data da Avaliação: " />
-								<h:outputText value="#{userWizard.user.dataInicio}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Frequência: " />
-								<h:outputText value="#{userWizard.user.frequencia}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Hora Marcada: " />
-								<h:outputText value="#{userWizard.user.horaMarcada}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Preço combinado: " />
-								<h:outputText value="#{userWizard.user.precoCombinado}"
-									styleClass="outputLabel" />
-							</h:panelGrid>
-						</h:panelGrid>
-						<p:commandButton value="Submit"
-							actionListener="#{userWizard.save}" update="growl"
-							process="@this" />
-					</p:panel>
-				</p:tab>
-			</p:wizard>
-		</h:form>
-	</p:panel>
-</h:body>
-</html>
+					</p:tab>
+				</p:tabView>
+					<p:spacer width="0" height="40" />
+					<p:commandButton value="Salvar" />
+					<p:spacer width="50" height="40"/>
+					<p:commandButton value="Limpar" />
+			</h:form>
+		</p:panel>
+		<p:separator />
+			<h:form id="pesquisaPaciente">
+					<p:outputLabel for="pesquisapaci" value="Procurar por um Paciente: " />
+					<p:inputText id="pesquisapaci" placeholder="Paciente procurado"
+							requiredMessage="Informe o nome do paciente  a ser pesquisado" size="40" />
+					<p:spacer width="20" />
+			</h:form>
+</ui:define>
+</ui:composition>

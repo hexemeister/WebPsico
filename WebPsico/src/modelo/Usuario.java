@@ -107,6 +107,10 @@ public class Usuario {
 		this.desativado = desativado;
 	}
 
+	public Boolean temPerfil(Perfil perfil) {
+		return this.perfil.equals(perfil);
+	}
+	
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha

@@ -11,7 +11,6 @@
 <h:body>
 	<p:panel header="Gerenciar de Usuário">
 		<h:form id="gerenciaUsuario">
-
 			<p:focus />
 			<p:panelGrid columns="2" >
 				<p:outputLabel for="nome" value="Nome Completo" />
@@ -52,10 +51,10 @@
  					
 			</p:panelGrid>
 				<p:spacer width="0" height="40" />
-				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" />
+				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" disabled="#{loginMB.logado.temPerfil('ATENDENTE')}" />
 				<p:spacer width="40"/>
 				<p:commandButton id="limpa" value="Limpar" immediate="true" ajax="true"
-					update=":gerenciaUsuario, :pesquisa:msgs" action="#{usuarioMB.limpaCampos}" >
+					update=":gerenciaUsuario, :pesquisa:msgs, :pesquisa:t" action="#{usuarioMB.limpaCampos}" >
 					<p:resetInput target="gerenciaUsuario" />
 				</p:commandButton>
 		</h:form>
@@ -65,13 +64,15 @@
 		<p:growl id="msgs" />
 			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
 			<p:focus for="loginPesquisa" />
-			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" size="55" maxResults="5"
+			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" size="55" maxResults="5" converterMessage="Falha no Converter"
 					value="#{usuarioMB.usuarioSelecionado}" completeMethod="#{usuarioMB.listaUsuarios}" minQueryLength="1" effect="fade"
 					var="usuario" itemLabel="" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" >
 					<p:column headerText="Login" style="width:30%;text-align:center">#{usuario.login}</p:column> 
 					<p:column headerText="Nome Completo" style="width:70%;text-align:center">#{usuario.nomeCompleto}</p:column>
-					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs" />
+					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs, t" />
 			</p:autoComplete>
+			<br />
+			<p:outputLabel id="t" value="#{usuarioMB.usuarioSelecionado}" />
 		</h:form>
 </h:body>
 </html>
