@@ -3,9 +3,9 @@ package manager;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.el.PropertyNotFoundException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
@@ -21,14 +21,17 @@ import config.Util;
 @ViewScoped
 public class UsuarioMB {
 
-	Usuario usuarioSelecionado;
-	List<Usuario> listaUsuario;
+	private Usuario usuarioSelecionado;
+	private List<Usuario> listaUsuario;
 
-	String senhaAtual;
-	String novaSenha1;
-	String novaSenha2;
+	private String senhaAtual;
+	private String novaSenha1;
+	private String novaSenha2;
 
-	UsuarioDao udao;
+	private UsuarioDao udao;
+	
+	@ManagedProperty(value="#{logado}")
+	private Usuario logado;
 
 	public UsuarioMB() {
 		init();
@@ -38,6 +41,16 @@ public class UsuarioMB {
 	public void init() {
 		usuarioSelecionado = ((LoginMB) Util.getObjectSession("loginMB"))
 				.getLogado();
+	}
+
+	
+	
+	public Usuario getLogado() {
+		return logado;
+	}
+
+	public void setLogado(Usuario logado) {
+		this.logado = logado;
 	}
 
 	public String getNovaSenha1() {

@@ -53,8 +53,8 @@
 				<p:spacer width="0" height="40" />
 				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" disabled="#{loginMB.logado.temPerfil('ATENDENTE')}" />
 				<p:spacer width="40"/>
-				<p:commandButton id="limpa" value="Limpar" immediate="true" ajax="true"
-					update=":gerenciaUsuario, :pesquisa:msgs, :pesquisa:t" action="#{usuarioMB.limpaCampos}" >
+				<p:commandButton id="novoUsuario" value="Novo Usuário" immediate="true" ajax="true"
+					update=":gerenciaUsuario, :pesquisa:msgs" action="#{usuarioMB.limpaCampos}" >
 					<p:resetInput target="gerenciaUsuario" />
 				</p:commandButton>
 		</h:form>
@@ -69,10 +69,9 @@
 					var="usuario" itemLabel="" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" >
 					<p:column headerText="Login" style="width:30%;text-align:center">#{usuario.login}</p:column> 
 					<p:column headerText="Nome Completo" style="width:70%;text-align:center">#{usuario.nomeCompleto}</p:column>
-					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs, t" />
+					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs" />
 			</p:autoComplete>
 			<br />
-			<p:outputLabel id="t" value="#{usuarioMB.usuarioSelecionado}" />
 		</h:form>
 </h:body>
 </html>
