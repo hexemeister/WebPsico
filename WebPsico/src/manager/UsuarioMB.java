@@ -1,7 +1,6 @@
 package manager;
 
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,11 +8,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-
 import modelo.Usuario;
-
 import org.primefaces.event.SelectEvent;
-
 import persistence.UsuarioDao;
 import config.Util;
 
@@ -21,6 +17,9 @@ import config.Util;
 @ViewScoped
 public class UsuarioMB {
 
+	// Falta evitar que psicologas criem admins e outras psicologas
+	// Falta verificar se novo usuario escolheu um login já existente
+	
 	private Usuario usuarioSelecionado;
 	private List<Usuario> listaUsuario;
 
@@ -29,8 +28,8 @@ public class UsuarioMB {
 	private String novaSenha2;
 
 	private UsuarioDao udao;
-	
-	@ManagedProperty(value="#{logado}")
+
+	@ManagedProperty(value = "#{loginMB.logado}")
 	private Usuario logado;
 
 	public UsuarioMB() {
@@ -39,12 +38,9 @@ public class UsuarioMB {
 
 	@PostConstruct
 	public void init() {
-		usuarioSelecionado = ((LoginMB) Util.getObjectSession("loginMB"))
-				.getLogado();
+		usuarioSelecionado = logado;
 	}
 
-	
-	
 	public Usuario getLogado() {
 		return logado;
 	}
@@ -98,24 +94,49 @@ public class UsuarioMB {
 	}
 
 	public void limpaCampos() {
+		Util.findComponent("gerenciaUsuario:senhaAtual").setRendered(false);
+		Util.findComponent("gerenciaUsuario:lbSenhaAtual").setRendered(false);
 		usuarioSelecionado = new Usuario();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Campos Limpos", "Campos Limpos"));
 	}
 
 	public void onItemSelect(SelectEvent event) {
+		Util.findComponent("gerenciaUsuario:senhaAtual").setRendered(true);
+		Util.findComponent("gerenciaUsuario:lbSenhaAtual").setRendered(true);
 		usuarioSelecionado = (Usuario) event.getObject();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuário Selecionado", "Usuário Selecionado"));
 	}
 
+	public void onFocus() {
+		Util.findComponent("gerenciaUsuario:senhaAtual").setRendered(true);
+		Util.findComponent("gerenciaUsuario:lbSenhaAtual").setRendered(true);
+		usuarioSelecionado = logado;
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Selecionado", "Usuário Selecionado"));
+	}
+	
 	public void salvar() {
 		udao = new UsuarioDao();
 		try {
 			// se for um usuario novo...
 			if (usuarioSelecionado.getId() == null) {
-				usuarioSelecionado.setSenha(getSenhaAtual());
-				udao.create(usuarioSelecionado);
+				if (novaSenha1.equals(novaSenha2)
+						&& (novaSenha1 != null | novaSenha1 != "")) {
+					usuarioSelecionado.setSenha(getNovaSenha1());
+					udao.create(usuarioSelecionado);
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage("Usuario "
+									+ usuarioSelecionado.getLogin() + " Salvo",
+									"Usuário Salvo"));
+				} else if (!novaSenha1.equals(novaSenha2)) {
+					throw new ValidatorException(new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							"Senha Não Confere!!",
+							"Digite a senha correta, por favor!"));
+				}
 			} else {
 				// usuario do banco
 				Usuario u = udao.FindById(usuarioSelecionado.getId());

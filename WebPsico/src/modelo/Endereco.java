@@ -25,7 +25,6 @@ public class Endereco {
 	private String cep;
 
 	public Endereco() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Endereco(Integer idEndereco, String logradouro, String bairro,

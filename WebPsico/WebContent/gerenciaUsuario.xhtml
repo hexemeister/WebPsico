@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/resources/template/layout.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head />
-<h:body>
+<ui:define name="corpo">
 	<p:panel header="Gerenciar de Usuário">
 		<h:form id="gerenciaUsuario">
 			<p:focus />
@@ -21,7 +21,7 @@
 				<p:inputText id="login" required="true" placeholder="Login" value="#{usuarioMB.usuarioSelecionado.login}"
 					requiredMessage="Informe o login, por favor!" size="45" />
 				
-				<p:outputLabel for="senhaAtual" value="Senha Atual" />
+				<p:outputLabel id="lbSenhaAtual" for="senhaAtual" value="Senha Atual" />
 				<p:password id="senhaAtual" required="true" placeholder="Senha Atual" value="#{usuarioMB.senhaAtual}"
 					requiredMessage="Informe a senha, por favor!" size="45" />
 				
@@ -51,9 +51,9 @@
  					
 			</p:panelGrid>
 				<p:spacer width="0" height="40" />
-				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" disabled="#{loginMB.logado.temPerfil('ATENDENTE')}" />
+				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" disabled="#{usuarioMB.logado.isAtendente()}" />
 				<p:spacer width="40"/>
-				<p:commandButton id="novoUsuario" value="Novo Usuário" immediate="true" ajax="true"
+				<p:commandButton id="novoUsuario" value="Novo Usuário" immediate="true" ajax="true" disabled="#{usuarioMB.logado.isAtendente()}"
 					update=":gerenciaUsuario, :pesquisa:msgs" action="#{usuarioMB.limpaCampos}" >
 					<p:resetInput target="gerenciaUsuario" />
 				</p:commandButton>
@@ -63,15 +63,16 @@
 		<h:form id="pesquisa">
 		<p:growl id="msgs" />
 			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
-			<p:focus for="loginPesquisa" />
+			<p:focus id="foco" for="loginPesquisa" />
 			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" size="55" maxResults="5" converterMessage="Falha no Converter"
 					value="#{usuarioMB.usuarioSelecionado}" completeMethod="#{usuarioMB.listaUsuarios}" minQueryLength="1" effect="fade"
-					var="usuario" itemLabel="" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" >
+					var="usuario" itemLabel="" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" disabled="#{usuarioMB.logado.isAtendente()}" >
 					<p:column headerText="Login" style="width:30%;text-align:center">#{usuario.login}</p:column> 
 					<p:column headerText="Nome Completo" style="width:70%;text-align:center">#{usuario.nomeCompleto}</p:column>
 					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs" />
+					<p:ajax event="click" listener="#{usuarioMB.onFocus()}" process="@this" update=":gerenciaUsuario, msgs, pesquisa:foco" />
 			</p:autoComplete>
 			<br />
 		</h:form>
-</h:body>
-</html>
+</ui:define>
+</ui:composition>

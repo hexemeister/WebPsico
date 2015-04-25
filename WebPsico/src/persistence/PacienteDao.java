@@ -8,7 +8,6 @@ public class PacienteDao extends GenericDao<Paciente> {
 
 	public PacienteDao() {
 		super(Paciente.class);
-		// TODO Auto-generated constructor stub
 	}
 
 }

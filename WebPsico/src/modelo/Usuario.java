@@ -25,7 +25,6 @@ public class Usuario {
 	private String email;
 
 	public Usuario() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Usuario(Integer id, String login, String senha, String nomeCompleto,
@@ -110,7 +109,19 @@ public class Usuario {
 	public Boolean temPerfil(Perfil perfil) {
 		return this.perfil.equals(perfil);
 	}
-	
+
+	public Boolean isAdm() {
+		return this.perfil.equals(Perfil.ADMINISTRADOR);
+	}
+
+	public Boolean isPsicologa() {
+		return this.perfil.equals(Perfil.PSICOLOGA);
+	}
+
+	public Boolean isAtendente() {
+		return this.perfil.equals(Perfil.ATENDENTE);
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha

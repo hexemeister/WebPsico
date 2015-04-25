@@ -34,7 +34,6 @@ public class Telefone implements Serializable {
 	private TipoTelefone tipoTelefone;
 
 	public Telefone() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Telefone(Integer idTelefone, List<Paciente> pacientes, String ddd,

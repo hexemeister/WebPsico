@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,9 @@ public class Util {
 	    HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();    
 	    HttpSession session = request.getSession(true);    
 	    return session.getAttribute(attribute);               
+	}
+	public static UIComponent findComponent(String componente) {
+		return FacesContext.getCurrentInstance().getViewRoot().findComponent(componente);
 	}
 	
 	/**

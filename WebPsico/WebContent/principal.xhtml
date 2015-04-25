@@ -17,7 +17,7 @@
 		<p:growl id="messages" />
 		<p:menubar>
 			<p:submenu label="Cadastro">
-				<p:menuitem value="Gerencia Usuário" url="/gerenciaUsuario.jsf" />
+				<p:menuitem value="Gerencia Usuário" url="/gerenciaUsuario.jsf" disabled="#{usuarioMB.logado.isAtendente()}" rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}"/>
 				<p:menuitem value="Gerencia Paciente" url="/gerenciaPaciente.jsf" />
 			</p:submenu>
 
