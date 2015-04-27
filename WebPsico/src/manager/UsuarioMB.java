@@ -19,7 +19,7 @@ public class UsuarioMB {
 
 	// Falta evitar que psicologas criem admins e outras psicologas
 	// Falta verificar se novo usuario escolheu um login já existente
-	
+
 	private Usuario usuarioSelecionado;
 	private List<Usuario> listaUsuario;
 
@@ -116,7 +116,7 @@ public class UsuarioMB {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuário Selecionado", "Usuário Selecionado"));
 	}
-	
+
 	public void salvar() {
 		udao = new UsuarioDao();
 		try {
@@ -124,6 +124,14 @@ public class UsuarioMB {
 			if (usuarioSelecionado.getId() == null) {
 				if (novaSenha1.equals(novaSenha2)
 						&& (novaSenha1 != null | novaSenha1 != "")) {
+					// verifica se o login foi preenchido
+					if (!usuarioSelecionado.getLogin().equals("")
+							| !usuarioSelecionado.getLogin().equals(null)) {
+						// se foi, verifica se o novo login já existe
+						if (udao.findLogin(usuarioSelecionado) != null) {
+							throw new Exception();
+						}
+					}
 					usuarioSelecionado.setSenha(getNovaSenha1());
 					udao.create(usuarioSelecionado);
 					FacesContext.getCurrentInstance().addMessage(
@@ -133,8 +141,7 @@ public class UsuarioMB {
 									"Usuário Salvo"));
 				} else if (!novaSenha1.equals(novaSenha2)) {
 					throw new ValidatorException(new FacesMessage(
-							FacesMessage.SEVERITY_ERROR,
-							"Senha Não Confere!!",
+							FacesMessage.SEVERITY_ERROR, "Senha Não Confere!!",
 							"Digite a senha correta, por favor!"));
 				}
 			} else {
@@ -189,6 +196,5 @@ public class UsuarioMB {
 									"Login já existe",
 									"Já existe um usuário com este login, escolha outro!"));
 		}
-		// limpaCampos();
 	}
 }

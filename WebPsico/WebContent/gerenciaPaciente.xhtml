@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -9,7 +8,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:define name="corpo">
+	<ui:define name="corpo">
 		<p:panel header="Gerenciar Paciente">
 			<h:form id="fromPac">
 				<p:tabView id="abas">
@@ -19,11 +18,11 @@
 						<h:panelGrid columns="5" id="dados"
 							columnClasses="label, value, ,label, value">
 
-							<h:outputText value="Nome Completo: *" />
-							<p:inputText value="#{userWizard.user.firstname}" required="true"
-								label="Nome Completo" placeholder="Nome Completo" size="30" />
+							<h:outputText value="Nome Completo:" />
+							<p:inputText value="" required="true"
+								label="Nome Completo" placeholder="Informe o nome completo do Paciente, por favor!" size="30" />
 							<p style="width: 150px" />
-							<p:outputLabel for="cpf" value="CPF: " />
+							<p:outputLabel for="cpf" value="CPF:" />
 							<p:inputMask id="cpf" value="#{maskView.date}"
 								mask="999.999.999-99" required="true" />
 
@@ -32,40 +31,40 @@
 								locale="de" navigator="true" pattern="dd-MM-yyyy"
 								mask="99/99/9999" />
 							<p style="width: 150px" />
-							<h:outputText value="Idade: " />
+							<h:outputText value="Idade:" />
 							<p:inputText value="#{userWizard.user.age}" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
 							<p:selectOneMenu id="sexo" value="#{selectOneMenuView.console}">
-								<f:selectItem itemLabel="Feminino" itemValue="F" />
-								<f:selectItem itemLabel="Masculino" itemValue="M" />
+								<f:selectItem itemLabel="Feminino" itemValue="FEMININO" />
+								<f:selectItem itemLabel="Masculino" itemValue="MASCULINO" />
 							</p:selectOneMenu>
 							<p style="width: 150px" />
 							<p:outputLabel for="estadoCivil" value="Estado Civil:" />
 							<p:selectOneMenu id="estadoCivil"
 								value="#{selectOneMenuView.console}">
-								<f:selectItem itemLabel="Solteiro(a)" itemValue="solteiro" />
-								<f:selectItem itemLabel="Noivo(a)" itemValue="noivo" />
-								<f:selectItem itemLabel="Casado(a)" itemValue="casado" />
-								<f:selectItem itemLabel="Separado(a)" itemValue="separado" />
-								<f:selectItem itemLabel="Viúvo(a)" itemValue="viuvo" />
+								<f:selectItem itemLabel="Solteiro(a)" itemValue="SOLTEIRO" />
+								<f:selectItem itemLabel="Noivo(a)" itemValue="NOIVO" />
+								<f:selectItem itemLabel="Casado(a)" itemValue="CASADO" />
+								<f:selectItem itemLabel="Separado(a)" itemValue="SEPARADO" />
+								<f:selectItem itemLabel="Viúvo(a)" itemValue="VIUVO" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="grau" value="Grau de Instrução:" />
 							<p:selectOneMenu id="grau" value="#{selectOneMenuView.console}">
-								<f:selectItem itemLabel="Analfabeto" itemValue="semInstrucao" />
+								<f:selectItem itemLabel="Analfabeto" itemValue="ANALFABETO" />
 								<f:selectItem itemLabel="Ensino Fundamental Incompleto"
-									itemValue="EnsFundamentalIncompleto" />
+									itemValue="FUNDAMENTAL_INCOMPLETO" />
 								<f:selectItem itemLabel="Ensino Fundamental Completo"
-									itemValue="EnsFundamentalCompleto" />
+									itemValue="FUNDAMENTAL_COMPLETO" />
 								<f:selectItem itemLabel="Ensino Médio Incompleto"
-									itemValue="EnsMedioIncompleto" />
+									itemValue="MEDIO_INCOMPLETO" />
 								<f:selectItem itemLabel="Ensino Médio Completo"
-									itemValue="EnsMedioCompleto" />
+									itemValue="MEDIO_COMPLETO" />
 								<f:selectItem itemLabel="Ensino Superior Incompleto"
-									itemValue="EnsSuperiorIncompleto" />
+									itemValue="SUPERIOR_INCOMPLETO" />
 								<f:selectItem itemLabel="Ensino Superior Completo"
-									itemValue="EnsSuperiorCompleto" />
+									itemValue="SUPERIOR_COMPLETO" />
 							</p:selectOneMenu>
 							<p style="width: 150px" />
 							<p:outputLabel for="profissao" value="Profissão:" />
@@ -86,8 +85,8 @@
 
 					</p:tab>
 					<p:tab id="enderecoPac" title="Endereço Pessoal">
-						<p:messages id="msg"/>
-						<h:panelGrid id="endereco" columns="5" 
+						<p:messages id="msg" />
+						<h:panelGrid id="endereco" columns="5"
 							columnClasses="label, value, ,label, value">
 
 							<h:outputText value="Logradouro: *" />
@@ -99,7 +98,7 @@
 								required="true" />
 
 							<p:outputLabel for="numero" value="Numero:" />
-							<p:inputText id="numero"  />
+							<p:inputText id="numero" />
 							<p style="width: 150px" />
 							<p:outputLabel for="complemento" value="Complemento:" />
 							<p:inputText id="complemento" size="30" />
@@ -116,72 +115,103 @@
 							<p:inputText id="bairro" placeholder="Qual o Bairro" size="30" />
 							<p style="width: 150px" />
 							<p:outputLabel id="cid" for="cidade" value="Cidade: " />
-							<p:inputText id="cidade" size="30" placeholder="Qual a cidade"/>
+							<p:inputText id="cidade" size="30" placeholder="Qual a cidade" />
 
 							<p:outputLabel for="estado" value="Estado: " />
 							<p:selectOneMenu id="estado" value="#{dropdownView.country}">
-								<p:ajax listener="#{dropdownView.onCountryChange}"/>
+								<p:ajax listener="#{dropdownView.onCountryChange}" />
 								<f:selectItem itemLabel="Selecionar um estado" itemValue=""
 									noSelectionOption="true" />
 								<f:selectItems value="#{dropdownView.countries}" />
 							</p:selectOneMenu>
 						</h:panelGrid>
 					</p:tab>
-					
+
 					<p:tab id="sessao" title="Dados da Sessão">
 						<p:messages />
-							<h:panelGrid columns="5" columnClasses="label, value, ,label, value" >
-							
-								<h:outputText value="Profissional: *" />
-								<p:inputText value="#{userWizard.user.firstnamer}"
-									required="true" placeholder="Qual o profissional"
-									label="profissional" size="30"/>
-								<p style="width: 150px" />
-								<h:outputText value="Nome da Indicação: *" />
-								<p:inputText value="#{userWizard.user.firstnamee}"
-									required="true" placeholder="Nome de quem indicou"
-									label="indicou" size="30" />
+						<h:panelGrid columns="5"
+							columnClasses="label, value, ,label, value">
 
-								<p:outputLabel for="dataInicio" value="Data da Avaliação:" />
-								<p:calendar id="dataInicio" value="#{calendarView.date5}"
-									locale="de" navigator="true" pattern="dd-MMM-yyyy"
-									required="true" mask="99/99/9999" />
-								<p style="width: 150px" />
-								<p:outputLabel for="frequencia" value="Frequencia das sessões: " />
-								<p:selectOneMenu id="frequencia"
-									value="#{selectOneMenuView.console}">
-									<f:selectItem itemLabel="Manhã" itemValue="manha" />
-									<f:selectItem itemLabel="Tarde" itemValue="tarde" />
-									<f:selectItem itemLabel="Noite" itemValue="noite" />
-								</p:selectOneMenu>
+							<h:outputText value="Profissional: *" />
+							<p:inputText value="#{userWizard.user.firstnamer}"
+								required="true" placeholder="Qual o profissional"
+								label="profissional" size="30" />
+							<p style="width: 150px" />
+							<h:outputText value="Nome da Indicação: *" />
+							<p:inputText value="#{userWizard.user.firstnamee}"
+								required="true" placeholder="Nome de quem indicou"
+								label="indicou" size="30" />
 
-								<p:outputLabel for="horaMarcada" value="Hora Marcada:" />
-								<p:inputMask id="horaMarcada" value="#{maskView.time}"
-									mask="99:99" />
-								<p style="width: 150px" />
-								<p:outputLabel for="precoCombinado" value="Preço Combinado:" />
-								<p:inputMask id="precoCombinado" value="#{maskView.time}"
-									mask="999,99" />
-							</h:panelGrid>
+							<p:outputLabel for="dataInicio" value="Data da Avaliação:" />
+							<p:calendar id="dataInicio" value="#{calendarView.date5}"
+								locale="de" navigator="true" pattern="dd-MMM-yyyy"
+								required="true" mask="99/99/9999" />
+							<p style="width: 150px" />
+							<p:outputLabel for="frequencia" value="Frequencia das sessões: " />
+							<p:selectOneMenu id="frequencia"
+								value="#{selectOneMenuView.console}">
+								<f:selectItem itemLabel="Manhã" itemValue="manha" />
+								<f:selectItem itemLabel="Tarde" itemValue="tarde" />
+								<f:selectItem itemLabel="Noite" itemValue="noite" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="horaMarcada" value="Hora Marcada:" />
+							<p:inputMask id="horaMarcada" value="#{maskView.time}"
+								mask="99:99" />
+							<p style="width: 150px" />
+							<p:outputLabel for="precoCombinado" value="Preço Combinado:" />
+							<p:inputMask id="precoCombinado" value="#{maskView.time}"
+								mask="999,99" />
+						</h:panelGrid>
 					</p:tab>
-					<p:tab id="contato" title="Adicionar Contatos">
-						<!--  aki podia levar para os contatos 
-e para adicionar + um contato 
--->
+					<p:tab id="contato" title="Contatos">
+						<p:dataTable id="singleDT" rows="10" var="car"
+							value="#{dtSelectionView.cars2}" selectionMode="single"
+							selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}">
+							<p:column headerText="Nome">
+								<h:outputText value="" />
+							</p:column>
+							<p:column headerText="Telefone">
+								<h:outputText value="" />
+							</p:column>
+							<p:column headerText="Grau de Parentesco">
+								<h:outputText value="" />
+							</p:column>
+						</p:dataTable>
 					</p:tab>
 				</p:tabView>
-					<p:spacer width="0" height="40" />
-					<p:commandButton value="Salvar" />
-					<p:spacer width="50" height="40"/>
-					<p:commandButton value="Limpar" />
 			</h:form>
 		</p:panel>
 		<p:separator />
-			<h:form id="pesquisaPaciente">
-					<p:outputLabel for="pesquisapaci" value="Procurar por um Paciente: " />
-					<p:inputText id="pesquisapaci" placeholder="Paciente procurado"
-							requiredMessage="Informe o nome do paciente  a ser pesquisado" size="40" />
-					<p:spacer width="20" />
-			</h:form>
-</ui:define>
+
+		<h:form id="pesquisaPaciente">
+			<p:outputLabel for="pesquisapaci" value="Procurar por um Paciente: " />
+			<p:inputText id="pesquisapaci" placeholder="Paciente procurado"
+				requiredMessage="Informe o nome do paciente  a ser pesquisado"
+				size="30" />
+			<p:spacer width="20" height="30" />
+			<p:commandButton value="Salvar / Atualizar" />
+			<p:spacer width="20" height="30" />
+			<p:commandButton value="Novo Paciente" />
+			<p:spacer width="20" height="30" />
+			<p:commandButton value="Desativar" />
+		</h:form>
+		<p:separator />
+		
+		
+		<p:dataTable id="tabelaPaciente" rows="10" var="linha"
+			value="#{pacienteMB.listaPaciente}"
+			selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{pacienteMB.pacienteSelecionado.id}">
+			<p:column headerText="Nome">
+				<h:outputText value="#{linha.nome}" />
+			</p:column>
+			<p:column headerText="Telefone">
+				<h:outputText value="(#{linha.telefones.get(0).ddd})#{linha.telefones.get(0).telefone}" />
+			</p:column>
+			<p:column headerText="Email ">
+				<h:outputText value="#{linha.email}"/>
+			</p:column>
+
+		</p:dataTable>
+	</ui:define>
 </ui:composition>

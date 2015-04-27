@@ -37,8 +37,8 @@
 				<p:outputLabel for="perfil" value="Perfil" />
 				<p:selectOneButton id="perfil" required="true" value="#{usuarioMB.usuarioSelecionado.perfil}"
 					requiredMessage="Selecione um perfil, por favor!">
-					<f:selectItem itemLabel="Administrador" itemValue="ADMINISTRADOR" />
-					<f:selectItem itemLabel="Psicóloga" itemValue="PSICOLOGA" />
+					<f:selectItem itemLabel="Administrador" itemValue="ADMINISTRADOR" itemDisabled="#{!(usuarioMB.logado.isAdm())}" />
+					<f:selectItem itemLabel="Psicóloga" itemValue="PSICOLOGA" itemDisabled="#{usuarioMB.logado.isAtendente()}" />
 					<f:selectItem itemLabel="Atendente" itemValue="ATENDENTE" />
 				</p:selectOneButton>
 
