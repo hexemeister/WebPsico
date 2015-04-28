@@ -22,7 +22,7 @@ public class Contato extends Pessoa implements Serializable {
 	private String parentesco;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "contato_telefone", joinColumns = @JoinColumn(name = "ID_CONTATO"), inverseJoinColumns = @JoinColumn(name = "ID_TELEFONE"))
+	@JoinTable(name = "CONTATO_TELEFONE", joinColumns = @JoinColumn(name = "ID_CONTATO"), inverseJoinColumns = @JoinColumn(name = "ID_TELEFONE"))
 	private List<Telefone> telefones;
 
 	public Contato() {

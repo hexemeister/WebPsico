@@ -1,5 +1,7 @@
 package manager;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -11,8 +13,10 @@ import persistence.UsuarioDao;
 
 @ManagedBean(name = "loginMB")
 @SessionScoped
-public class LoginMB {
+public class LoginMB implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Usuario usuario = new Usuario();
 	private Usuario logado = new Usuario();
 

@@ -197,8 +197,8 @@
 		
 		<p:separator />
 		
-		<p:dataTable id="tabelaPaciente" rows="10" var="linha"
-			value="#{pacienteMB.listaPaciente}" selectionMode="single"
+		<p:dataTable id="tabelaPaciente" rows="10" var="linha" emptyMessage="Nenhum paciente cadastrado."
+			value="#{pacienteMB.listaPaciente}" selectionMode="single" paginator="true" paginatorPosition="bottom"
 			selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
 			<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}" update=":formPac:growl, :formPac" />
         	<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}" update=":formPac:growl, :formPac" />
