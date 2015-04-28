@@ -1,23 +1,33 @@
 package manager;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
+import javax.faces.context.FacesContext;
+
+import modelo.Paciente;
+
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 import persistence.PacienteDao;
-import modelo.Paciente;
 
 @ManagedBean
 @RequestScoped
-public class PacienteMB {
+public class PacienteMB implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	Paciente pacienteSelecionado;
 	
-	DataModel<Paciente> listaPaciente;
+	List<Paciente> listaPaciente;
 	
 	public PacienteMB() {
-		listaPaciente = new ListDataModel<Paciente>(new PacienteDao().findAll());
+		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
 	}
 
 	public Paciente getPacienteSelecionado() {
@@ -28,14 +38,22 @@ public class PacienteMB {
 		this.pacienteSelecionado = pacienteSelecionado;
 	}
 
-	public DataModel<Paciente> getListaPaciente() {
+	public List<Paciente> getListaPaciente() {
 		return listaPaciente;
 	}
 
-	public void setListaPaciente(DataModel<Paciente> listaPaciente) {
+	public void setListaPaciente(List<Paciente> listaPaciente) {
 		this.listaPaciente = listaPaciente;
 	}
 	
-	
+	public void onRowSelect(SelectEvent event) {
+        FacesMessage msg = new FacesMessage("Paciente Selecionado", ((Paciente) event.getObject()).getNome());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+ 
+    public void onRowUnselect(UnselectEvent event) {
+    	FacesMessage msg = new FacesMessage("Seleção Limpa", ((Paciente) event.getObject()).getNome());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 	
 }
