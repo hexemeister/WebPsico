@@ -1,10 +1,15 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -12,11 +17,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -34,16 +39,20 @@ public abstract class Pessoa implements Serializable {
 	private Sexo sexo;
 
 	@Temporal(TemporalType.DATE)
-	private Calendar dataNascimento;
-	// private Integer idade;
+	private Date dataNascimento;
+
+	@Transient
+	private Integer idade;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 	private String cpf;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	// @JoinTable(name="CONTATO_TELEFONE", joinColumns=@JoinColumn(name="ID_CONTATO"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
-	private List<Telefone> telefones;
+	@Column(length = 10)
+	private String telefoneFixo;
+
+	@Column(length = 11)
+	private String telefoneCelular;
 
 	@Enumerated(EnumType.STRING)
 	private Uf naturalidade;
@@ -62,10 +71,11 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	public Pessoa(Integer id, String nome, String email, Sexo sexo,
-			Calendar dataNascimento, Endereco endereco, String cpf,
-			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
-			EstadoCivil estadoCivil, Escolaridade escolaridade,
-			String profissao, Boolean desativado, String obs) {
+			Date dataNascimento, Endereco endereco, String cpf,
+			String telefoneFixo, String telefoneCelular, Uf naturalidade,
+			String nacionalidade, EstadoCivil estadoCivil,
+			Escolaridade escolaridade, String profissao, Boolean desativado,
+			String obs) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -74,7 +84,8 @@ public abstract class Pessoa implements Serializable {
 		this.dataNascimento = dataNascimento;
 		this.endereco = endereco;
 		this.cpf = cpf;
-		this.telefones = telefones;
+		this.telefoneFixo = telefoneFixo;
+		this.telefoneCelular = telefoneCelular;
 		this.naturalidade = naturalidade;
 		this.nacionalidade = nacionalidade;
 		this.estadoCivil = estadoCivil;
@@ -88,12 +99,12 @@ public abstract class Pessoa implements Serializable {
 	public String toString() {
 		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email
 				+ ", sexo=" + sexo + ", dataNascimento=" + dataNascimento
-				+ ", endereco=" + endereco + ", cpf=" + cpf + ", telefones="
-				+ telefones + ", naturalidade=" + naturalidade
-				+ ", nacionalidade=" + nacionalidade + ", estadoCivil="
-				+ estadoCivil + ", escolaridade=" + escolaridade
-				+ ", profissao=" + profissao + ", desativado=" + desativado
-				+ ", obs=" + obs + "]";
+				+ ", endereco=" + endereco + ", cpf=" + cpf + ", telefoneFixo="
+				+ telefoneFixo + ", telefoneCelular=" + telefoneCelular
+				+ ", naturalidade=" + naturalidade + ", nacionalidade="
+				+ nacionalidade + ", estadoCivil=" + estadoCivil
+				+ ", escolaridade=" + escolaridade + ", profissao=" + profissao
+				+ ", desativado=" + desativado + ", obs=" + obs + "]";
 	}
 
 	public Integer getId() {
@@ -128,12 +139,20 @@ public abstract class Pessoa implements Serializable {
 		this.sexo = sexo;
 	}
 
-	public Calendar getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Calendar dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public Integer getIdade() {
+		Instant instant = Instant.ofEpochMilli(dataNascimento.getTime());
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant,
+				ZoneId.systemDefault());
+		return idade = Period.between(LocalDate.from(localDateTime),
+				LocalDate.now()).getYears();
 	}
 
 	public Endereco getEndereco() {
@@ -152,12 +171,20 @@ public abstract class Pessoa implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public List<Telefone> getTelefones() {
-		return telefones;
+	public String getTelefoneFixo() {
+		return "("+telefoneFixo.substring(0,2)+") "+telefoneFixo.substring(2, 6)+"-"+telefoneFixo.substring(6, 10);
 	}
 
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
+	public void setTelefoneFixo(String telefoneFixo) {
+		this.telefoneFixo = telefoneFixo;
+	}
+
+	public String getTelefoneCelular() {
+		return "("+telefoneCelular.substring(0,2)+") "+telefoneCelular.substring(2, 7)+"-"+telefoneCelular.substring(7, 11);
+	}
+
+	public void setTelefoneCelular(String telefoneCelular) {
+		this.telefoneCelular = telefoneCelular;
 	}
 
 	public Uf getNaturalidade() {
@@ -247,7 +274,9 @@ public abstract class Pessoa implements Serializable {
 				+ ((profissao == null) ? 0 : profissao.hashCode());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
 		result = prime * result
-				+ ((telefones == null) ? 0 : telefones.hashCode());
+				+ ((telefoneCelular == null) ? 0 : telefoneCelular.hashCode());
+		result = prime * result
+				+ ((telefoneFixo == null) ? 0 : telefoneFixo.hashCode());
 		return result;
 	}
 
@@ -318,10 +347,15 @@ public abstract class Pessoa implements Serializable {
 			return false;
 		if (sexo != other.sexo)
 			return false;
-		if (telefones == null) {
-			if (other.telefones != null)
+		if (telefoneCelular == null) {
+			if (other.telefoneCelular != null)
 				return false;
-		} else if (!telefones.equals(other.telefones))
+		} else if (!telefoneCelular.equals(other.telefoneCelular))
+			return false;
+		if (telefoneFixo == null) {
+			if (other.telefoneFixo != null)
+				return false;
+		} else if (!telefoneFixo.equals(other.telefoneFixo))
 			return false;
 		return true;
 	}

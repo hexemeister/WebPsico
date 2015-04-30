@@ -1,16 +1,11 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -21,37 +16,25 @@ public class Contato extends Pessoa implements Serializable {
 	private String religiao;
 	private String parentesco;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "CONTATO_TELEFONE", joinColumns = @JoinColumn(name = "ID_CONTATO"), inverseJoinColumns = @JoinColumn(name = "ID_TELEFONE"))
-	private List<Telefone> telefones;
-
 	public Contato() {
 		super();
 	}
 
-	public Contato(Integer id, String nome, String email, Sexo sexo,
-			Calendar dataNascimento, Endereco endereco, String cpf,
-			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
-			EstadoCivil estadoCivil, Escolaridade escolaridade,
-			String profissao, Boolean desativado, String obs, String religiao,
-			String parentesco, List<Telefone> telefones2) {
-		super(id, nome, email, sexo, dataNascimento, endereco, cpf, telefones,
-				naturalidade, nacionalidade, estadoCivil, escolaridade,
-				profissao, desativado, obs);
+	public Contato(String religiao, String parentesco) {
+		super();
 		this.religiao = religiao;
 		this.parentesco = parentesco;
-		telefones = telefones2;
 	}
 
 	public Contato(Integer id, String nome, String email, Sexo sexo,
-			Calendar dataNascimento, Endereco endereco, String cpf,
-			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
-			EstadoCivil estadoCivil, Escolaridade escolaridade,
-			String profissao, Boolean desativado, String obs, String religiao,
-			String parentesco) {
-		super(id, nome, email, sexo, dataNascimento, endereco, cpf, telefones,
-				naturalidade, nacionalidade, estadoCivil, escolaridade,
-				profissao, desativado, obs);
+			Date dataNascimento, Endereco endereco, String cpf,
+			String telefoneFixo, String telefoneCelular, Uf naturalidade,
+			String nacionalidade, EstadoCivil estadoCivil,
+			Escolaridade escolaridade, String profissao, Boolean desativado,
+			String obs, String religiao, String parentesco) {
+		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
+				telefoneFixo, telefoneCelular, naturalidade, nacionalidade,
+				estadoCivil, escolaridade, profissao, desativado, obs);
 		this.religiao = religiao;
 		this.parentesco = parentesco;
 	}
@@ -76,14 +59,6 @@ public class Contato extends Pessoa implements Serializable {
 
 	public void setParentesco(String parentesco) {
 		this.parentesco = parentesco;
-	}
-
-	public List<Telefone> getTelefones() {
-		return telefones;
-	}
-
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
 	}
 
 	@Override
@@ -127,10 +102,11 @@ public class Contato extends Pessoa implements Serializable {
 		private String nome;
 		private String email;
 		private Sexo sexo;
-		private Calendar dataNascimento;
+		private Date dataNascimento;
 		private Endereco endereco;
 		private String cpf;
-		private List<Telefone> telefones;
+		private String telefoneFixo;
+		private String telefoneCelular;
 		private Uf naturalidade;
 		private String nacionalidade;
 		private EstadoCivil estadoCivil;
@@ -159,7 +135,7 @@ public class Contato extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder dataNascimento(Calendar dataNascimento) {
+		public Builder dataNascimento(Date dataNascimento) {
 			this.dataNascimento = dataNascimento;
 			return this;
 		}
@@ -174,8 +150,13 @@ public class Contato extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder telefones(List<Telefone> telefones) {
-			this.telefones = telefones;
+		public Builder telefoneFixo(String telefoneFixo) {
+			this.telefoneFixo = telefoneFixo;
+			return this;
+		}
+
+		public Builder telefoneCelular(String telefoneCelular) {
+			this.telefoneCelular = telefoneCelular;
 			return this;
 		}
 
@@ -237,7 +218,8 @@ public class Contato extends Pessoa implements Serializable {
 		this.setDataNascimento(builder.dataNascimento);
 		this.setEndereco(builder.endereco);
 		this.setCpf(builder.cpf);
-		this.setTelefones(builder.telefones);
+		this.setTelefoneFixo(builder.telefoneFixo);
+		this.setTelefoneCelular(builder.telefoneCelular);
 		this.setNaturalidade(builder.naturalidade);
 		this.setNacionalidade(builder.nacionalidade);
 		this.setEstadoCivil(builder.estadoCivil);

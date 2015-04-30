@@ -1,8 +1,7 @@
 package config;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.component.UIComponent;
@@ -19,8 +18,6 @@ import modelo.Indicacao;
 import modelo.Paciente;
 import modelo.Perfil;
 import modelo.Sexo;
-import modelo.Telefone;
-import modelo.TipoTelefone;
 import modelo.Turno;
 import modelo.Uf;
 import modelo.Usuario;
@@ -71,10 +68,11 @@ public class Util {
 		Contato c1 = new Contato.Builder().nome("Venina Val Porto")
 											.email("venina@gmail.com")
 											.sexo(Sexo.FEMININO)
-											.dataNascimento(new GregorianCalendar(1945, 8, 21))
+											.dataNascimento(new Date(1945, 8, 21))
 											.endereco(new Endereco(null,"Estrada Curipós", "JPA", "521","Jardim Clarice","Rio de Janeiro",Uf.RJ,"22000-000"))
 											.cpf("11111111")
-											.telefones(new ArrayList<Telefone>(Arrays.asList(new Telefone(null,"21","24477654",TipoTelefone.RESIDENCIAL))))
+											.telefoneFixo("2124477654")
+											.telefoneCelular("21999998888")
 											.naturalidade(Uf.RJ)
 											.nacionalidade("Brasileiro")
 											.estadoCivil(EstadoCivil.CASADO)
@@ -88,7 +86,7 @@ public class Util {
 		Contato c2 = new Contato.Builder().nome("Luiz Augusto Andrade de Moraes")
 				.email("luiz@gmail.com")
 				.sexo(Sexo.MASCULINO)
-				.dataNascimento(new GregorianCalendar(1952, 3, 16))
+				.dataNascimento(new Date(1952, 3, 16))
 				.endereco(new Endereco.Builder()
 								.logradouro("Rua Primeiros Sonhos")
 								.numero("123")
@@ -100,7 +98,8 @@ public class Util {
 								.build()
 							)
 				.cpf("22222222222")
-				.telefones(new ArrayList<Telefone>(Arrays.asList(new Telefone(null,"21","988972975",TipoTelefone.CELULAR))))
+				.telefoneFixo("2133339999")
+				.telefoneCelular("21888887777")
 				.naturalidade(Uf.RJ)
 				.nacionalidade("Brasileiro")
 				.estadoCivil(EstadoCivil.VIUVO)
@@ -130,10 +129,11 @@ public class Util {
 											.nome("Lucas Val Porto")
 											.email("lucas@gmail.com")
 											.sexo(Sexo.MASCULINO)
-											.dataNascimento(new GregorianCalendar(2005, 5, 11))
+											.dataNascimento(new Date(2005, 2, 11))
 											.endereco(new Endereco(null,"Estrada do Dendê", "Ilha do Governador", "542","Tauá","Rio de Janeiro",Uf.RJ,"21920-000"))
 											.cpf("123456789")
-											.telefones(new ArrayList<Telefone>(Arrays.asList(new Telefone(null,"21","33932975",TipoTelefone.RESIDENCIAL)) ))
+											.telefoneFixo("2133932975")
+											.telefoneCelular("21999998888")
 											.naturalidade(Uf.RJ)
 											.nacionalidade("Brasileiro")
 											.estadoCivil(EstadoCivil.SOLTEIRO)
@@ -141,13 +141,11 @@ public class Util {
 											.profissao("Estudante")
 											.desativado(false)
 											.indicacao(new Indicacao(null,null,"Regina Lucy","Médica"))
-											.dataInicio(new GregorianCalendar(2008, 1, 1) )
-											.dataUtimaSessao(new GregorianCalendar(2015, 5, 11))
-											.frequencia("15 em 15 dias")
+											.dataInicio(new Date(2008, 1, 1) )
+											.dataUtimaSessao(new Date(2015, 3, 11))
 											.preferenciaTurno(Turno.TARDE)
 											.preco(320.)
 											.build();
-		
 		PacienteDao pdao = new PacienteDao();
 
 		List<Paciente> lista = new ArrayList<Paciente>();

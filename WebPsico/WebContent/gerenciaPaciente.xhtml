@@ -6,6 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="corpo">
@@ -27,12 +28,12 @@
 								mask="999.999.999-99" required="true" />
 
 							<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
-							<p:calendar id="dataNascimento" value="#{calendarView.date5}"
+							<p:calendar id="dataNascimento" value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
 								locale="de" navigator="true" pattern="dd-MM-yyyy"
 								mask="99/99/9999" />
 							<p style="width: 150px" />
-							<h:outputText value="Idade:" />
-							<p:inputText value="#{userWizard.user.age}" />
+							<p:outputLabel value="Idade:" />
+							<p:outputLabel id="idade" value="#{pacienteMB.pacienteSelecionado.idade}" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
 							<p:selectOneMenu id="sexo" value="#{pacienteMB.pacienteSelecionado.sexo}">
@@ -102,12 +103,12 @@
 							<p:outputLabel for="complemento" value="Complemento:" />
 							<p:inputText id="complemento" value="#{pacienteMB.pacienteSelecionado.endereco.complemento}" size="30" />
 
-							<p:outputLabel for="cel" value="Celular: " />
-							<p:inputMask id="cel" value="#{maskView.phone}"
+							<p:outputLabel for="cel" value="Telefone Celular: " />
+							<p:inputMask id="cel" value="#{pacienteMB.pacienteSelecionado.telefoneCelular}"
 								mask="(99) 99999-9999" required="true" />
 							<p style="width: 150px" />
-							<p:outputLabel for="tel" value="Telefone Residencial: " />
-							<p:inputMask id="tel" value="#{pacienteMB.pacienteSelecionado.telefones.get(0).ddd}#{pacienteMB.pacienteSelecionado.telefones.get(0).telefone}"
+							<p:outputLabel for="tel" value="Telefone Fixo: " />
+							<p:inputMask id="tel" value="#{pacienteMB.pacienteSelecionado.telefoneFixo}"
 								mask="(99) 9999-9999" />
 
 							<p:outputLabel id="bai" for="bairro" value="Bairro: " />
@@ -205,8 +206,11 @@
 			<p:column headerText="Nome">
 				<h:outputText value="#{linha.nome}" />
 			</p:column>
-			<p:column headerText="Telefone">
-				<h:outputText value="(#{linha.telefones.get(0).ddd})#{linha.telefones.get(0).telefone}" />
+			<p:column headerText="Telefone Fixo">
+				<h:outputText value="#{linha.telefoneFixo}" />
+			</p:column>
+			<p:column headerText="Telefone Celular">
+				<h:outputText value="#{linha.telefoneCelular}" />
 			</p:column>
 			<p:column headerText="Email ">
 				<h:outputText value="#{linha.email}"/>

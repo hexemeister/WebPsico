@@ -1,16 +1,13 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,61 +22,44 @@ public class Paciente extends Pessoa implements Serializable {
 	private Indicacao indicacao; // profissional que indicou a psicologa
 
 	@Temporal(TemporalType.DATE)
-	private Calendar dataInicio; // data da primeira consulta
+	private Date dataInicio; // data da primeira consulta
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar dataUtimaSessao; // Última sessão que o paciente esteve
+	private Date dataUtimaSessao; // Última sessão que o paciente esteve
 										// presente
-	private String frequencia; // preferencia de frequencia de marcacao das
-								// sessoes, meramente informativo
 	@Enumerated(EnumType.STRING)
 	private Turno preferenciaTurno; // preferencia de horario para marcacao
 	private Double preco; // Valor combinado entre o psicologo e o paciente por
-							// mês
+							// sessão
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="PACIENTE_TELEFONE", joinColumns= @JoinColumn(name="ID_PACIENTE"),inverseJoinColumns=@JoinColumn(name="ID_TELEFONE"))
-	private List<Telefone> telefones;
-	
 	public Paciente() {
 	}
-		
-	public Paciente(Integer id, String nome, String email, Sexo sexo,
-			Calendar dataNascimento, Endereco endereco, String cpf,
-			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
-			EstadoCivil estadoCivil, Escolaridade escolaridade,
-			String profissao, Boolean desativado, String obs,
-			Indicacao indicacao, Calendar dataInicio, Calendar dataUtimaSessao,
-			String frequencia, Turno preferenciaTurno, Double preco,
-			List<Telefone> telefones2) {
-		super(id, nome, email, sexo, dataNascimento, endereco, cpf, telefones,
-				naturalidade, nacionalidade, estadoCivil, escolaridade,
-				profissao, desativado, obs);
+
+	public Paciente(Indicacao indicacao, Date dataInicio,
+			Date dataUtimaSessao, String frequencia,
+			Turno preferenciaTurno, Double preco) {
+		super();
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
 		this.dataUtimaSessao = dataUtimaSessao;
-		this.frequencia = frequencia;
 		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
-		telefones = telefones2;
 	}
 
-
-
 	public Paciente(Integer id, String nome, String email, Sexo sexo,
-			Calendar dataNascimento, Endereco endereco, String cpf,
-			List<Telefone> telefones, Uf naturalidade, String nacionalidade,
-			EstadoCivil estadoCivil, Escolaridade escolaridade,
-			String profissao, Boolean desativado, String obs,
-			Indicacao indicacao, Calendar dataInicio, Calendar dataUtimaSessao,
-			String frequencia, Turno preferenciaTurno, Double preco) {
+			Date dataNascimento, Endereco endereco, String cpf,
+			String telefoneFixo, String telefoneCelular, Uf naturalidade,
+			String nacionalidade, EstadoCivil estadoCivil,
+			Escolaridade escolaridade, String profissao, Boolean desativado,
+			String obs, Indicacao indicacao, Date dataInicio,
+			Date dataUtimaSessao, String frequencia,
+			Turno preferenciaTurno, Double preco) {
 		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
-				telefones, naturalidade, nacionalidade, estadoCivil,
-				escolaridade, profissao, desativado, obs);
+				telefoneFixo, telefoneCelular, naturalidade, nacionalidade,
+				estadoCivil, escolaridade, profissao, desativado, obs);
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
 		this.dataUtimaSessao = dataUtimaSessao;
-		this.frequencia = frequencia;
 		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
 	}
@@ -88,9 +68,8 @@ public class Paciente extends Pessoa implements Serializable {
 	public String toString() {
 		return "Paciente [indicacao=" + indicacao + ", dataInicio="
 				+ dataInicio + ", dataUtimaSessao=" + dataUtimaSessao
-				+ ", frequencia=" + frequencia + ", preferenciaTurno="
-				+ preferenciaTurno + ", preco=" + preco + "]"
-				+ super.toString();
+				+ ", preferenciaTurno=" + preferenciaTurno + ", preco=" + preco
+				+ "]" + super.toString();
 	}
 
 	public Indicacao getIndicacao() {
@@ -101,28 +80,20 @@ public class Paciente extends Pessoa implements Serializable {
 		this.indicacao = indicacao;
 	}
 
-	public Calendar getDataInicio() {
+	public Date getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(Calendar dataInicio) {
+	public void setDataInicio(Date dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public Calendar getDataUtimaSessao() {
+	public Date getDataUtimaSessao() {
 		return dataUtimaSessao;
 	}
 
-	public void setDataUtimaSessao(Calendar dataUtimaSessao) {
+	public void setDataUtimaSessao(Date dataUtimaSessao) {
 		this.dataUtimaSessao = dataUtimaSessao;
-	}
-
-	public String getFrequencia() {
-		return frequencia;
-	}
-
-	public void setFrequencia(String frequencia) {
-		this.frequencia = frequencia;
 	}
 
 	public Turno getPreferenciaTurno() {
@@ -141,14 +112,6 @@ public class Paciente extends Pessoa implements Serializable {
 		this.preco = preco;
 	}
 
-	public List<Telefone> getTelefones() {
-		return telefones;
-	}
-
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -157,8 +120,6 @@ public class Paciente extends Pessoa implements Serializable {
 				+ ((dataInicio == null) ? 0 : dataInicio.hashCode());
 		result = prime * result
 				+ ((dataUtimaSessao == null) ? 0 : dataUtimaSessao.hashCode());
-		result = prime * result
-				+ ((frequencia == null) ? 0 : frequencia.hashCode());
 		result = prime * result
 				+ ((indicacao == null) ? 0 : indicacao.hashCode());
 		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
@@ -187,11 +148,6 @@ public class Paciente extends Pessoa implements Serializable {
 				return false;
 		} else if (!dataUtimaSessao.equals(other.dataUtimaSessao))
 			return false;
-		if (frequencia == null) {
-			if (other.frequencia != null)
-				return false;
-		} else if (!frequencia.equals(other.frequencia))
-			return false;
 		if (indicacao == null) {
 			if (other.indicacao != null)
 				return false;
@@ -209,9 +165,8 @@ public class Paciente extends Pessoa implements Serializable {
 
 	public static class Builder {
 		private Indicacao indicacao;
-		private Calendar dataInicio;
-		private Calendar dataUtimaSessao;
-		private String frequencia;
+		private Date dataInicio;
+		private Date dataUtimaSessao;
 		private Turno preferenciaTurno;
 		private Double preco;
 
@@ -219,10 +174,11 @@ public class Paciente extends Pessoa implements Serializable {
 		private String nome;
 		private String email;
 		private Sexo sexo;
-		private Calendar dataNascimento;
+		private Date dataNascimento;
 		private Endereco endereco;
 		private String cpf;
-		private List<Telefone> telefones;
+		private String telefoneFixo;
+		private String telefoneCelular;
 		private Uf naturalidade;
 		private String nacionalidade;
 		private EstadoCivil estadoCivil;
@@ -236,18 +192,13 @@ public class Paciente extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder dataInicio(Calendar dataInicio) {
+		public Builder dataInicio(Date dataInicio) {
 			this.dataInicio = dataInicio;
 			return this;
 		}
 
-		public Builder dataUtimaSessao(Calendar dataUtimaSessao) {
+		public Builder dataUtimaSessao(Date dataUtimaSessao) {
 			this.dataUtimaSessao = dataUtimaSessao;
-			return this;
-		}
-
-		public Builder frequencia(String frequencia) {
-			this.frequencia = frequencia;
 			return this;
 		}
 
@@ -262,7 +213,7 @@ public class Paciente extends Pessoa implements Serializable {
 		}
 
 		public Builder id(Integer id) {
-			this.id= id;
+			this.id = id;
 			return this;
 		}
 
@@ -281,7 +232,7 @@ public class Paciente extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder dataNascimento(Calendar dataNascimento) {
+		public Builder dataNascimento(Date dataNascimento) {
 			this.dataNascimento = dataNascimento;
 			return this;
 		}
@@ -296,8 +247,13 @@ public class Paciente extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder telefones(List<Telefone> telefones) {
-			this.telefones = telefones;
+		public Builder telefoneFixo(String telefoneFixo) {
+			this.telefoneFixo = telefoneFixo;
+			return this;
+		}
+
+		public Builder telefoneCelular(String telefoneCelular) {
+			this.telefoneCelular = telefoneCelular;
 			return this;
 		}
 
@@ -345,7 +301,6 @@ public class Paciente extends Pessoa implements Serializable {
 		this.indicacao = builder.indicacao;
 		this.dataInicio = builder.dataInicio;
 		this.dataUtimaSessao = builder.dataUtimaSessao;
-		this.frequencia = builder.frequencia;
 		this.preferenciaTurno = builder.preferenciaTurno;
 		this.preco = builder.preco;
 
@@ -356,7 +311,8 @@ public class Paciente extends Pessoa implements Serializable {
 		this.setDataNascimento(builder.dataNascimento);
 		this.setEndereco(builder.endereco);
 		this.setCpf(builder.cpf);
-		this.setTelefones(builder.telefones);
+		this.setTelefoneFixo(builder.telefoneFixo);
+		this.setTelefoneCelular(builder.telefoneCelular);
 		this.setNaturalidade(builder.naturalidade);
 		this.setNacionalidade(builder.nacionalidade);
 		this.setEstadoCivil(builder.estadoCivil);
