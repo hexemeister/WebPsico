@@ -25,7 +25,7 @@ public class Paciente extends Pessoa implements Serializable {
 	private Date dataInicio; // data da primeira consulta
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataUtimaSessao; // Última sessão que o paciente esteve
+	private Date dataUltimaSessao; // Última sessão que o paciente esteve
 										// presente
 	@Enumerated(EnumType.STRING)
 	private Turno preferenciaTurno; // preferencia de horario para marcacao
@@ -33,6 +33,8 @@ public class Paciente extends Pessoa implements Serializable {
 							// sessão
 
 	public Paciente() {
+		Endereco endereco = new Endereco();
+		this.setEndereco(endereco);
 	}
 
 	public Paciente(Indicacao indicacao, Date dataInicio,
@@ -41,7 +43,7 @@ public class Paciente extends Pessoa implements Serializable {
 		super();
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
-		this.dataUtimaSessao = dataUtimaSessao;
+		this.dataUltimaSessao = dataUtimaSessao;
 		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
 	}
@@ -59,7 +61,7 @@ public class Paciente extends Pessoa implements Serializable {
 				estadoCivil, escolaridade, profissao, desativado, obs);
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
-		this.dataUtimaSessao = dataUtimaSessao;
+		this.dataUltimaSessao = dataUtimaSessao;
 		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
 	}
@@ -67,7 +69,7 @@ public class Paciente extends Pessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "Paciente [indicacao=" + indicacao + ", dataInicio="
-				+ dataInicio + ", dataUtimaSessao=" + dataUtimaSessao
+				+ dataInicio + ", dataUtimaSessao=" + dataUltimaSessao
 				+ ", preferenciaTurno=" + preferenciaTurno + ", preco=" + preco
 				+ "]" + super.toString();
 	}
@@ -89,11 +91,11 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public Date getDataUtimaSessao() {
-		return dataUtimaSessao;
+		return dataUltimaSessao;
 	}
 
 	public void setDataUtimaSessao(Date dataUtimaSessao) {
-		this.dataUtimaSessao = dataUtimaSessao;
+		this.dataUltimaSessao = dataUtimaSessao;
 	}
 
 	public Turno getPreferenciaTurno() {
@@ -119,7 +121,7 @@ public class Paciente extends Pessoa implements Serializable {
 		result = prime * result
 				+ ((dataInicio == null) ? 0 : dataInicio.hashCode());
 		result = prime * result
-				+ ((dataUtimaSessao == null) ? 0 : dataUtimaSessao.hashCode());
+				+ ((dataUltimaSessao == null) ? 0 : dataUltimaSessao.hashCode());
 		result = prime * result
 				+ ((indicacao == null) ? 0 : indicacao.hashCode());
 		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
@@ -143,10 +145,10 @@ public class Paciente extends Pessoa implements Serializable {
 				return false;
 		} else if (!dataInicio.equals(other.dataInicio))
 			return false;
-		if (dataUtimaSessao == null) {
-			if (other.dataUtimaSessao != null)
+		if (dataUltimaSessao == null) {
+			if (other.dataUltimaSessao != null)
 				return false;
-		} else if (!dataUtimaSessao.equals(other.dataUtimaSessao))
+		} else if (!dataUltimaSessao.equals(other.dataUltimaSessao))
 			return false;
 		if (indicacao == null) {
 			if (other.indicacao != null)
@@ -166,7 +168,7 @@ public class Paciente extends Pessoa implements Serializable {
 	public static class Builder {
 		private Indicacao indicacao;
 		private Date dataInicio;
-		private Date dataUtimaSessao;
+		private Date dataUltimaSessao;
 		private Turno preferenciaTurno;
 		private Double preco;
 
@@ -197,8 +199,8 @@ public class Paciente extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder dataUtimaSessao(Date dataUtimaSessao) {
-			this.dataUtimaSessao = dataUtimaSessao;
+		public Builder dataUltimaSessao(Date dataUltimaSessao) {
+			this.dataUltimaSessao = dataUltimaSessao;
 			return this;
 		}
 
@@ -300,7 +302,7 @@ public class Paciente extends Pessoa implements Serializable {
 	private Paciente(Builder builder) {
 		this.indicacao = builder.indicacao;
 		this.dataInicio = builder.dataInicio;
-		this.dataUtimaSessao = builder.dataUtimaSessao;
+		this.dataUltimaSessao = builder.dataUltimaSessao;
 		this.preferenciaTurno = builder.preferenciaTurno;
 		this.preco = builder.preco;
 

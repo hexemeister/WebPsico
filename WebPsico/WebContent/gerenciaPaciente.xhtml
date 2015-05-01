@@ -12,76 +12,71 @@
 	<ui:define name="corpo">
 		<p:panel header="Gerenciar Paciente">
 			<h:form id="formPac">
-				<p:growl id="growl"
-				 showDetail="true" />
+				<p:growl id="growl" showDetail="true" autoUpdate="true"/>
 				<p:tabView id="abas">
 					<p:tab id="personal" title="Dados Pessoais">
 						<h:panelGrid columns="5" id="dados"
 							columnClasses="label, value, ,label, value">
 
 							<h:outputText value="Nome Completo:" />
-							<p:inputText value="#{pacienteMB.pacienteSelecionado.nome}" required="true"
-								label="Nome Completo" placeholder="Informe o nome completo do Paciente, por favor!" size="30" />
+							<p:inputText value="#{pacienteMB.pacienteSelecionado.nome}"
+								required="true" label="Nome Completo"
+								placeholder="Informe o nome completo do Paciente, por favor!"
+								size="30" />
 							<p style="width: 150px" />
 							<p:outputLabel for="cpf" value="CPF:" />
 							<p:inputMask id="cpf" value="#{maskView.date}"
 								mask="999.999.999-99" required="true" />
 
 							<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
-							<p:calendar id="dataNascimento" value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
+							<p:calendar id="dataNascimento"
+								value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
 								locale="de" navigator="true" pattern="dd-MM-yyyy"
 								mask="99/99/9999" />
 							<p style="width: 150px" />
 							<p:outputLabel value="Idade:" />
-							<p:outputLabel id="idade" value="#{pacienteMB.pacienteSelecionado.idade}" />
+							<p:outputLabel id="idade"
+								value="#{pacienteMB.pacienteSelecionado.idade}" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
-							<p:selectOneMenu id="sexo" value="#{pacienteMB.pacienteSelecionado.sexo}">
-								<f:selectItem itemLabel="Feminino" itemValue="FEMININO" />
-								<f:selectItem itemLabel="Masculino" itemValue="MASCULINO" />
+							<p:selectOneMenu id="sexo"
+								value="#{pacienteMB.pacienteSelecionado.sexo}">
+								<f:selectItem itemLabel="Selecione o sexo" noSelectionOption="true"/>
+								<f:selectItems value="#{pacienteMB.sexos}" var="sexo" />
 							</p:selectOneMenu>
 							<p style="width: 150px" />
 							<p:outputLabel for="estadoCivil" value="Estado Civil:" />
-							<p:selectOneMenu id="estadoCivil"
-								value="#{pacienteMB.pacienteSelecionado.estadoCivil}">
-								<f:selectItem itemLabel="Solteiro(a)" itemValue="SOLTEIRO" />
-								<f:selectItem itemLabel="Noivo(a)" itemValue="NOIVO" />
-								<f:selectItem itemLabel="Casado(a)" itemValue="CASADO" />
-								<f:selectItem itemLabel="Separado(a)" itemValue="SEPARADO" />
-								<f:selectItem itemLabel="Viúvo(a)" itemValue="VIUVO" />
+							<p:selectOneMenu id="estadoCivil" value="#{pacienteMB.pacienteSelecionado.estadoCivil}" >
+								<f:selectItem itemLabel="Selecione o estado civil"
+									noSelectionOption="true" />
+								<f:selectItems value="#{pacienteMB.estadosCivis}" var="estadoCivil"/>
 							</p:selectOneMenu>
 
 							<p:outputLabel for="grau" value="Grau de Instrução:" />
-							<p:selectOneMenu id="grau" value="#{pacienteMB.pacienteSelecionado.escolaridade}">
-								<f:selectItem itemLabel="Analfabeto" itemValue="ANALFABETO" />
-								<f:selectItem itemLabel="Ensino Fundamental Incompleto"
-									itemValue="FUNDAMENTAL_INCOMPLETO" />
-								<f:selectItem itemLabel="Ensino Fundamental Completo"
-									itemValue="FUNDAMENTAL_COMPLETO" />
-								<f:selectItem itemLabel="Ensino Médio Incompleto"
-									itemValue="MEDIO_INCOMPLETO" />
-								<f:selectItem itemLabel="Ensino Médio Completo"
-									itemValue="MEDIO_COMPLETO" />
-								<f:selectItem itemLabel="Ensino Superior Incompleto"
-									itemValue="SUPERIOR_INCOMPLETO" />
-								<f:selectItem itemLabel="Ensino Superior Completo"
-									itemValue="SUPERIOR_COMPLETO" />
+							<p:selectOneMenu id="grau"
+								value="#{pacienteMB.pacienteSelecionado.escolaridade}">
+								<f:selectItem itemLabel="Selecione o grau de escolaridade"
+									noSelectionOption="true" />
+								<f:selectItems value="#{pacienteMB.escolaridades}" var="escolaridade" />
 							</p:selectOneMenu>
 							<p style="width: 150px" />
 							<p:outputLabel for="profissao" value="Profissão:" />
 							<p:inputText id="profissao" placeholder="Qual a Profissão"
-								size="30" value="#{pacienteMB.pacienteSelecionado.profissao}"/>
+								size="30" value="#{pacienteMB.pacienteSelecionado.profissao}" />
 
 							<p:outputLabel for="nacionalidade" value="Nacionalidade:" />
 							<p:inputText id="nacionalidade"
-								placeholder="Qual pais que nasceu" size="30" value="#{pacienteMB.pacienteSelecionado.nacionalidade}" />
+								placeholder="Qual pais que nasceu" size="30"
+								value="#{pacienteMB.pacienteSelecionado.nacionalidade}" />
 							<p style="width: 150px" />
 							<p:outputLabel for="naturalidade" value="Naturalidade:" />
-							<p:inputText id="naturalidade" value="#{pacienteMB.pacienteSelecionado.naturalidade}"
+							<p:inputText id="naturalidade"
+								value="#{pacienteMB.pacienteSelecionado.naturalidade}"
 								placeholder="Estado em que nasceu" size="30" />
 
 							<p:outputLabel for="email" value="Email:" />
-							<p:inputText id="email" placeholder="E-mail@algo.com" size="30" value="#{pacienteMB.pacienteSelecionado.email}"/>
+							<p:inputText id="email" placeholder="E-mail@algo.com" size="30"
+								value="#{pacienteMB.pacienteSelecionado.email}" />
 						</h:panelGrid>
 
 					</p:tab>
@@ -90,40 +85,51 @@
 							columnClasses="label, value, ,label, value">
 
 							<h:outputText value="Logradouro: *" />
-							<p:inputText value="#{pacienteMB.pacienteSelecionado.endereco.logradouro}" required="true"
-								label="endereço" placeholder="Rua, Av., Est." size="40" />
+							<p:inputText
+								value="#{pacienteMB.pacienteSelecionado.endereco.logradouro}"
+								required="true" label="endereço" placeholder="Rua, Av., Est."
+								size="40" />
 							<p style="width: 100px" />
 							<h:outputText value="CEP: *" />
-							<p:inputText value="#{pacienteMB.pacienteSelecionado.endereco.cep}" mask="99999-999"
-								required="true" />
+							<p:inputText
+								value="#{pacienteMB.pacienteSelecionado.endereco.cep}"
+								mask="99999-999" required="true" />
 
 							<p:outputLabel for="numero" value="Numero:" />
-							<p:inputText id="numero" value="#{pacienteMB.pacienteSelecionado.endereco.numero}" />
+							<p:inputText id="numero"
+								value="#{pacienteMB.pacienteSelecionado.endereco.numero}" />
 							<p style="width: 150px" />
 							<p:outputLabel for="complemento" value="Complemento:" />
-							<p:inputText id="complemento" value="#{pacienteMB.pacienteSelecionado.endereco.complemento}" size="30" />
+							<p:inputText id="complemento"
+								value="#{pacienteMB.pacienteSelecionado.endereco.complemento}"
+								size="30" />
 
 							<p:outputLabel for="cel" value="Telefone Celular: " />
-							<p:inputMask id="cel" value="#{pacienteMB.pacienteSelecionado.telefoneCelular}"
+							<p:inputMask id="cel"
+								value="#{pacienteMB.pacienteSelecionado.telefoneCelular}"
 								mask="(99) 99999-9999" required="true" />
 							<p style="width: 150px" />
 							<p:outputLabel for="tel" value="Telefone Fixo: " />
-							<p:inputMask id="tel" value="#{pacienteMB.pacienteSelecionado.telefoneFixo}"
+							<p:inputMask id="tel"
+								value="#{pacienteMB.pacienteSelecionado.telefoneFixo}"
 								mask="(99) 9999-9999" />
 
 							<p:outputLabel id="bai" for="bairro" value="Bairro: " />
-							<p:inputText id="bairro" value="#{pacienteMB.pacienteSelecionado.endereco.bairro}" 
-													placeholder="Qual o Bairro" size="30" />
+							<p:inputText id="bairro"
+								value="#{pacienteMB.pacienteSelecionado.endereco.bairro}"
+								placeholder="Qual o Bairro" size="30" />
 							<p style="width: 150px" />
 							<p:outputLabel id="cid" for="cidade" value="Cidade: " />
-							<p:inputText id="cidade" value="#{pacienteMB.pacienteSelecionado.endereco.cidade}" size="30" placeholder="Qual a cidade" />
+							<p:inputText id="cidade"
+								value="#{pacienteMB.pacienteSelecionado.endereco.cidade}"
+								size="30" placeholder="Qual a cidade" />
 
 							<p:outputLabel for="estado" value="Estado:" />
-							<p:selectOneMenu id="estado" value="#{dropdownView.country}">
-								<p:ajax listener="#{dropdownView.onCountryChange}" />
-								<f:selectItem itemLabel="Selecionar um estado" itemValue=""
+							<p:selectOneMenu id="estado" value="#{pacienteMB.pacienteSelecionado.endereco.uf}">
+								<f:selectItem itemLabel="Selecione um estado" itemValue=""
 									noSelectionOption="true" />
-								<f:selectItems value="#{dropdownView.countries}" />
+								<f:selectItems value="#{pacienteMB.estados}" var="estado"
+									itemLabel="#{estado.nome}" itemValue="#{estado}" />
 							</p:selectOneMenu>
 						</h:panelGrid>
 					</p:tab>
@@ -133,12 +139,14 @@
 							columnClasses="label, value, ,label, value">
 
 							<h:outputText value="Profissional: *" />
-							<p:inputText value="#{pacienteMB.pacienteSelecionado.indicacao.profissao}"
+							<p:inputText
+								value="#{pacienteMB.pacienteSelecionado.indicacao.profissao}"
 								required="true" placeholder="Qual o profissional"
 								label="profissional" size="30" />
 							<p style="width: 150px" />
 							<h:outputText value="Nome da Indicação: *" />
-							<p:inputText value="#{pacienteMB.pacienteSelecionado.indicacao.nome}"
+							<p:inputText
+								value="#{pacienteMB.pacienteSelecionado.indicacao.nome}"
 								required="true" placeholder="Nome de quem indicou"
 								label="indicou" size="30" />
 
@@ -149,10 +157,9 @@
 							<p style="width: 150px" />
 							<p:outputLabel for="frequencia" value="Frequencia das sessões: " />
 							<p:selectOneMenu id="frequencia"
-								value="#{selectOneMenuView.console}">
-								<f:selectItem itemLabel="Manhã" itemValue="MANHA" />
-								<f:selectItem itemLabel="Tarde" itemValue="TARDE" />
-								<f:selectItem itemLabel="Noite" itemValue="NOITE" />
+								value="#{pacienteMB.pacienteSelecionado.preferenciaTurno}">
+								<f:selectItem itemLabel="Selecione um turno" noSelectionOption="true" />
+								<f:selectItems value="#{pacienteMB.turnos}" var="turno" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="horaMarcada" value="Hora Marcada:" />
@@ -190,33 +197,38 @@
 				requiredMessage="Informe o nome do paciente  a ser pesquisado"
 				size="30" />
 			<p:spacer width="20" height="30" />
-			<p:commandButton value="Salvar / Atualizar" />
+			<p:commandButton value="Salvar / Atualizar"
+				action="#{pacienteMB.prepararNovoPaciente}" process="@this" />
 			<p:spacer width="20" height="30" />
 			<p:commandButton value="Novo Paciente" />
 			<p:spacer width="20" height="30" />
 			<p:commandButton value="Desativar" />
-		
-		<p:separator />
-		
-		<p:dataTable id="tabelaPaciente" rows="10" var="linha" emptyMessage="Nenhum paciente cadastrado."
-			value="#{pacienteMB.listaPaciente}" selectionMode="single" paginator="true" paginatorPosition="bottom"
-			selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
-			<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}" update=":formPac:growl, :formPac" />
-        	<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}" update=":formPac:growl, :formPac" />
-			<p:column headerText="Nome">
-				<h:outputText value="#{linha.nome}" />
-			</p:column>
-			<p:column headerText="Telefone Fixo">
-				<h:outputText value="#{linha.telefoneFixo}" />
-			</p:column>
-			<p:column headerText="Telefone Celular">
-				<h:outputText value="#{linha.telefoneCelular}" />
-			</p:column>
-			<p:column headerText="Email ">
-				<h:outputText value="#{linha.email}"/>
-			</p:column>
 
-		</p:dataTable>
+			<p:separator />
+
+			<p:dataTable id="tabelaPaciente" rows="10" var="linha"
+				emptyMessage="Nenhum paciente cadastrado."
+				value="#{pacienteMB.listaPaciente}" selectionMode="single"
+				paginator="true" paginatorPosition="bottom"
+				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
+				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
+					update=":formPac:growl, :formPac" />
+				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
+					update=":formPac:growl, :formPac" />
+				<p:column headerText="Nome">
+					<h:outputText value="#{linha.nome}" />
+				</p:column>
+				<p:column headerText="Telefone Fixo">
+					<h:outputText value="#{linha.telefoneFixo}" />
+				</p:column>
+				<p:column headerText="Telefone Celular">
+					<h:outputText value="#{linha.telefoneCelular}" />
+				</p:column>
+				<p:column headerText="Email ">
+					<h:outputText value="#{linha.email}" />
+				</p:column>
+
+			</p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

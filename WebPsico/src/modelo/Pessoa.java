@@ -39,7 +39,7 @@ public abstract class Pessoa implements Serializable {
 	private Sexo sexo;
 
 	@Temporal(TemporalType.DATE)
-	private Date dataNascimento;
+	private Date dataNascimento = new Date();
 
 	@Transient
 	private Integer idade;
@@ -49,10 +49,10 @@ public abstract class Pessoa implements Serializable {
 	private String cpf;
 
 	@Column(length = 10)
-	private String telefoneFixo;
+	private String telefoneFixo = "";
 
 	@Column(length = 11)
-	private String telefoneCelular;
+	private String telefoneCelular = "";
 
 	@Enumerated(EnumType.STRING)
 	private Uf naturalidade;
@@ -68,6 +68,8 @@ public abstract class Pessoa implements Serializable {
 	private String obs; // observacoes sobre o paciente
 
 	public Pessoa() {
+		Endereco e = new Endereco();
+		this.setEndereco(e);
 	}
 
 	public Pessoa(Integer id, String nome, String email, Sexo sexo,
@@ -172,7 +174,13 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	public String getTelefoneFixo() {
-		return "("+telefoneFixo.substring(0,2)+") "+telefoneFixo.substring(2, 6)+"-"+telefoneFixo.substring(6, 10);
+		if (telefoneFixo.equals(null) | telefoneFixo.equals("")) {
+			return "";
+		} else {
+			return "(" + telefoneFixo.substring(0, 2) + ") "
+					+ telefoneFixo.substring(2, 6) + "-"
+					+ telefoneFixo.substring(6, 10);
+		}
 	}
 
 	public void setTelefoneFixo(String telefoneFixo) {
@@ -180,7 +188,13 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	public String getTelefoneCelular() {
-		return "("+telefoneCelular.substring(0,2)+") "+telefoneCelular.substring(2, 7)+"-"+telefoneCelular.substring(7, 11);
+		if (telefoneCelular.equals(null) | telefoneCelular.equals("")) {
+			return "";
+		} else {
+			return "(" + telefoneCelular.substring(0, 2) + ") "
+					+ telefoneCelular.substring(2, 7) + "-"
+					+ telefoneCelular.substring(7, 11);
+		}
 	}
 
 	public void setTelefoneCelular(String telefoneCelular) {

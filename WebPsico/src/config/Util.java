@@ -131,7 +131,7 @@ public class Util {
 											.sexo(Sexo.MASCULINO)
 											.dataNascimento(new Date(2005, 2, 11))
 											.endereco(new Endereco(null,"Estrada do Dendê", "Ilha do Governador", "542","Tauá","Rio de Janeiro",Uf.RJ,"21920-000"))
-											.cpf("123456789")
+											.cpf("12345678910")
 											.telefoneFixo("2133932975")
 											.telefoneCelular("21999998888")
 											.naturalidade(Uf.RJ)
@@ -142,7 +142,7 @@ public class Util {
 											.desativado(false)
 											.indicacao(new Indicacao(null,null,"Regina Lucy","Médica"))
 											.dataInicio(new Date(2008, 1, 1) )
-											.dataUtimaSessao(new Date(2015, 3, 11))
+											.dataUltimaSessao(new Date(2015, 3, 11))
 											.preferenciaTurno(Turno.TARDE)
 											.preco(320.)
 											.build();
