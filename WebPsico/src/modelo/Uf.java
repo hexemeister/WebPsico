@@ -16,10 +16,6 @@ public enum Uf {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	private Uf(String nome) {
 
 		this.nome = nome;

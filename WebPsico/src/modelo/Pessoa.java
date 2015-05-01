@@ -146,6 +146,7 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	public void setDataNascimento(Date dataNascimento) {
+		dataNascimento.setYear(dataNascimento.getYear() - 1900);
 		this.dataNascimento = dataNascimento;
 	}
 

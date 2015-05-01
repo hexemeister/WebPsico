@@ -2,12 +2,16 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,24 +26,27 @@ public class Paciente extends Pessoa implements Serializable {
 	private Indicacao indicacao; // profissional que indicou a psicologa
 
 	@Temporal(TemporalType.DATE)
-	private Date dataInicio; // data da primeira consulta
+	private Date dataInicio = new Date(); // data da primeira consulta
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataUltimaSessao; // Última sessão que o paciente esteve
-										// presente
+	private Date dataUltimaSessao = new Date(); // Última sessão que o paciente
+												// esteve
+	// presente
 	@Enumerated(EnumType.STRING)
 	private Turno preferenciaTurno; // preferencia de horario para marcacao
 	private Double preco; // Valor combinado entre o psicologo e o paciente por
 							// sessão
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Contato> contatos = new HashSet();;
 
 	public Paciente() {
 		Endereco endereco = new Endereco();
 		this.setEndereco(endereco);
 	}
 
-	public Paciente(Indicacao indicacao, Date dataInicio,
-			Date dataUtimaSessao, String frequencia,
-			Turno preferenciaTurno, Double preco) {
+	public Paciente(Indicacao indicacao, Date dataInicio, Date dataUtimaSessao,
+			String frequencia, Turno preferenciaTurno, Double preco) {
 		super();
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
@@ -54,8 +61,8 @@ public class Paciente extends Pessoa implements Serializable {
 			String nacionalidade, EstadoCivil estadoCivil,
 			Escolaridade escolaridade, String profissao, Boolean desativado,
 			String obs, Indicacao indicacao, Date dataInicio,
-			Date dataUtimaSessao, String frequencia,
-			Turno preferenciaTurno, Double preco) {
+			Date dataUtimaSessao, String frequencia, Turno preferenciaTurno,
+			Double preco) {
 		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
 				telefoneFixo, telefoneCelular, naturalidade, nacionalidade,
 				estadoCivil, escolaridade, profissao, desativado, obs);
@@ -74,6 +81,14 @@ public class Paciente extends Pessoa implements Serializable {
 				+ "]" + super.toString();
 	}
 
+	public Set<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(Set<Contato> contatos) {
+		this.contatos = contatos;
+	}
+
 	public Indicacao getIndicacao() {
 		return indicacao;
 	}
@@ -87,15 +102,17 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public void setDataInicio(Date dataInicio) {
+		dataInicio.setYear(dataInicio.getYear() - 1900);
 		this.dataInicio = dataInicio;
 	}
 
-	public Date getDataUtimaSessao() {
+	public Date getDataUltimaSessao() {
 		return dataUltimaSessao;
 	}
 
-	public void setDataUtimaSessao(Date dataUtimaSessao) {
-		this.dataUltimaSessao = dataUtimaSessao;
+	public void setDataUltimaSessao(Date dataUltimaSessao) {
+		dataUltimaSessao.setYear(dataUltimaSessao.getYear() - 1900);
+		this.dataUltimaSessao = dataUltimaSessao;
 	}
 
 	public Turno getPreferenciaTurno() {
@@ -120,7 +137,8 @@ public class Paciente extends Pessoa implements Serializable {
 		int result = super.hashCode();
 		result = prime * result
 				+ ((dataInicio == null) ? 0 : dataInicio.hashCode());
-		result = prime * result
+		result = prime
+				* result
 				+ ((dataUltimaSessao == null) ? 0 : dataUltimaSessao.hashCode());
 		result = prime * result
 				+ ((indicacao == null) ? 0 : indicacao.hashCode());
@@ -300,11 +318,11 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	private Paciente(Builder builder) {
-		this.indicacao = builder.indicacao;
-		this.dataInicio = builder.dataInicio;
-		this.dataUltimaSessao = builder.dataUltimaSessao;
-		this.preferenciaTurno = builder.preferenciaTurno;
-		this.preco = builder.preco;
+		this.setIndicacao(builder.indicacao);
+		this.setDataInicio(builder.dataInicio);
+		this.setDataUltimaSessao(builder.dataUltimaSessao);
+		this.setPreferenciaTurno(builder.preferenciaTurno);
+		this.setPreco(builder.preco);
 
 		this.setId(builder.id);
 		this.setNome(builder.nome);

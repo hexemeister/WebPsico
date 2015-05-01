@@ -2,10 +2,15 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -16,6 +21,9 @@ public class Contato extends Pessoa implements Serializable {
 	private String religiao;
 	private String parentesco;
 
+	@ManyToMany(mappedBy="contatos", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Paciente> pacientes = new HashSet<Paciente>();
+	
 	public Contato() {
 		super();
 	}
@@ -59,6 +67,14 @@ public class Contato extends Pessoa implements Serializable {
 
 	public void setParentesco(String parentesco) {
 		this.parentesco = parentesco;
+	}
+	
+	public Set<Paciente> getPacientes() {
+		return pacientes;
+	}
+
+	public void setPacientes(Set<Paciente> pacientes) {
+		this.pacientes = pacientes;
 	}
 
 	@Override
@@ -211,6 +227,9 @@ public class Contato extends Pessoa implements Serializable {
 	}
 
 	private Contato(Builder builder) {
+		this.setReligiao(builder.religiao);
+		this.setParentesco(builder.parentesco);
+		
 		this.setId(builder.id);
 		this.setNome(builder.nome);
 		this.setEmail(builder.email);
@@ -228,7 +247,5 @@ public class Contato extends Pessoa implements Serializable {
 		this.setDesativado(builder.desativado);
 		this.setObs(builder.obs);
 
-		this.religiao = builder.religiao;
-		this.parentesco = builder.parentesco;
 	}
 }

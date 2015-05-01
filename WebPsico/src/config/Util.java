@@ -1,8 +1,12 @@
 package config;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -67,10 +71,10 @@ public class Util {
 
 		Contato c1 = new Contato.Builder().nome("Venina Val Porto")
 											.email("venina@gmail.com")
-											.sexo(Sexo.FEMININO)
+											.sexo(Sexo.F)
 											.dataNascimento(new Date(1945, 8, 21))
 											.endereco(new Endereco(null,"Estrada Curipós", "JPA", "521","Jardim Clarice","Rio de Janeiro",Uf.RJ,"22000-000"))
-											.cpf("11111111")
+											.cpf("12345678901")
 											.telefoneFixo("2124477654")
 											.telefoneCelular("21999998888")
 											.naturalidade(Uf.RJ)
@@ -85,7 +89,7 @@ public class Util {
 											.build();
 		Contato c2 = new Contato.Builder().nome("Luiz Augusto Andrade de Moraes")
 				.email("luiz@gmail.com")
-				.sexo(Sexo.MASCULINO)
+				.sexo(Sexo.M)
 				.dataNascimento(new Date(1952, 3, 16))
 				.endereco(new Endereco.Builder()
 								.logradouro("Rua Primeiros Sonhos")
@@ -97,7 +101,7 @@ public class Util {
 								.uf(Uf.RJ)
 								.build()
 							)
-				.cpf("22222222222")
+				.cpf("29633699720")
 				.telefoneFixo("2133339999")
 				.telefoneCelular("21888887777")
 				.naturalidade(Uf.RJ)
@@ -128,7 +132,7 @@ public class Util {
 		Paciente p1 = new Paciente.Builder().id(null)
 											.nome("Lucas Val Porto")
 											.email("lucas@gmail.com")
-											.sexo(Sexo.MASCULINO)
+											.sexo(Sexo.M)
 											.dataNascimento(new Date(2005, 2, 11))
 											.endereco(new Endereco(null,"Estrada do Dendê", "Ilha do Governador", "542","Tauá","Rio de Janeiro",Uf.RJ,"21920-000"))
 											.cpf("12345678910")
@@ -142,10 +146,16 @@ public class Util {
 											.desativado(false)
 											.indicacao(new Indicacao(null,null,"Regina Lucy","Médica"))
 											.dataInicio(new Date(2008, 1, 1) )
-											.dataUltimaSessao(new Date(2015, 3, 11))
+											.dataUltimaSessao(new Date(2015, 3, 11,17,30))
 											.preferenciaTurno(Turno.TARDE)
 											.preco(320.)
 											.build();
+		Contato c1 = new ContatoDao().FindById(1);
+		Contato c2 = new ContatoDao().FindById(2);
+		Set<Contato> listaContatos = new HashSet<Contato>();
+		listaContatos.add(c1);
+		listaContatos.add(c2);
+		p1.setContatos(listaContatos);
 		PacienteDao pdao = new PacienteDao();
 
 		List<Paciente> lista = new ArrayList<Paciente>();
@@ -154,7 +164,7 @@ public class Util {
 		// lista.add(c3);
 		// lista.add(c4);
 		for (Paciente paciente: lista) {
-			pdao.create(paciente);
+			pdao.update(paciente);
 		}
 		System.out.println("****************** FIM DE populaBancoComPacientes ********************");
 	}
