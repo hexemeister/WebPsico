@@ -37,8 +37,8 @@ public class Paciente extends Pessoa implements Serializable {
 	private Double preco; // Valor combinado entre o psicologo e o paciente por
 							// sessão
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Contato> contatos = new HashSet();;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Contato> contatos = new HashSet<>();;
 
 	public Paciente() {
 		Endereco endereco = new Endereco();

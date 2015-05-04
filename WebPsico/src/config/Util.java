@@ -83,7 +83,7 @@ public class Util {
 											.escolaridade(Escolaridade.MEDIO_COMPLETO)
 											.profissao("Do lar")
 											.religiao("Espírita")
-											.parentesco("Mãe")
+											.parentesco("Avó")
 											.desativado(false)
 											.obs("Ligar na parte da tarde.")
 											.build();
@@ -110,7 +110,7 @@ public class Util {
 				.escolaridade(Escolaridade.MEDIO_COMPLETO)
 				.profissao("Aposentado")
 				.religiao("Católico")
-				.parentesco("Pai")
+				.parentesco("Avô")
 				.desativado(false)
 				.build();
 											

@@ -58,7 +58,7 @@
 		<h:panelGrid columnClasses="value">
 			<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}"
 				widgetVar="myschedule" axisFormat="H:mm" timeFormat="H:mm"
-				timeZone="GMT-3" locale="pt_br">
+				timeZone="GMT-3" locale="pt_BR">
 
 				<p:ajax event="dateSelect" listener="#{scheduleViewMB.onDateSelect}"
 					update="eventDetails" oncomplete="PF('eventDialog').show();" />

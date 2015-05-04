@@ -31,7 +31,7 @@
 							<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
 							<p:calendar id="dataNascimento"
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
-								locale="de" navigator="true" pattern="dd/MM/yyyy"
+								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
 								mask="99/99/9999" />
 							<p style="width: 150px" />
 							<p:outputLabel value="Idade:" />
@@ -170,7 +170,7 @@
 
 							<p:outputLabel for="dataInicio" value="Data da 1ª Avaliação:" />
 							<p:calendar id="dataInicio"
-								value="#{pacienteMB.pacienteSelecionado.dataInicio}" locale="de"
+								value="#{pacienteMB.pacienteSelecionado.dataInicio}" locale="pt_BR"
 								navigator="true" pattern="dd/MM/yyyy" required="true"
 								mask="99/99/9999" />
 							<p style="width: 150px" />
@@ -178,7 +178,7 @@
 							<p:outputLabel for="dataFinal" value="Data da ultima Sessão:" />
 							<p:calendar id="dataFinal"
 								value="#{pacienteMB.pacienteSelecionado.dataUltimaSessao}"
-								locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm"
+								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy HH:mm"
 								required="true" mask="99/99/9999 99:99" />
 
 
@@ -204,17 +204,20 @@
 						</h:panelGrid>
 					</p:tab>
 					<p:tab id="contato" title="Contatos">
-						<p:dataTable id="singleDT" rows="10" var="car"
-							value="#{dtSelectionView.cars2}" selectionMode="single"
-							selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}">
+						<p:dataTable id="contatos_tbl" rows="5" var="linha"
+							value="#{pacienteMB.listaContato}" selectionMode="single"
+							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:column headerText="Nome">
-								<h:outputText value="" />
+								<h:outputText value="#{linha.nome}" />
 							</p:column>
-							<p:column headerText="Telefone">
-								<h:outputText value="" />
+							<p:column headerText="Telefone Fixo">
+								<h:outputText value="#{linha.telefoneFixo}" />
+							</p:column>
+							<p:column headerText="Telefone Celular">
+								<h:outputText value="#{linha.telefoneCelular}" />
 							</p:column>
 							<p:column headerText="Grau de Parentesco">
-								<h:outputText value="" />
+								<h:outputText value="#{linha.parentesco}" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>

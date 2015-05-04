@@ -21,7 +21,7 @@ public class Contato extends Pessoa implements Serializable {
 	private String religiao;
 	private String parentesco;
 
-	@ManyToMany(mappedBy="contatos", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="contatos", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Paciente> pacientes = new HashSet<Paciente>();
 	
 	public Contato() {
