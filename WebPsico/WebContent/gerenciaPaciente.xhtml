@@ -13,8 +13,8 @@
 		<p:panel header="Gerenciar Paciente">
 			<h:form id="formPac">
 				<p:growl id="growl" showDetail="true" autoUpdate="true" />
-				<p:tabView id="abas">
-					<p:tab id="personal" title="Dados Pessoais">
+				<p:tabView id="abas" cache="false">
+					<p:tab id="abapersonal" title="Dados Pessoais">
 						<h:panelGrid columns="5" id="dados"
 							columnClasses="label, value, ,label, value">
 							<h:outputText value="Nome Completo:" />
@@ -75,13 +75,14 @@
 							<p:inputText id="nacionalidade"
 								placeholder="Qual pais que nasceu" size="30"
 								value="#{pacienteMB.pacienteSelecionado.nacionalidade}" />
-								
+
 							<p style="width: 150px" />
-							
+
 							<p:outputLabel for="naturalidade" value="Naturalidade:" />
 							<p:selectOneMenu id="naturalidade"
 								value="#{pacienteMB.pacienteSelecionado.naturalidade}">
-								<f:selectItem itemLabel="Selecione um estado" noSelectionOption="true" />
+								<f:selectItem itemLabel="Selecione um estado"
+									noSelectionOption="true" />
 								<f:selectItems value="#{pacienteMB.estados}" var="estado"
 									itemLabel="#{estado.nome}" itemValue="#{estado}" />
 							</p:selectOneMenu>
@@ -97,7 +98,7 @@
 						</h:panelGrid>
 
 					</p:tab>
-					<p:tab id="enderecoPac" title="Endereço Pessoal">
+					<p:tab id="abaenderecoPac" title="Endereço Pessoal">
 						<h:panelGrid id="endereco" columns="5"
 							columnClasses="label, value, ,label, value">
 
@@ -152,7 +153,7 @@
 						</h:panelGrid>
 					</p:tab>
 
-					<p:tab id="sessao" title="Dados da Sessão">
+					<p:tab id="abasessao" title="Dados da Sessão">
 						<h:panelGrid columns="5"
 							columnClasses="label, value, ,label, value">
 
@@ -170,9 +171,9 @@
 
 							<p:outputLabel for="dataInicio" value="Data da 1ª Avaliação:" />
 							<p:calendar id="dataInicio"
-								value="#{pacienteMB.pacienteSelecionado.dataInicio}" locale="pt_BR"
-								navigator="true" pattern="dd/MM/yyyy" required="true"
-								mask="99/99/9999" />
+								value="#{pacienteMB.pacienteSelecionado.dataInicio}"
+								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
+								required="true" mask="99/99/9999" />
 							<p style="width: 150px" />
 
 							<p:outputLabel for="dataFinal" value="Data da ultima Sessão:" />
@@ -203,9 +204,27 @@
 							</p:inputMask>
 						</h:panelGrid>
 					</p:tab>
-					<p:tab id="contato" title="Contatos">
-						<p:dataTable id="contatos_tbl" rows="5" var="linha"
-							value="#{pacienteMB.listaContato}" selectionMode="single"
+					<p:tab id="abacontato" title="Contatos">
+
+						<p:toolbar id="tb">
+							<f:facet name="left">
+								<p:commandButton type="button" value="New"
+									icon="ui-icon-document" />
+								<p:commandButton type="button" value="Open"
+									icon="ui-icon-folder-open" />
+							</f:facet>
+							<f:facet name="right">
+								<p:commandButton type="button" title="Save" icon="ui-icon-disk" />
+								<p:commandButton type="button" title="Delete"
+									icon="ui-icon-trash" />
+								<p:commandButton type="button" title="Print"
+									icon="ui-icon-print" />
+							</f:facet>
+						</p:toolbar>
+						<p:dataTable id="tbcontatos" rows="5" var="linha"
+							emptyMessage="Não há contatos cadastrados para este paciente."
+							value="#{pacienteMB.pacienteSelecionado.contatos}"
+							selectionMode="single"
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:column headerText="Nome">
 								<h:outputText value="#{linha.nome}" />
@@ -236,7 +255,7 @@
 			<p:spacer width="20" height="30" />
 			<p:commandButton id="novoPacBtn" value="Novo Paciente"
 				action="#{pacienteMB.prepararNovoPaciente}" process="@this"
-				update=":formPac" />
+				update=":formPac:abas" />
 
 
 			<p:separator />

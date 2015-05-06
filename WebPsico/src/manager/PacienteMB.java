@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.event.Event;
-import javafx.event.EventType;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -23,7 +20,6 @@ import modelo.Uf;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
-import persistence.ContatoDao;
 import persistence.PacienteDao;
 
 @ManagedBean
@@ -40,11 +36,12 @@ public class PacienteMB implements Serializable {
 
 	public void prepararNovoPaciente() {
 		pacienteSelecionado = new Paciente();
+		listaContato = new ArrayList<Contato>();
 	}
 
 	public PacienteMB() {
 		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
-		listaContato = new ArrayList<Contato>(new ContatoDao().findAll());
+		listaContato = new ArrayList<Contato>();
 	}
 
 	public Paciente getPacienteSelecionado() {

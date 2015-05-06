@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
-
+/*
 .ui-growl {
 	top: 70px;
 	right: 10px;
@@ -11,7 +11,7 @@
 	left: 50%;
 	position: absolute;
 }
-
+*/
 .ui-layout-unit-content {
 	background-image: url('./images/psi.png');
 }
