@@ -16,7 +16,7 @@ import persistence.UsuarioDao;
 public class LoginMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Usuario usuario = new Usuario();
 	private Usuario logado = new Usuario();
 
@@ -50,14 +50,14 @@ public class LoginMB implements Serializable {
 		try {
 			logado = new UsuarioDao().findByLoginAndSenha(usuario);
 			if (logado != null && logado.getDesativado() == false) {
-				fc.addMessage("form1", new FacesMessage("Login com sucesso!!!"));
-//				usuario = new Usuario();
+				fc.addMessage("form1", new FacesMessage("Login com sucesso!!!",
+						"Bem vindo, " + logado.getLogin()));
 				return "principal.jsf";
 			} else if (logado != null && logado.getDesativado() == true) {
 				fc.addMessage("form1", new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
-						"Usu�rio desativado pelo Administrador!",
-						"Usu�rio desativado pelo Administrador!"));
+						"Usuário desativado pelo Administrador!",
+						"Usuário desativado pelo Administrador!"));
 			} else {
 				fc.addMessage("form1", new FacesMessage(
 						FacesMessage.SEVERITY_WARN,
@@ -73,7 +73,10 @@ public class LoginMB implements Serializable {
 							"Existem mais de uma conta com o mesmo login - Fale com o administrador!",
 							"Banco de dados comprometido - Mais de uma conta com o mesmo login!"));
 		} catch (Exception e) {
-			fc.addMessage("form1", new FacesMessage(FacesMessage.SEVERITY_FATAL,e.getMessage(),e.getMessage()));
+			fc.addMessage(
+					"form1",
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, e
+							.getMessage(), e.getMessage()));
 			e.printStackTrace();
 		}
 		return null;

@@ -8,91 +8,103 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:define name="corpo">
-	<p:panel header="Gerenciar Contato">
-	<h:form id="formContato">
-	<p:growl id="growl" sticky="true" showDetail="true" />
-	<p:tab id="personal" title="Dados Pessoais">
-		<p:messages />
-			<h:panelGrid columns="5" columnClasses="label, value, ,label, value" >
-					
-				<h:outputText value="Nome Completo: *" />
-				<p:inputText value="#{userWizard.user.firstname}" required="true" label="Nome Completo" size="30" />
-				<p style="width:150px "/>
-				<p:outputLabel for="tipoContato" value="Grau de Parentesco: " />
-				<p:inputText id="tipoContato" required="true" placeholder="tipo de Parentesco" size="30"/>
-				
-				<h:outputText value="Nome do Paciente: * " />
-				<p:inputText value="#{userWizard.user.lastname}" required="true" label="Nome do Paciente" size="30" />
-                <p style="width:150px "/>
-				<p:outputLabel for="cpf" value="CPF: " />
-				<p:inputMask id="cpf" value="#{maskView.date}" mask="999.999.999-99" />
+	<ui:define name="corpo">
+		<p:panel header="Gerenciar Contato">
+			<h:form id="formContato">
+				<p:growl id="growl" sticky="true" showDetail="true" />
+				<p:tab id="personal" title="Dados Pessoais">
+					<p:messages />
+					<h:panelGrid columns="5"
+						columnClasses="label, value, ,label, value">
 
-				<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
-				<p:calendar id="dataNascimento" value="#{calendarView.date5}" locale="pt_BR" navigator="true" pattern="dd-MM-yyyy"
-					mask="99/99/9999" effect="fold" />
-				<p style="width:150px "/>
-				<h:outputText value="Idade: " />
-				<p:inputText value="#{userWizard.user.age}" />
+						<h:outputText value="Nome Completo:" />
+						<p:inputText value="#{contatoMB.contatoSelecionado.nome}"
+							placeholder="Informe o nome completo do Paciente, por favor!"
+							required="true" label="Nome Completo" size="30" />
+						<p style="width: 150px" />
+						<p:outputLabel for="tipoContato" value="Grau de Parentesco:" />
+						<p:inputText id="tipoContato" required="true"
+							placeholder="Grau de Parentesco" size="30" />
 
-				<p:outputLabel for="email" value="Email:" />
-				<p:inputText id="email" required="true" placeholder="E-mail" size="30"/>
-				<p style="width:150px "/>
-				<p:outputLabel for="religiao" value="Religião:" />
-				<p:inputText id="religiao" />
-			
-				<p:outputLabel for="sexo" value="Sexo:" />
-				<p:selectOneMenu id="sexo" value="#{selectOneMenuView.console}">
-					<f:selectItem itemLabel="Feminino" itemValue="F" />
-					<f:selectItem itemLabel="Masculino" itemValue="M" />
-				</p:selectOneMenu>
-				<p style="width:150px "/>
-				<p:outputLabel for="EstadoCivil" value="Estado Civil:" />
-				<p:selectOneMenu id="EstadoCivil" value="#{selectOneMenuView.console}">
-					<f:selectItem itemLabel="Solteiro(a)" itemValue="solteiro" />
-					<f:selectItem itemLabel="Noivo(a)" itemValue="noivo" />
-					<f:selectItem itemLabel="Casado(a)" itemValue="casado" />
-					<f:selectItem itemLabel="Separado(a)" itemValue="separado" />
-					<f:selectItem itemLabel="Viúvo(a)" itemValue="viuvo" />
-				</p:selectOneMenu>
+						<h:outputText value="Nome do Paciente" />
+						<p:inputText value="#{userWizard.user.lastname}" required="true"
+							label="Nome do Paciente" size="30" />
+						<p style="width: 150px" />
+						<p:outputLabel for="cpf" value="CPF" />
+						<p:inputMask id="cpf" value="#{maskView.date}"
+							mask="999.999.999-99" />
 
-				<p:outputLabel for="cel" value="Cel:" />
-				<p:inputMask id="cel" value="#{maskView.phone}"	mask="(99) 99999-9999" />
-				<p style="width:150px "/>
-				<p:outputLabel for="tel" value="Tel:" />
-				<p:inputMask id="tel" value="#{maskView.phone}"	mask="(99) 9999-9999" />
+						<p:outputLabel for="dataNascimento" value="Data de Nascimento" />
+						<p:calendar id="dataNascimento" value="#{calendarView.date5}"
+							locale="pt_BR" navigator="true" pattern="dd-MM-yyyy"
+							mask="99/99/9999" effect="fold" />
+						<p style="width: 150px" />
+						<h:outputText value="Idade" />
+						<p:inputText value="#{userWizard.user.age}" />
 
-				<p:outputLabel for="profissao" value="Profissão:" />
-				<p:inputText id="profissao" placeholder="Profissão" />
-				<p style="width:150px "/>
-				<p:outputLabel for="grau" value="Grau de Instrução:" />
-				<p:selectOneMenu id="grau" value="#{selectOneMenuView.console}">
-					<f:selectItem itemLabel="Analfabeto" itemValue="semInstrucao" />
-					<f:selectItem itemLabel="Ensino Fundamental Incompleto" itemValue="EnsFundamentalIncompleto" />
-					<f:selectItem itemLabel="Ensino Fundamental Completo" itemValue="EnsFundamentalCompleto" />
-					<f:selectItem itemLabel="Ensino Médio Incompleto" itemValue="EnsMedioIncompleto" />
-					<f:selectItem itemLabel="Ensino Médio Completo" itemValue="EnsMedioCompleto" />
-				    <f:selectItem itemLabel="Ensino Superior Incompleto" itemValue="EnsSuperiorIncompleto" />
-					<f:selectItem itemLabel="Ensino Superior Completo" itemValue="EnsSuperiorCompleto" />
-				</p:selectOneMenu>
-				
+						<p:outputLabel for="email" value="Email:" />
+						<p:inputText id="email" required="true" placeholder="Informe o e-mail do contato"
+							size="30" />
+						<p style="width: 150px" />
+						<p:outputLabel for="religiao" value="Religião:" />
+						<p:inputText id="religiao" />
 
-			</h:panelGrid>
-		</p:tab>
-		<p:spacer width="0" height="40" />
-		<p:commandButton value="Salvar" />
-		<p:spacer width="50" height="40"/>
-		<p:commandButton value="Limpar" />
-	</h:form>
-	</p:panel>
-	<p:separator />
-	<h:form id="pesquisaContato">
-			<p:outputLabel for="ContatoPesquisa" value="Procurar por um Contato: " />
+						<p:outputLabel for="sexo" value="Sexo:" />
+						<p:selectOneMenu id="sexo" value="">
+							<f:selectItem itemLabel="Selecione o sexo"
+								noSelectionOption="true" />
+							<f:selectItems value="#{contatoMB.sexos}" var="sexo"
+								itemLabel="#{sexo.descricao}" itemValue="#{sexo}" />
+						</p:selectOneMenu>
+						<p style="width: 150px" />
+						<p:outputLabel for="estadoCivil" value="Estado Civil:" />
+						<p:selectOneMenu id="estadoCivil" value="">
+							<f:selectItem itemLabel="Selecione o estado civil"
+								noSelectionOption="true" />
+							<f:selectItems value="#{contatoMB.estadosCivis}"
+								var="estadoCivil" itemLabel="#{estadoCivil.descricao}"
+								itemValue="#{estadoCivil}" />
+						</p:selectOneMenu>
+						<p:outputLabel for="tel" value="Telefone Fixo" />
+						<p:inputMask id="tel" value="#{maskView.phone}"
+							mask="(99) 9999-9999" />
+
+						<p style="width: 150px" />
+						<p:outputLabel for="cel" value="Telefone Celular" />
+						<p:inputMask id="cel" value="#{maskView.phone}"
+							mask="(99) 99999-9999" />
+
+						<p:outputLabel for="profissao" value="Profissão" />
+						<p:inputText id="profissao" placeholder="Profissão" />
+						<p style="width: 150px" />
+						<p:outputLabel for="grau" value="Grau de Instrução:" />
+						<p:selectOneMenu id="grau" value="">
+							<f:selectItem itemLabel="Selecione o grau de escolaridade"
+								noSelectionOption="true" />
+							<f:selectItems value="#{contatoMB.escolaridades}"
+								var="escolaridade" itemLabel="#{escolaridade.descricao}"
+								itemValue="#{escolaridade}" />
+						</p:selectOneMenu>
+
+
+					</h:panelGrid>
+				</p:tab>
+				<p:spacer width="0" height="40" />
+				<p:commandButton value="Salvar" />
+				<p:spacer width="50" height="40" />
+				<p:commandButton type="reset" value="Limpar" />
+			</h:form>
+		</p:panel>
+		<p:separator />
+		<h:form id="pesquisaContato">
+			<p:outputLabel for="ContatoPesquisa"
+				value="Procurar por um Contato: " />
 			<p:inputText id="ContatoPesquisa" placeholder="Contato procurado"
-				requiredMessage="Informe o nome do contato a ser pesquisado" size="40" />
+				requiredMessage="Informe o nome do contato a ser pesquisado"
+				size="40" />
 			<p:spacer width="20" />
 
 			<p:commandButton value="Pesquisar" />
-	</h:form>
-</ui:define>
+		</h:form>
+	</ui:define>
 </ui:composition>

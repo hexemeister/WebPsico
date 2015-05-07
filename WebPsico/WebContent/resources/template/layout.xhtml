@@ -14,7 +14,7 @@
 	<div id="cabecalho">
 		<ui:insert name="cabecalho">
 			<h:form id="formcab">
-				<p:growl id="messages" top="70px" right="10px" />
+				<p:growl id="messages" showDetail="true" top="70px" right="10px" />
 				<p:menubar>
 					<p:menuitem value="Home" icon="ui-icon-home" url="/principal.jsf" />
 					<p:submenu label="Cadastro">
@@ -30,8 +30,9 @@
 
 					<f:facet name="options">
 						<p:inputText style="margin-right:10px" placeholder="Search" />
-						<p:commandButton type="button" value="#{loginMB.logado.login}"
-							icon="ui-icon-extlink" />
+						<p:commandButton id="logoutbtn" immediate="true"
+							value="#{loginMB.logado.login}" title="Sair do sistema" 
+							icon="ui-icon-extlink" action="#{logoutMB.efetuarLogout}" />
 					</f:facet>
 				</p:menubar>
 			</h:form>

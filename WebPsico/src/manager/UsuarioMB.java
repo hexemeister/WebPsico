@@ -1,6 +1,8 @@
 package manager;
 
+import java.io.Serializable;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,17 +10,20 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+
 import modelo.Usuario;
+
 import org.primefaces.event.SelectEvent;
+
 import persistence.UsuarioDao;
 import config.Util;
 
 @ManagedBean
 @ViewScoped
-public class UsuarioMB {
+public class UsuarioMB implements Serializable {
 
 	// Falta evitar que psicologas criem admins e outras psicologas
-	// Falta verificar se novo usuario escolheu um login já existente
+	// admins deve ter poder total
 
 	private Usuario usuarioSelecionado;
 	private List<Usuario> listaUsuario;

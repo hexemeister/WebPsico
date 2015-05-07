@@ -50,7 +50,7 @@ public abstract class Pessoa implements Serializable {
 	private Endereco endereco;
 	
 	
-	@CPF(formatted=false,message="CPF")
+	@CPF(formatted=false,message="CPF invalido")
 	private String cpf;
 
 	@Column(length = 10)

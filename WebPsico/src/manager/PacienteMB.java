@@ -18,14 +18,13 @@ import modelo.Sexo;
 import modelo.Turno;
 import modelo.Uf;
 
-import org.eclipse.jdt.internal.compiler.impl.ReferenceContext;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
-import config.Util;
 import persistence.PacienteDao;
+import config.Util;
 
 @ManagedBean
 @RequestScoped
@@ -118,6 +117,11 @@ public class PacienteMB implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public String alterarContato() {
+		System.out.println("--------------------" +pacienteSelecionado.getIndicacao());
+		return "gerenciaContato.jsf";
+	}
+	
 	public Uf[] getEstados() {
 		return Uf.values();
 	}

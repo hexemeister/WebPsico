@@ -68,8 +68,9 @@
 							</p:selectOneMenu>
 							<p style="width: 150px" />
 							<p:outputLabel for="profissao" value="Profissão:" />
-							<p:inputText id="profissao" placeholder="Qual a Profissão"
-								size="30" value="#{pacienteMB.pacienteSelecionado.profissao}" />
+							<p:inputText id="profissao"
+								placeholder="Informe a profissão do paciente" size="30"
+								value="#{pacienteMB.pacienteSelecionado.profissao}" />
 
 							<p:outputLabel for="nacionalidade" value="Nacionalidade:" />
 							<p:inputText id="nacionalidade"
@@ -204,17 +205,18 @@
 							</p:inputMask>
 						</h:panelGrid>
 					</p:tab>
-					
+
 					<p:tab id="abacontato" title="Contatos">
 
 						<p:toolbar id="tb">
 							<f:facet name="left">
 								<p:button type="button" value="Novo" title="Novo Contato"
 									icon="ui-icon-document" href="gerenciaContato.jsf" />
-								<p:commandButton type="button" value="Alterar" title="Alterar Contato" icon="ui-icon-disk" />
+								<p:commandButton value="Alterar" title="Alterar Contato"
+									icon="ui-icon-disk" action="#{pacienteMB.alterarContato}" />
 							</f:facet>
 							<f:facet name="right">
-								<p:commandButton type="button" value="Apagar" title="Apagar Contato"
+								<p:commandButton value="Apagar" title="Apagar Contato"
 									icon="ui-icon-trash" disabled="true" />
 							</f:facet>
 						</p:toolbar>
@@ -236,6 +238,7 @@
 								<h:outputText value="#{linha.parentesco}" />
 							</p:column>
 						</p:dataTable>
+
 					</p:tab>
 				</p:tabView>
 			</h:form>
@@ -248,10 +251,15 @@
 				requiredMessage="Informe o nome do paciente  a ser pesquisado"
 				size="30" />
 			<p:spacer width="20" height="30" />
-			<p:commandButton id="salvarPacBtn" value="Salvar" action="#{pacienteMB.salvar}" update=":formPac:growl, :pesquisaPaciente:tabelaPaciente"/>
-			<p:commandButton id="atualizarPacBtn" value="Atualizar" action="#{pacienteMB.atualizar}" update=":formPac:growl, :pesquisaPaciente:tabelaPaciente" rendered="false" />
+			<p:commandButton id="salvarPacBtn" value="Salvar"
+				action="#{pacienteMB.salvar}"
+				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente" />
+			<p:commandButton id="atualizarPacBtn" value="Atualizar"
+				action="#{pacienteMB.atualizar}"
+				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente"
+				rendered="false" />
 			<p:spacer width="20" height="30" />
-			<p:commandButton id="novoPacBtn" value="Novo Paciente" 
+			<p:commandButton id="novoPacBtn" value="Novo Paciente"
 				action="#{pacienteMB.prepararNovoPaciente}" process="@this"
 				update=":formPac:abas, :pesquisaPaciente" />
 
