@@ -7,13 +7,17 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 
+import persistence.ContatoDao;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@EntityListeners(ContatoDao.class)
 public class Contato extends Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;

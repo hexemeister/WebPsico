@@ -23,6 +23,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import br.com.caelum.stella.bean.validation.CPF;
+
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Pessoa implements Serializable {
@@ -46,6 +48,9 @@ public abstract class Pessoa implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
+	
+	
+	@CPF(formatted=false,message="CPF")
 	private String cpf;
 
 	@Column(length = 10)

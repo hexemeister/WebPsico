@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import modelo.Contato;
@@ -17,9 +18,13 @@ import modelo.Sexo;
 import modelo.Turno;
 import modelo.Uf;
 
+import org.eclipse.jdt.internal.compiler.impl.ReferenceContext;
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import config.Util;
 import persistence.PacienteDao;
 
 @ManagedBean
@@ -34,7 +39,19 @@ public class PacienteMB implements Serializable {
 	List<Paciente> listaPaciente;
 	List<Contato> listaContato;
 
+	public void atualizar() {
+		new PacienteDao().update(pacienteSelecionado);
+	}
+	
+	public void salvar() {
+		new PacienteDao().create(pacienteSelecionado);
+	}
+	
 	public void prepararNovoPaciente() {
+		CommandButton comp = (CommandButton) Util.findComponent("pesquisaPaciente:atualizarPacBtn");
+		comp.setRendered(false);
+		comp = (CommandButton) Util.findComponent("pesquisaPaciente:salvarPacBtn");
+		comp.setRendered(true);
 		pacienteSelecionado = new Paciente();
 		listaContato = new ArrayList<Contato>();
 	}
@@ -77,6 +94,12 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
+		UIComponent comp = Util.findComponent("pesquisaPaciente:salvarPacBtn");
+		comp.setRendered(false);
+		comp = Util.findComponent("pesquisaPaciente:atualizarPacBtn");
+		comp.setRendered(true);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("pesquisaPaciente");
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				((Paciente) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -84,6 +107,12 @@ public class PacienteMB implements Serializable {
 
 	public void onRowUnselect(UnselectEvent event) {
 		pacienteSelecionado = new Paciente();
+		UIComponent comp = Util.findComponent("pesquisaPaciente:salvarPacBtn");
+		comp.setRendered(true);
+		comp = Util.findComponent("pesquisaPaciente:atualizarPacBtn");
+		comp.setRendered(false);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("pesquisaPaciente");
 		FacesMessage msg = new FacesMessage("Seleção Limpa",
 				((Paciente) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
