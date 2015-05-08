@@ -158,13 +158,13 @@
 						<h:panelGrid columns="5"
 							columnClasses="label, value, ,label, value">
 
-							<h:outputText value="Profissional: *" />
+							<h:outputText value="Profissional:" />
 							<p:inputText
 								value="#{pacienteMB.pacienteSelecionado.indicacao.profissao}"
 								required="true" placeholder="Qual o profissional"
 								label="profissional" size="30" />
 							<p style="width: 150px" />
-							<h:outputText value="Nome da Indicação: *" />
+							<h:outputText value="Nome da Indicação:" />
 							<p:inputText
 								value="#{pacienteMB.pacienteSelecionado.indicacao.nome}"
 								required="true" placeholder="Nome de quem indicou"
@@ -213,7 +213,8 @@
 								<p:button type="button" value="Novo" title="Novo Contato"
 									icon="ui-icon-document" href="gerenciaContato.jsf" />
 								<p:commandButton value="Alterar" title="Alterar Contato"
-									icon="ui-icon-disk" action="#{pacienteMB.alterarContato}" />
+									immediate="true" process="@this" icon="ui-icon-disk"
+									action="#{pacienteMB.alterarContato}" />
 							</f:facet>
 							<f:facet name="right">
 								<p:commandButton value="Apagar" title="Apagar Contato"
@@ -225,6 +226,11 @@
 							value="#{pacienteMB.pacienteSelecionado.contatos}"
 							selectionMode="single"
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
+							<p:ajax event="rowSelect" listener="#{pacienteMB.onRowContatoSelect}"
+								update=":formPac:growl, :formPac:abas:tbcontatos" />
+							<p:ajax event="rowUnselect"
+								listener="#{pacienteMB.onRowContatoUnselect}"
+								update=":formPac:growl, :formPac:abas:tbcontatos" />
 							<p:column headerText="Nome">
 								<h:outputText value="#{linha.nome}" />
 							</p:column>
@@ -262,14 +268,14 @@
 			<p:commandButton id="novoPacBtn" value="Novo Paciente"
 				action="#{pacienteMB.prepararNovoPaciente}" process="@this"
 				update=":formPac:abas, :pesquisaPaciente" />
-
+			<p:commandButton value="Testar" action="#{pacienteMB.testar}" immediate="true"/>
 
 			<p:separator />
 
 			<p:dataTable id="tabelaPaciente" rows="10" var="linha"
 				emptyMessage="Nenhum paciente cadastrado."
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
-				paginator="true" paginatorPosition="bottom"
+				paginator="true" paginatorPosition="bottom" 
 				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
 				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
 					update=":formPac:growl, :formPac" />

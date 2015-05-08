@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 import modelo.Contato;
 import modelo.Escolaridade;
@@ -27,7 +29,7 @@ import persistence.PacienteDao;
 import config.Util;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PacienteMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,28 +38,32 @@ public class PacienteMB implements Serializable {
 	Contato contatoSelecionado = new Contato();
 
 	List<Paciente> listaPaciente;
-	List<Contato> listaContato;
+
+	public PacienteMB() {
+		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
+	}
+
+	public void testar() {
+		System.out.println("******************* " + pacienteSelecionado);
+		System.out.println("******************* " + contatoSelecionado);
+	}
 
 	public void atualizar() {
 		new PacienteDao().update(pacienteSelecionado);
 	}
-	
+
 	public void salvar() {
 		new PacienteDao().create(pacienteSelecionado);
 	}
-	
+
 	public void prepararNovoPaciente() {
-		CommandButton comp = (CommandButton) Util.findComponent("pesquisaPaciente:atualizarPacBtn");
+		CommandButton comp = (CommandButton) Util
+				.findComponent("pesquisaPaciente:atualizarPacBtn");
 		comp.setRendered(false);
-		comp = (CommandButton) Util.findComponent("pesquisaPaciente:salvarPacBtn");
+		comp = (CommandButton) Util
+				.findComponent("pesquisaPaciente:salvarPacBtn");
 		comp.setRendered(true);
 		pacienteSelecionado = new Paciente();
-		listaContato = new ArrayList<Contato>();
-	}
-
-	public PacienteMB() {
-		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
-		listaContato = new ArrayList<Contato>();
 	}
 
 	public Paciente getPacienteSelecionado() {
@@ -70,14 +76,6 @@ public class PacienteMB implements Serializable {
 
 	public void setContatoSelecionado(Contato contatoSelecionado) {
 		this.contatoSelecionado = contatoSelecionado;
-	}
-
-	public List<Contato> getListaContato() {
-		return listaContato;
-	}
-
-	public void setListaContato(List<Contato> listaContato) {
-		this.listaContato = listaContato;
 	}
 
 	public void setPacienteSelecionado(Paciente pacienteSelecionado) {
@@ -102,6 +100,7 @@ public class PacienteMB implements Serializable {
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				((Paciente) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		System.out.println("+++++++++++++++++++++++" + pacienteSelecionado);
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
@@ -117,11 +116,32 @@ public class PacienteMB implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public void onRowContatoSelect(SelectEvent event) {
+		try {
+			contatoSelecionado = ((Contato) event.getObject());
+			FacesMessage msg = new FacesMessage("Contato Selecionado");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"
+					+ pacienteSelecionado);
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void onRowContatoUnselect(UnselectEvent event) {
+		contatoSelecionado = new Contato();
+		FacesMessage msg = new FacesMessage("Seleção Limpa",
+				((Contato) event.getObject()).getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public String alterarContato() {
-		System.out.println("--------------------" +pacienteSelecionado.getIndicacao());
+		System.out.println("--------------------" + pacienteSelecionado);
+		System.out.println("--------------------" + contatoSelecionado);
 		return "gerenciaContato.jsf";
 	}
-	
+
 	public Uf[] getEstados() {
 		return Uf.values();
 	}

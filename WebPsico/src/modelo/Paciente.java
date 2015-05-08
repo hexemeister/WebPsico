@@ -77,12 +77,14 @@ public class Paciente extends Pessoa implements Serializable {
 		this.preco = preco;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Paciente [indicacao=" + indicacao + ", dataInicio="
-				+ dataInicio + ", dataUtimaSessao=" + dataUltimaSessao
+				+ dataInicio + ", dataUltimaSessao=" + dataUltimaSessao
 				+ ", preferenciaTurno=" + preferenciaTurno + ", preco=" + preco
-				+ "]" + super.toString();
+				+ ", contatos=" + contatos + "]"+super.toString();
 	}
 
 	public Set<Contato> getContatos() {
