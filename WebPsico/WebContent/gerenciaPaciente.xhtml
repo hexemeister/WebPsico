@@ -227,7 +227,7 @@
 							selectionMode="single"
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:ajax event="rowSelect" listener="#{pacienteMB.onRowContatoSelect}"
-								update=":formPac:growl, :formPac:abas:tbcontatos" />
+								update=":formPac:growl, :formPac:abas:tbcontatos"  />
 							<p:ajax event="rowUnselect"
 								listener="#{pacienteMB.onRowContatoUnselect}"
 								update=":formPac:growl, :formPac:abas:tbcontatos" />
@@ -277,8 +277,8 @@
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
 				paginator="true" paginatorPosition="bottom" 
 				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
-				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
-					update=":formPac:growl, :formPac" />
+				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}" 
+					update=":formPac:growl, :formPac:abas" />
 				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
 					update=":formPac:growl, :formPac" />
 				<p:column headerText="Nome">

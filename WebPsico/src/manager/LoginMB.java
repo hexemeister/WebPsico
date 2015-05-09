@@ -3,16 +3,15 @@ package manager;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.NonUniqueResultException;
 
 import modelo.Usuario;
 import persistence.UsuarioDao;
 
-@ManagedBean(name = "loginMB")
-@SessionScoped
+@javax.enterprise.context.SessionScoped
+@Named("loginMB")
 public class LoginMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;

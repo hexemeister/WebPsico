@@ -1,8 +1,6 @@
 package config;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +39,11 @@ public class Util {
 	public static UIComponent findComponent(String componente) {
 		return FacesContext.getCurrentInstance().getViewRoot().findComponent(componente);
 	}
+	
+	public static void log(Object object) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        System.out.println("MyBean " + methodName + ": " + object);
+    }
 	
 	/**
 	 * popula Usuarios no banco

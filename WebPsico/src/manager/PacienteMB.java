@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import modelo.Contato;
 import modelo.Escolaridade;
@@ -28,18 +27,25 @@ import org.primefaces.event.UnselectEvent;
 import persistence.PacienteDao;
 import config.Util;
 
-@ManagedBean
-@ViewScoped
+@javax.faces.view.ViewScoped
+@Named("pacienteMB")
 public class PacienteMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	Paciente pacienteSelecionado = new Paciente();
-	Contato contatoSelecionado = new Contato();
-
+	private Paciente pacienteSelecionado = new Paciente();
+	private Contato contatoSelecionado = new Contato();
+	
 	List<Paciente> listaPaciente;
 
 	public PacienteMB() {
+//		Util.log(pacienteSelecionado);
+//		Util.log(listaPaciente);
+//		Util.log(contatoSelecionado);
+	}
+	
+	@PostConstruct
+	public void init() {
 		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
 	}
 
@@ -95,12 +101,14 @@ public class PacienteMB implements Serializable {
 		comp.setRendered(false);
 		comp = Util.findComponent("pesquisaPaciente:atualizarPacBtn");
 		comp.setRendered(true);
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.update("pesquisaPaciente");
+//		RequestContext context = RequestContext.getCurrentInstance();
+//		context.update("pesquisaPaciente");
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				((Paciente) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		System.out.println("+++++++++++++++++++++++" + pacienteSelecionado);
+//		System.out.println("+++++++++++++++++++++++" + pacienteSelecionado);
+//		Util.log(pacienteSelecionado);
+//		Util.log(listaPaciente);
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
@@ -123,6 +131,8 @@ public class PacienteMB implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"
 					+ pacienteSelecionado);
+			Util.log(contatoSelecionado);
+			FacesContext.getCurrentInstance().renderResponse();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
