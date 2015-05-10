@@ -5,22 +5,49 @@
 	right: 10px;
 }
 
-/*
-.value {
-	width: 1000px;
-	margin-left: -500px;
-	left: 50%;
-	position: absolute;
+.ui-layout-north {
+	z-index: 2 !important;
+	overflow: visible !important;
+	border: none;
+	margin: 0 0 0;
+	height: 0;
 }
-*/
-.ui-layout-unit-content {
-	background-image: url('./images/psi.png');
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible;
 }
 
 .ui-layout-center {
-	overflow-y: hidden !important;
+	overflow: visible !important;
+	z-index: 1 !important;
+	overflow: visible !important;
+	margin: 0 0 0;
 }
 
 .ui-layout-center .ui-layout-unit-content {
+	overflow: visible !important;
 	overflow-y: hidden !important;
+}
+
+.rodape {
+	border: none;
+	margin: 0 0 0;
+	position: fixed;
+	text-align: center;
+}
+
+
+
+.fc-event-skin {
+        border-color: #36c;     /* default BORDER color */
+        background-color: #f30 !important; /* default BACKGROUND color */
+        color: #fff;            /* default TEXT color */
+        }
+
+.corpo {
+	z-index: 1 !important;
+	overflow: visible !important;
+	border: none;
+	margin: 0 auto;
+	width: 1000px;
 }

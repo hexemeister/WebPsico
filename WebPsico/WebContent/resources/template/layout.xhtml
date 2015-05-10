@@ -14,44 +14,64 @@
 	<f:facet name="last">
 		<h:outputStylesheet library="css" name="style.css" />
 	</f:facet>
-	<div id="cabecalho">
-		<ui:insert name="cabecalho">
-			<h:form id="formcab">
-				<p:growl id="messages" showDetail="true" top="70px" right="10px" />
-				<p:menubar>
-					<p:menuitem value="Home" icon="ui-icon-home" url="/principal.jsf" />
-					<p:submenu label="Cadastro">
-						<p:menuitem value="Gerencia Usuário" url="/gerenciaUsuario.jsf"
-							disabled="#{usuarioMB.logado.isAtendente()}"
-							rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}" />
-						<p:menuitem value="Gerencia Paciente" url="/gerenciaPaciente.jsf" />
-					</p:submenu>
-					<p:menuitem value="Evolução" />
-					<p:menuitem value="Relatórios" />
-					<p:menuitem value="Configurações" />
-					<p:menuitem value="Sobre" />
 
-					<f:facet name="options">
-						<p:inputText style="margin-right:10px" placeholder="Search" />
-						<p:commandButton id="logoutbtn" immediate="true"
-							value="#{loginMB.logado.login}" title="Sair do sistema" 
-							icon="ui-icon-extlink" action="#{logoutMB.efetuarLogout}" />
-					</f:facet>
-				</p:menubar>
-			</h:form>
-		</ui:insert>
-	</div>
-	<div id="corpo">
-		<ui:insert name="corpo">
+	<p:layout fullPage="true" >
+		<p:layoutUnit position="north" styleClass="menu" visible="true">
+			<div id="cabecalho" class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-12">
+						<ui:insert name="cabecalho">
+							<h:form id="formcab">
+								<p:growl id="messages" showDetail="true" top="70px" right="10px" />
+								<p:menubar>
+									<p:menuitem value="Home" icon="ui-icon-home"
+										url="/principal.jsf" />
+									<p:submenu label="Cadastro">
+										<p:menuitem value="Gerencia Usuário"
+											url="/gerenciaUsuario.jsf"
+											disabled="#{usuarioMB.logado.isAtendente()}"
+											rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}" />
+										<p:menuitem value="Gerencia Paciente"
+											url="/gerenciaPaciente.jsf" />
+									</p:submenu>
+									<p:menuitem value="Evolução" url="/evolucao.jsf"/>
+									<p:menuitem value="Relatórios" />
+									<p:menuitem value="Configurações" />
+									<p:menuitem value="Sobre" url="/sobre.jsf" />
 
-		</ui:insert>
-	</div>
-	<div id="rodape">
-		<ui:insert name="rodape">
-			<p:separator />
- 			trabalho final TCC
- 		</ui:insert>
-
-	</div>
+									<f:facet name="options">
+										<p:inputText style="margin-right:10px" placeholder="Search" />
+										<p:commandButton id="logoutbtn" immediate="true"
+											value="#{loginMB.logado.login}" title="Sair do sistema"
+											icon="ui-icon-extlink" action="#{logoutMB.efetuarLogout}" />
+									</f:facet>
+								</p:menubar>
+							</h:form>
+						</ui:insert>
+					</div>
+				</div>
+			</div>
+		</p:layoutUnit>
+		<p:layoutUnit position="center" styleClass="corpo" collapsible="true"
+			gutter="2">
+			<div id="corpo">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-12">
+						<ui:insert name="corpo" />
+					</div>
+				</div>
+			</div>
+		</p:layoutUnit>
+		<p:layoutUnit position="south" styleClass="rodape"
+			header="Trabalho Final TCC - 01/2015">
+			<div id="rodape">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-12">
+						<ui:insert name="rodape" />
+					</div>
+				</div>
+			</div>
+		</p:layoutUnit>
+	</p:layout>
 </h:body>
 </html>

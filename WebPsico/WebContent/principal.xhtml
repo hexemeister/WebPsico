@@ -8,10 +8,9 @@
 
 	<ui:define name="corpo">
 		<h:form id="agenda">
-			<h:panelGrid id="agendaPainel" style="width:1000px; margin-left:300px;
-				right: 50px; left: 50px; position: center;">
-				<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}"
-					widgetVar="myschedule" axisFormat="H:mm" timeFormat="H:mm">
+			<h:panelGrid id="agendaPainel" styleClass="corpo">
+				<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}" allDaySlot="false" aspectRatio="1.6"
+					widgetVar="myschedule" axisFormat="H:mm" timeFormat="H:mm" style="width: 90%; margin: 0 auto;"  >
 
 					<p:ajax event="dateSelect"
 						listener="#{scheduleViewMB.onDateSelect}" update="eventDetails"

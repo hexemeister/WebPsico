@@ -22,8 +22,10 @@ import config.Util;
 @ViewScoped
 public class UsuarioMB implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	// Falta evitar que psicologas criem admins e outras psicologas
-	// admins deve ter poder total
+	// admins devem ter poder total
 
 	private Usuario usuarioSelecionado;
 	private List<Usuario> listaUsuario;

@@ -2,9 +2,9 @@ package manager;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import modelo.Contato;
 import modelo.Escolaridade;
@@ -12,20 +12,17 @@ import modelo.EstadoCivil;
 import modelo.Paciente;
 import modelo.Sexo;
 
-@ManagedBean
-@RequestScoped
+@ViewScoped
+@Named("contatoMB")
 public class ContatoMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManagedProperty(value = "#{PacienteMB.pacienteSelecionado}")
 	private Paciente pacienteSelecionado;
-
-	@ManagedProperty(value = "#{PacienteMB.contatoSelecionado}")
 	private Contato contatoSelecionado;
 
 	public ContatoMB() {
-		// TODO Auto-generated constructor stub
+	contatoSelecionado = (Contato) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("contato");		
 	}
 
 	public Paciente getPacienteSelecionado() {

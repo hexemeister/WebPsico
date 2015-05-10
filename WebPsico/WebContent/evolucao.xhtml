@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/resources/template/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="corpo">
+		<p:panel id="evol" header="Evoluções Antigas">
+			<p:scrollPanel style="width:1600px;height:100px">
+				<p>Interdum et malesuada</p>
+				<p>Aliquam sollicitudin gravida luctus.</p>
+				<p>rutrum orci.</p>
+				<p>ullamcorper erat.</p>
+				<p>commodo luctus placerat.</p>
+			</p:scrollPanel>
+		</p:panel>
+
+		<p:panel id="evolucao" header="Evolução">
+			<h:form id="editarEvolucao">
+				<p:editor id="editor" widgetVar="editorWidget" height="500"
+					value="#{editorView.text}" width="1000" />
+				<h:panelGrid columns="3" style="margin-top: 10px">
+					<p:commandButton value="Salvar" />
+					<p:commandButton value="Cancelar" />
+					<p:commandButton value="Todas Evoluções" />
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+
+	</ui:define>
+</ui:composition>

@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import modelo.Contato;
@@ -27,7 +27,7 @@ import org.primefaces.event.UnselectEvent;
 import persistence.PacienteDao;
 import config.Util;
 
-@javax.faces.view.ViewScoped
+@ViewScoped
 @Named("pacienteMB")
 public class PacienteMB implements Serializable {
 
@@ -39,19 +39,11 @@ public class PacienteMB implements Serializable {
 	List<Paciente> listaPaciente;
 
 	public PacienteMB() {
-//		Util.log(pacienteSelecionado);
-//		Util.log(listaPaciente);
-//		Util.log(contatoSelecionado);
 	}
 	
 	@PostConstruct
 	public void init() {
 		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
-	}
-
-	public void testar() {
-		System.out.println("******************* " + pacienteSelecionado);
-		System.out.println("******************* " + contatoSelecionado);
 	}
 
 	public void atualizar() {
@@ -101,14 +93,11 @@ public class PacienteMB implements Serializable {
 		comp.setRendered(false);
 		comp = Util.findComponent("pesquisaPaciente:atualizarPacBtn");
 		comp.setRendered(true);
-//		RequestContext context = RequestContext.getCurrentInstance();
-//		context.update("pesquisaPaciente");
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("pesquisaPaciente");
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				((Paciente) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-//		System.out.println("+++++++++++++++++++++++" + pacienteSelecionado);
-//		Util.log(pacienteSelecionado);
-//		Util.log(listaPaciente);
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
@@ -129,12 +118,7 @@ public class PacienteMB implements Serializable {
 			contatoSelecionado = ((Contato) event.getObject());
 			FacesMessage msg = new FacesMessage("Contato Selecionado");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"
-					+ pacienteSelecionado);
-			Util.log(contatoSelecionado);
-			FacesContext.getCurrentInstance().renderResponse();
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -147,8 +131,7 @@ public class PacienteMB implements Serializable {
 	}
 
 	public String alterarContato() {
-		System.out.println("--------------------" + pacienteSelecionado);
-		System.out.println("--------------------" + contatoSelecionado);
+		FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("contato", contatoSelecionado);
 		return "gerenciaContato.jsf";
 	}
 
