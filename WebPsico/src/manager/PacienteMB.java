@@ -64,6 +64,12 @@ public class PacienteMB implements Serializable {
 		pacienteSelecionado = new Paciente();
 	}
 
+	public void prepararNovoContato() {
+		contatoSelecionado = new Contato();
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("formContato");
+	}
+	
 	public Paciente getPacienteSelecionado() {
 		return pacienteSelecionado;
 	}
@@ -117,6 +123,8 @@ public class PacienteMB implements Serializable {
 		try {
 			CommandButton comp = (CommandButton) Util.findComponent("formPac:abas:tbContatoAlterarBtn");
 			comp.setDisabled(false);
+			comp = (CommandButton) Util.findComponent("formPac:abas:apagarContatoBtn");
+			comp.setDisabled(false);
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.update("gerenciaContato");
 			contatoSelecionado = ((Contato) event.getObject());
@@ -129,6 +137,8 @@ public class PacienteMB implements Serializable {
 
 	public void onRowContatoUnselect(UnselectEvent event) {
 		CommandButton comp = (CommandButton) Util.findComponent("formPac:abas:tbContatoAlterarBtn");
+		comp.setDisabled(true);
+		comp = (CommandButton) Util.findComponent("formPac:abas:apagarContatoBtn");
 		comp.setDisabled(true);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.update("gerenciaContato");

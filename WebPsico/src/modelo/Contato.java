@@ -25,9 +25,10 @@ public class Contato extends Pessoa implements Serializable {
 	private String religiao;
 	private String parentesco;
 
-	@ManyToMany(mappedBy="contatos", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "contatos", fetch = FetchType.EAGER, cascade = {
+			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Paciente> pacientes = new HashSet<Paciente>();
-	
+
 	public Contato() {
 		super();
 	}
@@ -72,7 +73,7 @@ public class Contato extends Pessoa implements Serializable {
 	public void setParentesco(String parentesco) {
 		this.parentesco = parentesco;
 	}
-	
+
 	public Set<Paciente> getPacientes() {
 		return pacientes;
 	}
@@ -233,7 +234,7 @@ public class Contato extends Pessoa implements Serializable {
 	private Contato(Builder builder) {
 		this.setReligiao(builder.religiao);
 		this.setParentesco(builder.parentesco);
-		
+
 		this.setId(builder.id);
 		this.setNome(builder.nome);
 		this.setEmail(builder.email);

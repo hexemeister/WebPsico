@@ -210,16 +210,19 @@
 
 						<p:toolbar id="tb">
 							<f:facet name="left">
-								<p:button type="button" value="Novo Contato" title="Novo Contato"
-									icon="ui-icon-document" href="gerenciaContato.jsf" />
-								<p:commandButton id="tbContatoAlterarBtn" value="Alterar Contato"
-									title="Alterar Contato" disabled="true" immediate="true"
-									icon="ui-icon-disk" update=":formContato, :cabecalhoDlg"
+								<p:commandButton type="Reset" value="Novo Contato" title="Novo Contato"
+									icon="ui-icon-document" onclick="PF('contatodlg').show()"
+									action="#{pacienteMB.prepararNovoContato}" process="@this"
+									update=":formContato, :cabecalhoDlg, :formPac:abas:tbcontatos" immediate="true" />
+								<p:commandButton id="tbContatoAlterarBtn"
+									value="Alterar Contato" title="Alterar Contato" disabled="true"
+									immediate="true" icon="ui-icon-disk"
+									update=":formContato, :cabecalhoDlg"
 									onclick="PF('contatodlg').show()" />
 							</f:facet>
 							<f:facet name="right">
-								<p:commandButton value="Apagar" title="Apagar Contato"
-									icon="ui-icon-trash" disabled="true" />
+								<p:commandButton id="apagarContatoBtn" value="Apagar"
+									title="Apagar Contato" icon="ui-icon-trash" disabled="true" />
 							</f:facet>
 						</p:toolbar>
 						<p:dataTable id="tbcontatos" rows="5" var="linha"
@@ -259,11 +262,11 @@
 				requiredMessage="Informe o nome do paciente  a ser pesquisado"
 				size="30" />
 			<p:spacer width="20" height="30" />
-			<p:commandButton id="salvarPacBtn" value="Salvar"
-				action="#{pacienteMB.salvar}"
+			<p:commandButton id="salvarPacBtn" value="Salvar Paciente"
+				title="Salvar Paciente" action="#{pacienteMB.salvar}"
 				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente" />
 			<p:commandButton id="atualizarPacBtn" value="Alterar Paciente"
-				action="#{pacienteMB.atualizar}"
+				title="Alterar Paciente" action="#{pacienteMB.atualizar}"
 				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente"
 				rendered="false" />
 			<p:spacer width="20" height="30" />
@@ -273,7 +276,7 @@
 
 			<p:separator />
 
-			<p:dataTable id="tabelaPaciente" rows="10" var="linha"
+			<p:dataTable id="tabelaPaciente" rows="10" var="linha" 
 				emptyMessage="Nenhum paciente cadastrado."
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
 				paginator="true" paginatorPosition="bottom"
@@ -299,7 +302,8 @@
 
 
 
-		<p:dialog id="gerenciaContato" widgetVar="contatodlg" closable="true" closeOnEscape="true" modal="true" appendTo="@(body)">
+		<p:dialog id="gerenciaContato" widgetVar="contatodlg" closable="true" showEffect="fade" hideEffect="fade"
+			closeOnEscape="true" modal="true" appendTo="@(body)">
 			<f:facet name="header">
 				<p:outputLabel id="cabecalhoDlg">Gerenciar contato do paciente &nbsp;&nbsp; - &nbsp;&nbsp; #{pacienteMB.pacienteSelecionado.nome}</p:outputLabel>
 			</f:facet>
