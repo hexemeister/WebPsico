@@ -35,12 +35,12 @@ public class PacienteMB implements Serializable {
 
 	private Paciente pacienteSelecionado = new Paciente();
 	private Contato contatoSelecionado = new Contato();
-	
+
 	List<Paciente> listaPaciente;
 
 	public PacienteMB() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
@@ -115,8 +115,12 @@ public class PacienteMB implements Serializable {
 
 	public void onRowContatoSelect(SelectEvent event) {
 		try {
+			CommandButton comp = (CommandButton) Util.findComponent("formPac:abas:tbContatoAlterarBtn");
+			comp.setDisabled(false);
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.update("gerenciaContato");
 			contatoSelecionado = ((Contato) event.getObject());
-			FacesMessage msg = new FacesMessage("Contato Selecionado");
+			FacesMessage msg = new FacesMessage("Contato Selecionado", contatoSelecionado.getNome());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
@@ -124,15 +128,14 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void onRowContatoUnselect(UnselectEvent event) {
+		CommandButton comp = (CommandButton) Util.findComponent("formPac:abas:tbContatoAlterarBtn");
+		comp.setDisabled(true);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("gerenciaContato");
 		contatoSelecionado = new Contato();
 		FacesMessage msg = new FacesMessage("Seleção Limpa",
 				((Contato) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public String alterarContato() {
-		FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("contato", contatoSelecionado);
-		return "gerenciaContato.jsf";
 	}
 
 	public Uf[] getEstados() {

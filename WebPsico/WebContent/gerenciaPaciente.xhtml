@@ -210,11 +210,12 @@
 
 						<p:toolbar id="tb">
 							<f:facet name="left">
-								<p:button type="button" value="Novo" title="Novo Contato"
+								<p:button type="button" value="Novo Contato" title="Novo Contato"
 									icon="ui-icon-document" href="gerenciaContato.jsf" />
-								<p:commandButton value="Alterar" title="Alterar Contato"
-									immediate="true" process="@this" icon="ui-icon-disk"
-									action="#{pacienteMB.alterarContato}" />
+								<p:commandButton id="tbContatoAlterarBtn" value="Alterar Contato"
+									title="Alterar Contato" disabled="true" immediate="true"
+									icon="ui-icon-disk" update=":formContato, :cabecalhoDlg"
+									onclick="PF('contatodlg').show()" />
 							</f:facet>
 							<f:facet name="right">
 								<p:commandButton value="Apagar" title="Apagar Contato"
@@ -226,11 +227,12 @@
 							value="#{pacienteMB.pacienteSelecionado.contatos}"
 							selectionMode="single"
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
-							<p:ajax event="rowSelect" listener="#{pacienteMB.onRowContatoSelect}"
-								update=":formPac:growl, :formPac:abas:tbcontatos"  />
+							<p:ajax event="rowSelect"
+								listener="#{pacienteMB.onRowContatoSelect}"
+								update=":formPac:growl, :formPac:abas:tbcontatos, :formPac:abas:tb" />
 							<p:ajax event="rowUnselect"
 								listener="#{pacienteMB.onRowContatoUnselect}"
-								update=":formPac:growl, :formPac:abas:tbcontatos" />
+								update=":formPac:growl, :formPac:abas:tbcontatos, :formPac:abas:tb" />
 							<p:column headerText="Nome">
 								<h:outputText value="#{linha.nome}" />
 							</p:column>
@@ -260,7 +262,7 @@
 			<p:commandButton id="salvarPacBtn" value="Salvar"
 				action="#{pacienteMB.salvar}"
 				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente" />
-			<p:commandButton id="atualizarPacBtn" value="Atualizar"
+			<p:commandButton id="atualizarPacBtn" value="Alterar Paciente"
 				action="#{pacienteMB.atualizar}"
 				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente"
 				rendered="false" />
@@ -274,9 +276,9 @@
 			<p:dataTable id="tabelaPaciente" rows="10" var="linha"
 				emptyMessage="Nenhum paciente cadastrado."
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
-				paginator="true" paginatorPosition="bottom" 
+				paginator="true" paginatorPosition="bottom"
 				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
-				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}" 
+				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
 					update=":formPac:growl, :formPac:abas" />
 				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
 					update=":formPac:growl, :formPac" />
@@ -292,8 +294,130 @@
 				<p:column headerText="Email ">
 					<h:outputText value="#{linha.email}" />
 				</p:column>
-
 			</p:dataTable>
 		</h:form>
+
+
+
+		<p:dialog id="gerenciaContato" widgetVar="contatodlg" closable="true" closeOnEscape="true" modal="true" appendTo="@(body)">
+			<f:facet name="header">
+				<p:outputLabel id="cabecalhoDlg">Gerenciar contato do paciente &nbsp;&nbsp; - &nbsp;&nbsp; #{pacienteMB.pacienteSelecionado.nome}</p:outputLabel>
+			</f:facet>
+			<h:form id="formContato">
+				<p:tab id="personal" title="Dados Pessoais">
+					<h:panelGrid columns="5"
+						columnClasses="label, value, ,label, value">
+
+						<h:outputText value="Nome Completo:" />
+						<p:inputText value="#{pacienteMB.contatoSelecionado.nome}"
+							placeholder="Informe o nome completo do contato por favor!"
+							required="true" label="Nome Completo" size="30" />
+
+						<p style="width: 150px" />
+
+						<p:outputLabel for="tipoContato" value="Grau de Parentesco:" />
+						<p:inputText id="tipoContato" required="true"
+							placeholder="Grau de Parentesco" size="30"
+							value="#{pacienteMB.contatoSelecionado.parentesco}" />
+
+						<p:outputLabel for="email" value="Email:" />
+						<p:inputText id="email" required="true"
+							placeholder="Informe o e-mail do contato"
+							value="#{pacienteMB.contatoSelecionado.email}" size="30" />
+						<p style="width: 150px" />
+
+						<p:outputLabel for="cpf" value="CPF" />
+						<p:inputMask id="cpf" value="#{pacienteMB.contatoSelecionado.cpf}"
+							mask="999.999.999-99" />
+
+						<p:outputLabel for="dataNascimento" value="Data de Nascimento" />
+						<p:calendar id="dataNascimento"
+							value="#{pacienteMB.contatoSelecionado.dataNascimento}"
+							locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
+							mask="99/99/9999" effect="fold" />
+
+						<p style="width: 150px" />
+
+						<h:outputText value="Idade" />
+						<p:outputLabel value="#{pacienteMB.contatoSelecionado.idade}" />
+
+
+						<p:outputLabel for="religiao" value="Religião:" />
+						<p:inputText id="religiao"
+							value="#{pacienteMB.contatoSelecionado.religiao}" />
+
+						<p style="width: 150px" />
+
+						<p:outputLabel for="sexo" value="Sexo:" />
+						<p:selectOneMenu id="sexo"
+							value="#{pacienteMB.contatoSelecionado.sexo}">
+							<f:selectItem itemLabel="Selecione o sexo"
+								noSelectionOption="true" />
+							<f:selectItems value="#{pacienteMB.sexos}" var="sexo"
+								itemLabel="#{sexo.descricao}" itemValue="#{sexo}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="estadoCivil" value="Estado Civil:" />
+						<p:selectOneMenu id="estadoCivil"
+							value="#{pacienteMB.contatoSelecionado.estadoCivil}">
+							<f:selectItem itemLabel="Selecione o estado civil"
+								noSelectionOption="true" />
+							<f:selectItems value="#{pacienteMB.estadosCivis}"
+								var="estadoCivil" itemLabel="#{estadoCivil.descricao}"
+								itemValue="#{estadoCivil}" />
+						</p:selectOneMenu>
+
+						<p style="width: 150px" />
+
+						<p:outputLabel for="tel" value="Telefone Fixo:" />
+						<p:inputMask id="tel"
+							value="#{pacienteMB.contatoSelecionado.telefoneFixo}"
+							mask="(99) 9999-9999" />
+
+						<p:outputLabel for="cel" value="Telefone Celular:" />
+						<p:inputMask id="cel"
+							value="#{pacienteMB.contatoSelecionado.telefoneCelular}"
+							mask="(99) 99999-9999" />
+
+						<p style="width: 150px" />
+
+						<p:outputLabel for="profissao" value="Profissão:" />
+						<p:inputText id="profissao" placeholder="Profissão"
+							value="#{pacienteMB.contatoSelecionado.profissao}" />
+						<p:outputLabel for="grau" value="Grau de Instrução:" />
+						<p:selectOneMenu id="grau"
+							value="#{pacienteMB.contatoSelecionado.escolaridade}">
+							<f:selectItem itemLabel="Selecione o grau de escolaridade"
+								noSelectionOption="true" />
+							<f:selectItems value="#{pacienteMB.escolaridades}"
+								var="escolaridade" itemLabel="#{escolaridade.descricao}"
+								itemValue="#{escolaridade}" />
+						</p:selectOneMenu>
+
+
+					</h:panelGrid>
+				</p:tab>
+				<p:spacer width="0" height="40" />
+				<p:commandButton value="Salvar" />
+				<p:spacer width="50" height="40" />
+				<p:commandButton value="Cancelar"
+					title="Cancelar alterações de contato"
+					onclick="PF('contatodlg').hide()" immediate="true" />
+			</h:form>
+
+			<p:separator />
+			<h:form id="pesquisaContato">
+				<p:outputLabel for="ContatoPesquisa"
+					value="Procurar por um Contato: " />
+				<p:inputText id="ContatoPesquisa" placeholder="Contato procurado"
+					requiredMessage="Informe o nome do contato a ser pesquisado"
+					size="40" />
+				<p:spacer width="20" />
+
+				<p:commandButton value="Pesquisar" />
+			</h:form>
+		</p:dialog>
+
+
 	</ui:define>
 </ui:composition>
