@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.enterprise.inject.Produces;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -74,14 +73,12 @@ public class Paciente extends Pessoa implements Serializable {
 		this.preco = preco;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Paciente [indicacao=" + indicacao + ", dataInicio="
 				+ dataInicio + ", dataUltimaSessao=" + dataUltimaSessao
 				+ ", preferenciaTurno=" + preferenciaTurno + ", preco=" + preco
-				+ ", contatos=" + contatos + "]"+super.toString();
+				+ ", contatos=" + contatos + "]" + super.toString();
 	}
 
 	public Set<Contato> getContatos() {

@@ -24,6 +24,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import persistence.ContatoDao;
 import persistence.PacienteDao;
 import config.Util;
 
@@ -66,7 +67,12 @@ public class PacienteMB implements Serializable {
 
 	public void prepararNovoContato() {
 		contatoSelecionado = new Contato();
+		CommandButton comp = (CommandButton) Util.findComponent("formPac:abas:tbContatoAlterarBtn");
+		comp.setDisabled(true);
+		comp = (CommandButton) Util.findComponent("formPac:abas:apagarContatoBtn");
+		comp.setDisabled(true);
 		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("formPac:abas:tb");
 		context.update("formContato");
 	}
 	
@@ -94,6 +100,10 @@ public class PacienteMB implements Serializable {
 		this.listaPaciente = listaPaciente;
 	}
 
+	public void criaContato() {
+		new ContatoDao().create(contatoSelecionado);
+	}
+	
 	public void onRowSelect(SelectEvent event) {
 		UIComponent comp = Util.findComponent("pesquisaPaciente:salvarPacBtn");
 		comp.setRendered(false);
