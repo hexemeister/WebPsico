@@ -32,12 +32,12 @@
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
 								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" yearRange="c-60:c"
 								mask="true" >
-								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}" update="idade" />
+								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}" update="idadePac" />
 							</p:calendar>
 								
 							<p style="width: 150px" />
-							<p:outputLabel value="Idade:" />
-							<p:outputLabel id="idade" 
+							<p:outputLabel for="idadePac" value="Idade:" />
+							<p:outputLabel id="idadePac" 
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento == null ? 'Data de nascimento não fornecida' : pacienteMB.pacienteSelecionado.idade}" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
@@ -344,12 +344,15 @@
 					<p:calendar id="dataNascimento"
 						value="#{pacienteMB.contatoSelecionado.dataNascimento}"
 						locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
-						mask="99/99/9999" effect="fold" />
+						mask="99/99/9999" effect="fold" >
+						<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}" update="idadeContato" />	
+					</p:calendar>
+						
 
 					<p style="width: 150px" />
 
-					<h:outputText value="Idade:" />
-					<p:outputLabel value="#{pacienteMB.contatoSelecionado.idade == 0 ? 'Data de nascimento não fornecida' : pacienteMB.contatoSelecionado.idade}" />
+					<p:outputLabel for="idadeContato" value="Idade:" />
+					<p:outputLabel id="idadeContato" value="#{pacienteMB.contatoSelecionado.idade == null ? 'Data de nascimento não fornecida' : pacienteMB.contatoSelecionado.idade}" />
 
 
 					<p:outputLabel for="religiao" value="Religião:" />
@@ -380,14 +383,14 @@
 					<p style="width: 150px" />
 
 					<p:outputLabel for="tel" value="Telefone Fixo:" />
-					<p:inputMask id="tel"
+					<p:inputMask id="tel" converter="telefoneFixoConverter"
 						value="#{pacienteMB.contatoSelecionado.telefoneFixo}"
 						mask="(99) 9999-9999" />
 
-					<p:outputLabel for="cel" value="Telefone Celular:" />
+					<p:outputLabel value="Telefone Celular:" />
 					<p:inputMask id="cel"
 						value="#{pacienteMB.contatoSelecionado.telefoneCelular}"
-						mask="(99) 99999-9999" />
+						mask="(99) 99999-9999" converter="telefoneCelularConverter" />
 
 					<p style="width: 150px" />
 

@@ -24,9 +24,13 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
 
 	@Override
 	public void create(T entity) {
-		em.getTransaction().begin();
-		em.persist(entity);
-		em.getTransaction().commit();
+		try {
+			em.getTransaction().begin();
+			em.persist(entity);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		}
 	}
 
 	@Override

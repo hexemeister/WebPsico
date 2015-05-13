@@ -2,6 +2,7 @@ package manager;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -10,7 +11,7 @@ import javax.persistence.NonUniqueResultException;
 import modelo.Usuario;
 import persistence.UsuarioDao;
 
-@javax.enterprise.context.SessionScoped
+@SessionScoped
 @Named("loginMB")
 public class LoginMB implements Serializable {
 

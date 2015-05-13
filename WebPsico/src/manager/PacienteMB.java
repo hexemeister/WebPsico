@@ -37,7 +37,6 @@ public class PacienteMB implements Serializable {
 
 	private Paciente pacienteSelecionado = new Paciente();
 	private Contato contatoSelecionado = new Contato();
-	
 
 	List<Paciente> listaPaciente;
 
@@ -103,7 +102,9 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void criaContato() {
-		new ContatoDao().create(contatoSelecionado);
+		pacienteSelecionado.getContatos().add(contatoSelecionado);
+		contatoSelecionado.getPacientes().add(pacienteSelecionado);
+		new ContatoDao().update(contatoSelecionado);
 	}
 	
 	public void onDateSelect(SelectEvent event) {
