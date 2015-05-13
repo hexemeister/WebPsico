@@ -27,16 +27,18 @@
 							<p:inputMask id="cpf"
 								value="#{pacienteMB.pacienteSelecionado.cpf}"
 								mask="999.999.999-99" required="true" />
-
 							<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
-							<p:calendar id="dataNascimento"
+							<p:calendar id="dataNascimento" placeholder="Informe a data de nascimento"
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
-								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
-								mask="99/99/9999"  />
+								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" yearRange="c-60:c"
+								mask="true" >
+								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}" update="idade" />
+							</p:calendar>
+								
 							<p style="width: 150px" />
 							<p:outputLabel value="Idade:" />
 							<p:outputLabel id="idade" 
-								value="#{pacienteMB.pacienteSelecionado.idade == 0 ? 'Data de nascimento não fornecida' : pacienteMB.pacienteSelecionado.idade}" />
+								value="#{pacienteMB.pacienteSelecionado.dataNascimento == null ? 'Data de nascimento não fornecida' : pacienteMB.pacienteSelecionado.idade}" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
 							<p:selectOneMenu id="sexo"
@@ -347,7 +349,7 @@
 					<p style="width: 150px" />
 
 					<h:outputText value="Idade:" />
-					<p:outputLabel value="#{pacienteMB.contatoSelecionado.idade == 0 ? 'Data de nascimento não fornecida' : pacienteMB.pacienteSelecionado.idade}" />
+					<p:outputLabel value="#{pacienteMB.contatoSelecionado.idade == 0 ? 'Data de nascimento não fornecida' : pacienteMB.contatoSelecionado.idade}" />
 
 
 					<p:outputLabel for="religiao" value="Religião:" />

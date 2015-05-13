@@ -1,6 +1,7 @@
 package manager;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class PacienteMB implements Serializable {
 
 	private Paciente pacienteSelecionado = new Paciente();
 	private Contato contatoSelecionado = new Contato();
+	
 
 	List<Paciente> listaPaciente;
 
@@ -46,7 +48,7 @@ public class PacienteMB implements Serializable {
 	public void init() {
 		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
 	}
-
+	
 	public void atualizar() {
 		new PacienteDao().update(pacienteSelecionado);
 	}
@@ -103,6 +105,12 @@ public class PacienteMB implements Serializable {
 	public void criaContato() {
 		new ContatoDao().create(contatoSelecionado);
 	}
+	
+	public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
 	
 	public void onRowSelect(SelectEvent event) {
 		UIComponent comp = Util.findComponent("pesquisaPaciente:salvarPacBtn");

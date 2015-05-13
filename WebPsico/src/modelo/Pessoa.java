@@ -41,16 +41,15 @@ public abstract class Pessoa implements Serializable {
 	private Sexo sexo;
 
 	@Temporal(TemporalType.DATE)
-	private Date dataNascimento = new Date();
+	private Date dataNascimento;
 
 	@Transient
 	private Integer idade;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
-	
-	
-	@CPF(formatted=false,message="CPF invalido")
+
+	@CPF(formatted = false, message = "CPF invalido")
 	private String cpf;
 
 	@Column(length = 10)
@@ -151,16 +150,24 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	public void setDataNascimento(Date dataNascimento) {
-		dataNascimento.setYear(dataNascimento.getYear() - 1900);
+		// dataNascimento.setYear(dataNascimento.getYear() - 1900); olhar no
+		// banco
 		this.dataNascimento = dataNascimento;
 	}
 
+	@SuppressWarnings("finally")
 	public Integer getIdade() {
-		Instant instant = Instant.ofEpochMilli(dataNascimento.getTime());
-		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant,
-				ZoneId.systemDefault());
-		return idade = Period.between(LocalDate.from(localDateTime),
-				LocalDate.now()).getYears();
+		try {
+			Instant instant = Instant.ofEpochMilli(dataNascimento.getTime());
+			LocalDateTime localDateTime = LocalDateTime.ofInstant(instant,
+					ZoneId.systemDefault());
+			idade = Period.between(LocalDate.from(localDateTime),
+					LocalDate.now()).getYears();
+		} catch (Exception e) {
+			idade = null;
+		} finally {
+			return idade;
+		}
 	}
 
 	public Endereco getEndereco() {
