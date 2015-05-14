@@ -157,8 +157,8 @@ public class UsuarioMB implements Serializable {
 				// se nao for, verifica condições e altera
 				// verifica se o login e senha informadas no form é o login e a
 				// senha do banco
-				if ((senhaAtual != null | senhaAtual != "")
-						&& senhaAtual.equals(u.getSenha())) {
+				if (/* (senhaAtual != null | senhaAtual != "") 
+						&& */ senhaAtual.equals(u.getSenha())) {
 					// verifica se o login foi alterado
 					if (!usuarioSelecionado.getLogin().equals(u.getLogin())) {
 						// se foi, verifica se o novo login já existe
@@ -170,7 +170,7 @@ public class UsuarioMB implements Serializable {
 					// confirmação foi feita
 					if (novaSenha1.equals(novaSenha2)
 							&& (novaSenha1 != null | novaSenha1 != "")) {
-						usuarioSelecionado.setSenha(senhaAtual);
+						usuarioSelecionado.setSenha(novaSenha1);
 						// verifica se a senha foi informada 2 vezes
 					} else {
 						if (!novaSenha1.equals(novaSenha2)) {

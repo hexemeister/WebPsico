@@ -38,7 +38,7 @@ public class Paciente extends Pessoa implements Serializable {
 							// sessão
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Contato> contatos = new HashSet<>();;
+	private Set<Contato> contatos = new HashSet<>();
 
 	public Paciente() {
 		Endereco endereco = new Endereco();

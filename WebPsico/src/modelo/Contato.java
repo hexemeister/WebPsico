@@ -102,6 +102,9 @@ public class Contato extends Pessoa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Contato other = (Contato) obj;
+		if (super.getId() == other.getId()) {
+			return true;
+		}
 		if (parentesco == null) {
 			if (other.parentesco != null)
 				return false;

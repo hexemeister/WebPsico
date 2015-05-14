@@ -9,8 +9,10 @@
 	<ui:define name="corpo">
 		<h:form id="agenda">
 			<h:panelGrid id="agendaPainel" styleClass="corpo">
-				<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}" allDaySlot="false" aspectRatio="1.6"
-					widgetVar="myschedule" axisFormat="H:mm" timeFormat="H:mm" style="width: 90%; margin: 0 auto;"  >
+				<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}"
+					allDaySlot="false" aspectRatio="1.6" widgetVar="myschedule"
+					axisFormat="H:mm" timeFormat="H:mm"
+					style="width: 90%; margin: 0 auto;">
 
 					<p:ajax event="dateSelect"
 						listener="#{scheduleViewMB.onDateSelect}" update="eventDetails"
@@ -21,40 +23,71 @@
 					<p:ajax event="eventMove" listener="#{scheduleViewMB.onEventMove}"
 						update=":formcab:messages" />
 					<p:ajax event="eventResize"
-						listener="#{scheduleViewMB.onEventResize}" update=":formcab:messages" />
+						listener="#{scheduleViewMB.onEventResize}"
+						update=":formcab:messages" />
 
 				</p:schedule>
 
 			</h:panelGrid>
 			<p:dialog widgetVar="eventDialog" header="Marcação de Consulta"
-				showEffect="clip" hideEffect="clip">
-				<h:panelGrid id="eventDetails" columns="2">
+				showEffect="clip" hideEffect="clip" modal="true" appendTo="@(body)">
+				<p:panelGrid id="eventDetails" >
+					<p:row>
+						<p:column>
+							<h:outputLabel for="nomePaciente" value="Nome do Paciente:" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText id="nomePaciente"
+								value="#{scheduleViewMB.event.title}" required="true" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="nomePsicologa" value="Psicologa:" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputText id="nomePsicologa"
+								value="#{scheduleViewMB.event.title}" required="true" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="from" value="Data:" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputMask id="from" value="#{scheduleViewMB.event.startDate}"
+								mask="99/99/9999">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+							</p:inputMask>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="hora" value="Hora:" />
+						</p:column>
+						<p:column colspan="2">
+							<p:inputMask id="hora" value="#{scheduleViewMB.event.data}"
+								mask="99:99">
+								<f:convertDateTime pattern="HH:MM" timeZone="GMT-3" />
+							</p:inputMask>
+						</p:column>
+					</p:row>
 
-					<h:outputLabel for="nomePaciente" value="Nome do Paciente:" />
-					<p:inputText id="nomePaciente"
-						value="#{scheduleViewMB.event.title}" required="true" />
-
-					<h:outputLabel for="nomePsicologa" value="Psicologa:" />
-					<p:inputText id="nomePsicologa"
-						value="#{scheduleViewMB.event.title}" required="true" />
-
-					<h:outputLabel for="from" value="Data:" />
-					<p:inputMask id="from" value="#{scheduleViewMB.event.startDate}"
-						mask="99/99/9999">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
-					</p:inputMask>
-
-					<h:outputLabel for="hora" value="Hora:" />
-					<p:inputMask id="hora" value="#{scheduleViewMB.event.data}"
-						mask="99:99">
-						<f:convertDateTime pattern="HH:MM" timeZone="GMT-3" />
-					</p:inputMask>
-
-					<p:commandButton id="addButton" value="Save"
-						actionListener="#{scheduleViewMB.addEvent}"
-						oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
-
-				</h:panelGrid>
+				<!-- 	<p:row>
+						<p:column colspan="3">
+							<p />
+						</p:column>
+					</p:row> -->
+					
+					
+				</p:panelGrid>
+				<p:panelGrid columns="3" layout="grid">
+							<p:commandButton id="addButton" value="Save"
+								actionListener="#{scheduleViewMB.addEvent}"
+								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+							<p:commandButton id="evolucaoBtn" value="Evoluçao" />
+							<p:commandButton id="AnamneseBtn" value="Anamnese" />
+							</p:panelGrid>
 			</p:dialog>
 		</h:form>
 	</ui:define>

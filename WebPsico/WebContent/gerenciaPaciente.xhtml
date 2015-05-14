@@ -26,18 +26,20 @@
 							<p:outputLabel for="cpf" value="CPF:" />
 							<p:inputMask id="cpf"
 								value="#{pacienteMB.pacienteSelecionado.cpf}"
-								mask="999.999.999-99" required="true" />
+								mask="999.999.999-99" required="true" converter="cpfConverter" />
 							<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
-							<p:calendar id="dataNascimento" placeholder="Informe a data de nascimento"
+							<p:calendar id="dataNascimento"
+								placeholder="Informe a data de nascimento"
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
-								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" yearRange="c-60:c"
-								mask="true" >
-								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}" update="idadePac" />
+								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
+								yearRange="c-60:c" mask="true">
+								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}"
+									update="idadePac" />
 							</p:calendar>
-								
+
 							<p style="width: 150px" />
 							<p:outputLabel for="idadePac" value="Idade:" />
-							<p:outputLabel id="idadePac" 
+							<p:outputLabel id="idadePac"
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento == null ? 'Data de nascimento não fornecida' : pacienteMB.pacienteSelecionado.idade}" />
 
 							<p:outputLabel for="sexo" value="Sexo:" />
@@ -126,12 +128,12 @@
 								size="30" />
 
 							<p:outputLabel for="celPac" value="Telefone Celular:" />
-							<p:inputMask id="celPac"
+							<p:inputMask id="celPac" converter="telefoneCelularConverter"
 								value="#{pacienteMB.pacienteSelecionado.telefoneCelular}"
 								mask="(99) 99999-9999" required="true" />
 							<p style="width: 150px" />
 							<p:outputLabel for="telPac" value="Telefone Fixo: " />
-							<p:inputMask id="telPac"
+							<p:inputMask id="telPac" converter="telefoneFixoConverter"
 								value="#{pacienteMB.pacienteSelecionado.telefoneFixo}"
 								mask="(99) 9999-9999" />
 
@@ -177,7 +179,7 @@
 								value="#{pacienteMB.pacienteSelecionado.dataInicio}"
 								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
 								required="true" mask="99/99/9999" />
-								
+
 							<p style="width: 150px" />
 
 							<p:outputLabel for="dataFinal" value="Data da ultima Sessão:" />
@@ -230,10 +232,11 @@
 									title="Apagar Contato" icon="ui-icon-trash" disabled="true" />
 							</f:facet>
 						</p:toolbar>
-						<p:dataTable id="tbcontatos" rows="5" var="linha"  
+						<p:dataTable id="tbcontatos" rows="5" var="linha"
 							emptyMessage="Não há contatos cadastrados para este paciente."
 							value="#{pacienteMB.pacienteSelecionado.contatos}"
-							selectionMode="single"
+							selectionMode="single" caseSensitiveSort="true"
+							disabledTextSelection="true"
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:ajax event="rowSelect"
 								listener="#{pacienteMB.onRowContatoSelect}"
@@ -241,7 +244,7 @@
 							<p:ajax event="rowUnselect"
 								listener="#{pacienteMB.onRowContatoUnselect}"
 								update=":formPac:growl, :formPac:abas:tbcontatos, :formPac:abas:tb" />
-							<p:column headerText="Nome" >
+							<p:column headerText="Nome">
 								<p:outputLabel value="#{linha.nome}" />
 							</p:column>
 							<p:column headerText="Telefone Fixo">
@@ -338,21 +341,23 @@
 
 					<p:outputLabel for="cpf" value="CPF:" />
 					<p:inputMask id="cpf" value="#{pacienteMB.contatoSelecionado.cpf}"
-						mask="999.999.999-99" />
+						mask="999.999.999-99" converter="cpfConverter" />
 
 					<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
 					<p:calendar id="dataNascimento"
 						value="#{pacienteMB.contatoSelecionado.dataNascimento}"
 						locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
-						mask="99/99/9999" effect="fold" >
-						<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}" update="idadeContato" />	
+						mask="99/99/9999" effect="fold">
+						<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}"
+							update="idadeContato" />
 					</p:calendar>
-						
+
 
 					<p style="width: 150px" />
 
 					<p:outputLabel for="idadeContato" value="Idade:" />
-					<p:outputLabel id="idadeContato" value="#{pacienteMB.contatoSelecionado.idade == null ? 'Data de nascimento não fornecida' : pacienteMB.contatoSelecionado.idade}" />
+					<p:outputLabel id="idadeContato"
+						value="#{pacienteMB.contatoSelecionado.idade == null ? 'Data de nascimento não fornecida' : pacienteMB.contatoSelecionado.idade}" />
 
 
 					<p:outputLabel for="religiao" value="Religião:" />
@@ -412,13 +417,17 @@
 
 
 				<p:spacer width="0" height="40" />
-				<p:commandButton value="Salvar" action="#{pacienteMB.criaContato}"/>
+				<p:commandButton value="Salvar" action="#{pacienteMB.criaContato}"
+					update=":formPac:abas:tbcontatos" />
 				<p:spacer width="50" height="40" />
 				<p:commandButton value="Cancelar" type="Reset"
 					title="Cancelar alterações de contato"
 					onclick="PF('contatodlg').hide()" immediate="true" />
 			</h:form>
 
+
+			<!-- Pesquisa Contato fica pra próxima versão -->
+			<!-- 
 			<p:separator />
 			<h:form id="pesquisaContato">
 				<p:outputLabel for="ContatoPesquisa"
@@ -429,7 +438,10 @@
 				<p:spacer width="20" />
 
 				<p:commandButton value="Pesquisar" />
-			</h:form>
+			</h:form> 
+			-->
+			
+			
 		</p:dialog>
 
 

@@ -49,12 +49,6 @@ public class TelefoneFixoConverter implements Converter {
 		// Aqui faremos o inverso. Conversão de String nao formatada(
 		// 9999999999 ) para String formatada ( (99) 9999-9999 )
 		String retorno = obj.toString();
-		if (retorno.length() == 10) {
-			retorno = "(" + retorno.substring(0, 2) + ") "
-					+ retorno.substring(3, 6) + "-" + retorno.substring(7);
-		} else {
-			retorno = "";
-		}
 		return retorno;
 	}
 

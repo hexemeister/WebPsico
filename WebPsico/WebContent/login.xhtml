@@ -25,9 +25,8 @@
 					title="Login" placeholder="Login"
 					requiredMessage="Digite um nome de usuário, por favor!" />
 				<h:outputText value="Senha" />
-				<p:password value="#{loginMB.usuario.senha}" required="true"
-					title="Senha" placeholder="Senha"
-					requiredMessage="Digite uma senha, por favor!" />
+				<p:password value="#{loginMB.usuario.senha}"
+					title="Senha" placeholder="Senha" />
 			</p:panelGrid>
 			<p:spacer width="0" height="40" />
 			<p:commandButton value="Logar" action="#{loginMB.logar}" ajax="false" />

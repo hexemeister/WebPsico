@@ -15,7 +15,7 @@
 		<h:outputStylesheet library="css" name="style.css" />
 	</f:facet>
 
-	<p:layout fullPage="true" >
+	<p:layout fullPage="true">
 		<p:layoutUnit position="north" styleClass="menu" visible="true">
 			<div id="cabecalho" class="ui-grid ui-grid-responsive">
 				<div class="ui-grid-row">
@@ -34,9 +34,11 @@
 										<p:menuitem value="Gerencia Paciente"
 											url="/gerenciaPaciente.jsf" />
 									</p:submenu>
-									<p:menuitem value="Evolução" url="/evolucao.jsf"/>
+									<p:menuitem value="Evolução" url="/evolucao.jsf"
+										disabled="#{usuarioMB.logado.isAtendente()}" />
+									<p:menuitem value="Anamnese" url="/anamnese.jsf"
+										disabled="#{usuarioMB.logado.isAtendente()}" />
 									<p:menuitem value="Relatórios" />
-									<p:menuitem value="Configurações" />
 									<p:menuitem value="Sobre" url="/sobre.jsf" />
 
 									<f:facet name="options">

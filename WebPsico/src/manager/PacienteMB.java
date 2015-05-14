@@ -105,6 +105,11 @@ public class PacienteMB implements Serializable {
 		pacienteSelecionado.getContatos().add(contatoSelecionado);
 		contatoSelecionado.getPacientes().add(pacienteSelecionado);
 		new ContatoDao().update(contatoSelecionado);
+		FacesMessage msg = new FacesMessage("Contato Salvo", contatoSelecionado.getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		RequestContext context = RequestContext.getCurrentInstance();   
+		context.execute("PF('contatodlg').hide()");
+		System.out.println("###############" + pacienteSelecionado.getContatos());
 	}
 	
 	public void onDateSelect(SelectEvent event) {
