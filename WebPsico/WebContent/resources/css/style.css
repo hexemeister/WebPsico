@@ -36,13 +36,15 @@
 	text-align: center;
 }
 
-
+.semBorda tr, .semBorda td. {
+	border: none !important;
+}
 
 .fc-event-skin {
-        border-color: #36c;     /* default BORDER color */
-        background-color: #f30 !important; /* default BACKGROUND color */
-        color: #fff;            /* default TEXT color */
-        }
+	border-color: #36c; /* default BORDER color */
+	background-color: #f30 !important; /* default BACKGROUND color */
+	color: #fff; /* default TEXT color */
+}
 
 .corpo {
 	z-index: 1 !important;

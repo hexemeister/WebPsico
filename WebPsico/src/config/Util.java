@@ -153,9 +153,9 @@ public class Util {
 											.preferenciaTurno(Turno.TARDE)
 											.preco(320.)
 											.build();
-		Contato c1 = new ContatoDao().FindById(1);
-		Contato c2 = new ContatoDao().FindById(2);
-		Set<Contato> listaContatos = new HashSet<Contato>();
+		Contato c1 = new ContatoDao().findById(1);
+		Contato c2 = new ContatoDao().findById(2);
+		List<Contato> listaContatos = new ArrayList<Contato>();
 		listaContatos.add(c1);
 		listaContatos.add(c2);
 		p1.setContatos(listaContatos);
@@ -167,7 +167,7 @@ public class Util {
 		// lista.add(c3);
 		// lista.add(c4);
 		for (Paciente paciente: lista) {
-			pdao.update(paciente);
+			pdao.update(paciente, paciente.getId());
 		}
 		System.out.println("****************** FIM DE populaBancoComPacientes ********************");
 	}

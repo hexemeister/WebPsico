@@ -30,8 +30,9 @@
 
 			</h:panelGrid>
 			<p:dialog widgetVar="eventDialog" header="Marcação de Consulta"
-				showEffect="clip" hideEffect="clip" modal="true" appendTo="@(body)">
-				<p:panelGrid id="eventDetails" >
+				resizable="false" showEffect="clip" hideEffect="clip" modal="true"
+				appendTo="@(body)">
+				<p:panelGrid id="eventDetails" styleClass="semBorda" >
 					<p:row>
 						<p:column>
 							<h:outputLabel for="nomePaciente" value="Nome do Paciente:" />
@@ -73,21 +74,20 @@
 						</p:column>
 					</p:row>
 
-				<!-- 	<p:row>
-						<p:column colspan="3">
-							<p />
-						</p:column>
-					</p:row> -->
-					
-					
-				</p:panelGrid>
-				<p:panelGrid columns="3" layout="grid">
-							<p:commandButton id="addButton" value="Save"
+					<p:row>
+						<p:column>
+							<p:commandButton id="marcarBtn" value="Marcar"
 								actionListener="#{scheduleViewMB.addEvent}"
 								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+						</p:column>
+						<p:column>
 							<p:commandButton id="evolucaoBtn" value="Evoluçao" />
-							<p:commandButton id="AnamneseBtn" value="Anamnese" />
-							</p:panelGrid>
+						</p:column>
+						<p:column>
+							<p:commandButton id="anamneseBtn" value="Anamnese" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 			</p:dialog>
 		</h:form>
 	</ui:define>

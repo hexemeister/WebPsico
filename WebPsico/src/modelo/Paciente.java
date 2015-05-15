@@ -1,9 +1,9 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,7 +38,7 @@ public class Paciente extends Pessoa implements Serializable {
 							// sessão
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Contato> contatos = new HashSet<>();
+	private List<Contato> contatos = new ArrayList<>();
 
 	public Paciente() {
 		Endereco endereco = new Endereco();
@@ -81,11 +81,11 @@ public class Paciente extends Pessoa implements Serializable {
 				+ ", contatos=" + contatos + "]" + super.toString();
 	}
 
-	public Set<Contato> getContatos() {
+	public List<Contato> getContatos() {
 		return contatos;
 	}
 
-	public void setContatos(Set<Contato> contatos) {
+	public void setContatos(List<Contato> contatos) {
 		this.contatos = contatos;
 	}
 

@@ -153,7 +153,7 @@ public class UsuarioMB implements Serializable {
 				}
 			} else {
 				// usuario do banco
-				Usuario u = udao.FindById(usuarioSelecionado.getId());
+				Usuario u = udao.findById(usuarioSelecionado.getId());
 				// se nao for, verifica condições e altera
 				// verifica se o login e senha informadas no form é o login e a
 				// senha do banco
@@ -180,7 +180,7 @@ public class UsuarioMB implements Serializable {
 									"Digite a senha correta, por favor!"));
 						}
 					}
-					udao.update(usuarioSelecionado);
+					udao.update(usuarioSelecionado, usuarioSelecionado.getId());
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage("Usuario "

@@ -26,7 +26,7 @@ public class UsuarioConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
 		Integer id = Integer.parseInt(string);
-		Usuario usuario = (Usuario) new UsuarioDao().FindById(id);
+		Usuario usuario = (Usuario) new UsuarioDao().findById(id);
 		return usuario;
 	}
 

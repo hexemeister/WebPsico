@@ -1,9 +1,9 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ public class Contato extends Pessoa implements Serializable {
 
 	@ManyToMany(mappedBy = "contatos", fetch = FetchType.EAGER, cascade = {
 			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-	private Set<Paciente> pacientes = new HashSet<Paciente>();
+	private List<Paciente> pacientes = new ArrayList<Paciente>();
 
 	public Contato() {
 		super();
@@ -74,11 +74,11 @@ public class Contato extends Pessoa implements Serializable {
 		this.parentesco = parentesco;
 	}
 
-	public Set<Paciente> getPacientes() {
+	public List<Paciente> getPacientes() {
 		return pacientes;
 	}
 
-	public void setPacientes(Set<Paciente> pacientes) {
+	public void setPacientes(List<Paciente> pacientes) {
 		this.pacientes = pacientes;
 	}
 

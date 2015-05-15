@@ -12,7 +12,6 @@
 	<ui:define name="corpo">
 		<p:panel header="Gerenciar Paciente">
 			<h:form id="formPac">
-				<p:growl id="growl" showDetail="true" autoUpdate="true" />
 				<p:tabView id="abas" dynamic="true" cache="true" effect="fade">
 					<p:tab id="abapersonal" title="Dados Pessoais">
 						<h:panelGrid columns="5" id="dados"
@@ -240,20 +239,20 @@
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:ajax event="rowSelect"
 								listener="#{pacienteMB.onRowContatoSelect}"
-								update=":formPac:growl, :formPac:abas:tbcontatos, :formPac:abas:tb" />
+								update=":formPac:abas:tbcontatos, :formPac:abas:tb" />
 							<p:ajax event="rowUnselect"
 								listener="#{pacienteMB.onRowContatoUnselect}"
-								update=":formPac:growl, :formPac:abas:tbcontatos, :formPac:abas:tb" />
-							<p:column headerText="Nome">
+								update=":formPac:abas:tbcontatos, :formPac:abas:tb" />
+							<p:column headerText="Nome" sortBy="#{linha.nome}">
 								<p:outputLabel value="#{linha.nome}" />
 							</p:column>
-							<p:column headerText="Telefone Fixo">
+							<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}">
 								<p:outputLabel value="#{linha.telefoneFixo}" />
 							</p:column>
-							<p:column headerText="Telefone Celular">
+							<p:column headerText="Telefone Celular" sortBy="#{linha.telefoneCelular}" >
 								<p:outputLabel value="#{linha.telefoneCelular}" />
 							</p:column>
-							<p:column headerText="Grau de Parentesco">
+							<p:column headerText="Grau de Parentesco" sortBy="#{linha.parentesco}">
 								<p:outputLabel value="#{linha.parentesco}" />
 							</p:column>
 						</p:dataTable>
@@ -272,10 +271,10 @@
 			<p:spacer width="20" height="30" />
 			<p:commandButton id="salvarPacBtn" value="Salvar Paciente"
 				title="Salvar Paciente" action="#{pacienteMB.salvar}"
-				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente" />
+				update=":pesquisaPaciente:tabelaPaciente" />
 			<p:commandButton id="atualizarPacBtn" value="Alterar Paciente"
 				title="Alterar Paciente" action="#{pacienteMB.atualizar}"
-				update=":formPac:growl, :pesquisaPaciente:tabelaPaciente"
+				update=":pesquisaPaciente:tabelaPaciente"
 				rendered="false" />
 			<p:spacer width="20" height="30" />
 			<p:commandButton id="novoPacBtn" value="Novo Paciente"
@@ -290,19 +289,19 @@
 				paginator="true" paginatorPosition="bottom"
 				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
 				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
-					update=":formPac:growl, :formPac:abas" />
+					update=":formPac:abas" />
 				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
-					update=":formPac:growl, :formPac" />
-				<p:column headerText="Nome">
+					update=":formPac" />
+				<p:column headerText="Nome" sortBy="#{linha.nome}">
 					<p:outputLabel value="#{linha.nome}" />
 				</p:column>
-				<p:column headerText="Telefone Fixo">
+				<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}">
 					<p:outputLabel value="#{linha.telefoneFixo}" />
 				</p:column>
-				<p:column headerText="Telefone Celular">
+				<p:column headerText="Telefone Celular" sortBy="#{linha.telefoneCelular}">
 					<p:outputLabel value="#{linha.telefoneCelular}" />
 				</p:column>
-				<p:column headerText="Email ">
+				<p:column headerText="Email" sortBy="#{linha.email}" >
 					<p:outputLabel value="#{linha.email}" />
 				</p:column>
 			</p:dataTable>

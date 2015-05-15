@@ -48,8 +48,10 @@ public class PacienteMB implements Serializable {
 		listaPaciente = new ArrayList<Paciente>(new PacienteDao().findAll());
 	}
 	
-	public void atualizar() {
-		new PacienteDao().update(pacienteSelecionado);
+	public void atualizarPaciente() {
+		new PacienteDao().update(pacienteSelecionado, pacienteSelecionado.getId());
+		FacesMessage msg = new FacesMessage("Paciente Atualizado", pacienteSelecionado.getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void salvar() {
@@ -104,12 +106,11 @@ public class PacienteMB implements Serializable {
 	public void criaContato() {
 		pacienteSelecionado.getContatos().add(contatoSelecionado);
 		contatoSelecionado.getPacientes().add(pacienteSelecionado);
-		new ContatoDao().update(contatoSelecionado);
+		new ContatoDao().update(contatoSelecionado, contatoSelecionado.getId());
 		FacesMessage msg = new FacesMessage("Contato Salvo", contatoSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		RequestContext context = RequestContext.getCurrentInstance();   
 		context.execute("PF('contatodlg').hide()");
-		System.out.println("###############" + pacienteSelecionado.getContatos());
 	}
 	
 	public void onDateSelect(SelectEvent event) {
