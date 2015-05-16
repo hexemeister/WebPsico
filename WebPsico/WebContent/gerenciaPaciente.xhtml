@@ -233,7 +233,7 @@
 						</p:toolbar>
 						<p:dataTable id="tbcontatos" rows="5" var="linha"
 							emptyMessage="Não há contatos cadastrados para este paciente."
-							value="#{pacienteMB.pacienteSelecionado.contatos}"
+							value="#{pacienteMB.listaContato}"
 							selectionMode="single" caseSensitiveSort="true"
 							disabledTextSelection="true"
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">

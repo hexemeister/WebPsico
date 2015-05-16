@@ -141,11 +141,8 @@ public class UsuarioMB implements Serializable {
 					}
 					usuarioSelecionado.setSenha(getNovaSenha1());
 					udao.create(usuarioSelecionado);
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage("Usuario "
-									+ usuarioSelecionado.getLogin() + " Salvo",
-									"Usuário Salvo"));
+					FacesMessage msg = new FacesMessage("Usuário " + usuarioSelecionado.getLogin() + " Salvo", usuarioSelecionado.getNomeCompleto());
+					FacesContext.getCurrentInstance().addMessage(null, msg);
 				} else if (!novaSenha1.equals(novaSenha2)) {
 					throw new ValidatorException(new FacesMessage(
 							FacesMessage.SEVERITY_ERROR, "Senha Não Confere!!",
@@ -180,12 +177,9 @@ public class UsuarioMB implements Serializable {
 									"Digite a senha correta, por favor!"));
 						}
 					}
-					udao.update(usuarioSelecionado, usuarioSelecionado.getId());
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage("Usuario "
-									+ usuarioSelecionado.getLogin() + " Salvo",
-									"Usuário Salvo"));
+					udao.update(usuarioSelecionado);
+					FacesMessage msg = new FacesMessage("Usuário " + usuarioSelecionado.getLogin() + " Salvo", usuarioSelecionado.getNomeCompleto());
+					FacesContext.getCurrentInstance().addMessage(null, msg);
 				} else {
 					FacesContext.getCurrentInstance().addMessage(
 							null,

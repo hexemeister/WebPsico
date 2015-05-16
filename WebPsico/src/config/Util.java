@@ -167,7 +167,7 @@ public class Util {
 		// lista.add(c3);
 		// lista.add(c4);
 		for (Paciente paciente: lista) {
-			pdao.update(paciente, paciente.getId());
+			pdao.update(paciente);
 		}
 		System.out.println("****************** FIM DE populaBancoComPacientes ********************");
 	}

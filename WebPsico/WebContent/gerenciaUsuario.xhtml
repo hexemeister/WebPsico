@@ -50,17 +50,16 @@
  					
 			</p:panelGrid>
 				<p:spacer width="0" height="40" />
-				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}" update=":pesquisa:msgs" disabled="#{usuarioMB.logado.isAtendente()}" />
+				<p:commandButton id="salvar" value="Salvar" action="#{usuarioMB.salvar}"  disabled="#{usuarioMB.logado.isAtendente()}" />
 				<p:spacer width="40"/>
 				<p:commandButton id="novoUsuario" value="Novo Usuário" immediate="true" ajax="true" disabled="#{usuarioMB.logado.isAtendente()}"
-					update=":gerenciaUsuario, :pesquisa:msgs" action="#{usuarioMB.limpaCampos}" >
+					update=":gerenciaUsuario" action="#{usuarioMB.limpaCampos}" >
 					<p:resetInput target="gerenciaUsuario" />
 				</p:commandButton>
 		</h:form>
 	</p:panel>
 	<p:separator />
 		<h:form id="pesquisa">
-		<p:growl id="msgs" />
 			<p:outputLabel for="loginPesquisa" value="Procurar pelo Login: "  />
 			<p:focus id="foco" for="loginPesquisa" />
 			<p:autoComplete id="loginPesquisa" placeholder="Digite Login ou Nome do usuário" size="55" maxResults="5" converterMessage="Falha no Converter"
@@ -68,8 +67,8 @@
 					var="usuario" itemLabel="" itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true" disabled="#{usuarioMB.logado.isAtendente()}" >
 					<p:column headerText="Login" style="width:30%;text-align:center">#{usuario.login}</p:column> 
 					<p:column headerText="Nome Completo" style="width:70%;text-align:center">#{usuario.nomeCompleto}</p:column>
-					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario, msgs" />
-					<p:ajax event="click" listener="#{usuarioMB.onFocus()}" process="@this" update=":gerenciaUsuario, msgs, pesquisa:foco" />
+					<p:ajax event="itemSelect" listener="#{usuarioMB.onItemSelect}" update=":gerenciaUsuario" />
+					<p:ajax event="click" listener="#{usuarioMB.onFocus()}" process="@this" update=":gerenciaUsuario, pesquisa:foco" />
 			</p:autoComplete>
 			<br />
 		</h:form>

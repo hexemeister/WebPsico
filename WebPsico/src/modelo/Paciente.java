@@ -102,7 +102,7 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public void setDataInicio(Date dataInicio) {
-		dataInicio.setYear(dataInicio.getYear() - 1900);
+//		dataInicio.setYear(dataInicio.getYear() - 1900);
 		this.dataInicio = dataInicio;
 	}
 
@@ -111,7 +111,7 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public void setDataUltimaSessao(Date dataUltimaSessao) {
-		dataUltimaSessao.setYear(dataUltimaSessao.getYear() - 1900);
+//		dataUltimaSessao.setYear(dataUltimaSessao.getYear() - 1900);
 		this.dataUltimaSessao = dataUltimaSessao;
 	}
 
