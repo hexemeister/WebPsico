@@ -34,10 +34,11 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
 		}
 	}
 
-	public void update(T entity){
+	public T update(T entity){
 		em.getTransaction().begin();
-		em.merge(entity);
+		T entityBD = em.merge(entity);
 		em.getTransaction().commit();
+		return entityBD;
 	}
 	
 	
@@ -64,7 +65,8 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
 	@Override
 	public void delete(T entity) {
 		em.getTransaction().begin();
-		em.remove(entity);
+		T entityBD = em.merge(entity);
+		em.remove(entityBD);
 		em.getTransaction().commit();
 
 	}

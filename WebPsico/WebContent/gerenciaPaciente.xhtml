@@ -210,16 +210,17 @@
 						</h:panelGrid>
 					</p:tab>
 
-					<p:tab id="abacontato" title="Contatos">
+					<p:tab id="abacontato" title="Contatos" disabled="#{pacienteMB.getDesabilitaAbaContato()}">
 
 						<p:toolbar id="tb">
 							<f:facet name="left">
-								<p:commandButton type="Reset" value="Novo Contato"
+								<p:commandButton type="Reset" value="Novo Contato" id="contatoNovoBtn"
 									title="Novo Contato" icon="ui-icon-document"
 									onclick="PF('contatodlg').show()"
+									oncomplete="PF('tbContatos').unselectAllRows()"
 									action="#{pacienteMB.prepararNovoContato}" process="@this"
 									update=":formContato, :cabecalhoDlg, :formPac:abas:tbcontatos"
-									immediate="true" />
+									immediate="true" disabled="true" />
 								<p:commandButton id="tbContatoAlterarBtn"
 									value="Alterar Contato" title="Alterar Contato" disabled="true"
 									immediate="true" icon="ui-icon-disk"
@@ -227,11 +228,11 @@
 									onclick="PF('contatodlg').show()" />
 							</f:facet>
 							<f:facet name="right">
-								<p:commandButton id="apagarContatoBtn" value="Apagar"
-									title="Apagar Contato" icon="ui-icon-trash" disabled="true" />
+								<p:commandButton id="apagarContatoBtn" value="Apagar" action="#{pacienteMB.apagaContato}"
+									title="Apagar Contato" icon="ui-icon-trash" disabled="true" update=":formPac:abas:tbcontatos"/>
 							</f:facet>
 						</p:toolbar>
-						<p:dataTable id="tbcontatos" rows="5" var="linha"
+						<p:dataTable id="tbcontatos" rows="5" var="linha" widgetVar="tbContatos"
 							emptyMessage="Não há contatos cadastrados para este paciente."
 							value="#{pacienteMB.listaContato}"
 							selectionMode="single" caseSensitiveSort="true"
@@ -291,7 +292,7 @@
 				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
 					update=":formPac:abas" />
 				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
-					update=":formPac" />
+					update=":formPac:abas" />
 				<p:column headerText="Nome" sortBy="#{linha.nome}">
 					<p:outputLabel value="#{linha.nome}" />
 				</p:column>
@@ -417,7 +418,7 @@
 
 				<p:spacer width="0" height="40" />
 				<p:commandButton value="Salvar" action="#{pacienteMB.criaContato}"
-					update=":formPac:abas:tbcontatos" />
+					update=":formPac:abas:tbcontatos" oncomplete="PF('tbContatos').unselectAllRows()" />
 				<p:spacer width="50" height="40" />
 				<p:commandButton value="Cancelar" type="Reset"
 					title="Cancelar alterações de contato"

@@ -12,5 +12,5 @@ public interface IGenericDao<T> {
 	public T findById(Integer id);
 	public List<T> findAll();
 	public EntityManager getEntityManager();
-	void update(T entity);
+	T update(T entity);
 }
