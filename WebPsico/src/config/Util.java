@@ -85,7 +85,6 @@ public class Util {
 											.profissao("Do lar")
 											.religiao("Espírita")
 											.parentesco("Avó")
-											.desativado(false)
 											.obs("Ligar na parte da tarde.")
 											.build();
 		Contato c2 = new Contato.Builder().nome("Luiz Augusto Andrade de Moraes")
@@ -112,7 +111,6 @@ public class Util {
 				.profissao("Aposentado")
 				.religiao("Católico")
 				.parentesco("Avô")
-				.desativado(false)
 				.build();
 											
 		ContatoDao cdao = new ContatoDao();

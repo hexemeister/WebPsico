@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
-	
+public abstract class GenericDao<T extends EntidadeBase> implements
+		IGenericDao<T>, Serializable {
+
 	/**
-	 * Classe abstrata genérica para dar poder de CRUD para quaisquer classes que herdarem dela 
+	 * Classe abstrata genérica para dar poder de CRUD para quaisquer classes
+	 * que herdarem dela
+	 * 
 	 * @author Renato Moraes
 	 */
 	private static final long serialVersionUID = 1L;
@@ -34,14 +37,47 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
 		}
 	}
 
-	public T update(T entity){
+	public T salvar(T entity) throws Exception {
+		try {
+			em.getTransaction().begin();
+			if (entity.getId() == null) {
+				em.persist(entity);
+			} else {
+				if (!em.contains(entity)) {
+					if (em.find(classe, entity.getId()) == null) {
+						throw new Exception("Erro ao atualizar dados de "
+								+ classe);
+					}
+				}
+				entity = em.merge(entity);
+			}
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return entity;
+	}
+
+	public T createAndGetId(T entity) {
+		try {
+			em.getTransaction().begin();
+			em.persist(entity);
+			em.flush();
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		}
+		return entity;
+	}
+
+	public T update(T entity) {
 		em.getTransaction().begin();
 		T entityBD = em.merge(entity);
 		em.getTransaction().commit();
 		return entityBD;
 	}
-	
-	
+
 	@Override
 	public void update(T entity, Integer chave) {
 		em.getTransaction().begin();
@@ -50,16 +86,6 @@ public abstract class GenericDao<T> implements IGenericDao<T>, Serializable {
 		entityBD = entity;
 		em.merge(entityBD);
 		em.getTransaction().commit();
-//		T entityBD = em.find(classe, chave);
-//		if (entityBD!=null) {
-//			entityBD = entity;
-//			em.merge(entity);
-//			em.getTransaction().commit();
-//			System.out.println("-------------- COMMIT!"+entity.toString());
-//		} else {
-//			System.out.println("+++++++++++++++ ROLL");
-//			em.getTransaction().rollback();
-//		}
 	}
 
 	@Override

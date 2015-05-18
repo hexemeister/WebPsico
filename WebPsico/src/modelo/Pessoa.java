@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +47,7 @@ public abstract class Pessoa implements Serializable {
 	@Transient
 	private Integer idade;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Endereco endereco;
 
 	@CPF(formatted = false, message = "CPF invalido")
@@ -67,7 +68,6 @@ public abstract class Pessoa implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Escolaridade escolaridade;
 	private String profissao;
-	private Boolean desativado = false;
 
 	private String obs; // observacoes sobre o paciente
 
@@ -97,7 +97,6 @@ public abstract class Pessoa implements Serializable {
 		this.estadoCivil = estadoCivil;
 		this.escolaridade = escolaridade;
 		this.profissao = profissao;
-		this.desativado = desativado;
 		this.obs = obs;
 	}
 
@@ -110,7 +109,7 @@ public abstract class Pessoa implements Serializable {
 				+ ", naturalidade=" + naturalidade + ", nacionalidade="
 				+ nacionalidade + ", estadoCivil=" + estadoCivil
 				+ ", escolaridade=" + escolaridade + ", profissao=" + profissao
-				+ ", desativado=" + desativado + ", obs=" + obs + "]";
+				+ ", obs=" + obs + "]";
 	}
 
 	public Integer getId() {
@@ -254,14 +253,6 @@ public abstract class Pessoa implements Serializable {
 		this.profissao = profissao;
 	}
 
-	public Boolean getDesativado() {
-		return desativado;
-	}
-
-	public void setDesativado(Boolean desativado) {
-		this.desativado = desativado;
-	}
-
 	public String getObs() {
 		return obs;
 	}
@@ -281,8 +272,7 @@ public abstract class Pessoa implements Serializable {
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result
 				+ ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
-		result = prime * result
-				+ ((desativado == null) ? 0 : desativado.hashCode());
+
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result
 				+ ((endereco == null) ? 0 : endereco.hashCode());
@@ -326,11 +316,7 @@ public abstract class Pessoa implements Serializable {
 				return false;
 		} else if (!dataNascimento.equals(other.dataNascimento))
 			return false;
-		if (desativado == null) {
-			if (other.desativado != null)
-				return false;
-		} else if (!desativado.equals(other.desativado))
-			return false;
+
 		if (email == null) {
 			if (other.email != null)
 				return false;

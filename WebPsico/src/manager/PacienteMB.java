@@ -137,34 +137,40 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void criaContato() {
+		//novo contato
 		if (contatoSelecionado.getId() == null) {
+			try {
+				contatoSelecionado = new ContatoDao().salvar(contatoSelecionado);
+				System.out.println(contatoSelecionado.getId());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			List<Paciente> lista = new ArrayList<>(
 					contatoSelecionado.getPacientes());
 			lista.add(pacienteSelecionado);
 			contatoSelecionado.setPacientes(lista);
+			
 			List<Contato> lista2 = new ArrayList<>(
 					pacienteSelecionado.getContatos());
 			lista2.add(contatoSelecionado);
 			pacienteSelecionado.setContatos(lista2);
-			System.out.println("----------- " + contatoSelecionado.getId());
-			contatoSelecionado = new ContatoDao().update(contatoSelecionado);
-			System.out.println("--------++++++--- " + contatoSelecionado.getId());
+			
+			new ContatoDao().update(contatoSelecionado);
 			listaContato.add(contatoSelecionado);
-			FacesMessage msg = new FacesMessage("Contato Salvo",
-					contatoSelecionado.getNome());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			RequestContext context = RequestContext.getCurrentInstance();
-			context.update(":formPac:abas:tbcontatos");
-			context.execute("PF('contatodlg').hide()");
-		} else {
+			
+		// altera contato
+		} else { 
 			new ContatoDao().update(contatoSelecionado,
 					contatoSelecionado.getId());
-			FacesMessage msg = new FacesMessage("Contato Salvo",
-					contatoSelecionado.getNome());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			RequestContext context = RequestContext.getCurrentInstance();
-			context.execute("PF('contatodlg').hide()");
 		}
+		FacesMessage msg = new FacesMessage("Contato Salvo",
+				contatoSelecionado.getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update(":formPac:abas:tbcontatos");
+		context.execute("PF('contatodlg').hide()");
 	}
 
 	public void apagaContato() {
@@ -173,6 +179,12 @@ public class PacienteMB implements Serializable {
 		FacesMessage msg = new FacesMessage("Contato Apagado",
 				contatoSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		CommandButton comp = (CommandButton) Util
+				.findComponent("formPac:abas:apagarContatoBtn");
+		comp.setDisabled(true);
+		contatoSelecionado = new Contato();
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("gerenciaContato");
 	}
 
 	public void onDateSelect(SelectEvent event) {

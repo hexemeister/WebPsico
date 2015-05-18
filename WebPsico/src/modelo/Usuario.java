@@ -10,8 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import persistence.EntidadeBase;
+
 @Entity
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 	

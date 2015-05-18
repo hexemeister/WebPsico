@@ -14,11 +14,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 
 import persistence.ContatoDao;
+import persistence.EntidadeBase;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(ContatoDao.class)
-public class Contato extends Pessoa implements Serializable {
+public class Contato extends Pessoa implements Serializable, EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,15 +27,19 @@ public class Contato extends Pessoa implements Serializable {
 	private String parentesco;
 
 	@ManyToMany(mappedBy = "contatos", fetch = FetchType.EAGER, cascade = {
-			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-	private List<Paciente> pacientes = new ArrayList<Paciente>();
+			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	private List<Paciente> pacientes = new ArrayList<>();
 
 	public Contato() {
 		super();
+		Endereco endereco = new Endereco();
+		this.setEndereco(endereco);
 	}
 
 	public Contato(String religiao, String parentesco) {
 		super();
+		Endereco endereco = new Endereco();
+		this.setEndereco(endereco);
 		this.religiao = religiao;
 		this.parentesco = parentesco;
 	}
@@ -136,7 +141,6 @@ public class Contato extends Pessoa implements Serializable {
 		private EstadoCivil estadoCivil;
 		private Escolaridade escolaridade;
 		private String profissao;
-		private Boolean desativado;
 		private String obs;
 
 		public Builder id(Integer id) {
@@ -209,11 +213,6 @@ public class Contato extends Pessoa implements Serializable {
 			return this;
 		}
 
-		public Builder desativado(Boolean desativado) {
-			this.desativado = desativado;
-			return this;
-		}
-
 		public Builder obs(String obs) {
 			this.obs = obs;
 			return this;
@@ -252,7 +251,6 @@ public class Contato extends Pessoa implements Serializable {
 		this.setEstadoCivil(builder.estadoCivil);
 		this.setEscolaridade(builder.escolaridade);
 		this.setProfissao(builder.profissao);
-		this.setDesativado(builder.desativado);
 		this.setObs(builder.obs);
 
 	}

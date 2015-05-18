@@ -10,25 +10,66 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="corpo">
-		<p:panel id="evol" header="Evoluções Antigas">
-			<p:scrollPanel style="width:1600px;height:100px">
-				<p>Interdum et malesuada</p>
-				<p>Aliquam sollicitudin gravida luctus.</p>
-				<p>rutrum orci.</p>
-				<p>ullamcorper erat.</p>
-				<p>commodo luctus placerat.</p>
-			</p:scrollPanel>
+
+
+		<p:panel id="evolucaoAntiga" header="Evoluções Antigas">
+			<h:form id="evolui">
+				<p:dataTable id="evol" var="evoluirMB" value="#{ff.b}" rows="5"
+					editable="true" editMode="cell" paginator="true"
+					paginatorPosition="top">
+
+					<p:ajax event="cellEdit" listener="#{ff.b}" />
+
+					<p:column headerText="Data" width="15%" sortBy="evoluirMB.data">
+						<h:outputText value="#{evoluirMB.data}" dir="rtl" rendered="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Evolução" >
+						<p:cellEditor>
+							<f:facet name="input">
+								<p:inputText value="#{evoluirMB.guardada}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
 		</p:panel>
+
+		<p:spacer />
 
 		<p:panel id="evolucao" header="Evolução">
 			<h:form id="editarEvolucao">
-				<p:editor id="editor" widgetVar="editorWidget" height="500"
-					value="#{editorView.text}" width="1000" />
+				<p:editor id="editor" widgetVar="editorWidget" height="250"
+					value="#{editorView.text}" width="1000" rendered="true" />
 				<h:panelGrid columns="3" style="margin-top: 10px">
 					<p:commandButton value="Salvar" />
 					<p:commandButton value="Cancelar" />
-					<p:commandButton value="Todas Evoluções" />
+					<p:button id="anamnese" value="Anamnese" ajax="false"
+						actionListener="anamnese.jsp" onclick="open()"></p:button>
 				</h:panelGrid>
+			</h:form>
+		</p:panel>
+
+
+		<p:panel id="pesquisaPaciente" header="Pesquisa Paciente">
+			<h:form id="pesquisa">
+				<p:outputLabel for="pesquisaPacie" value="Procurar pelo Paciente: " />
+				<p:focus id="foco" for="pesquisaPacie" />
+				<p:autoComplete id="pesquisaPacie"
+					placeholder="Digite o Nome do Paciente" size="55" maxResults="10"
+					value="#{pacienteMB.pacienteSelecionado}"
+					completeMethod="#{pacienteMB.listaPaciente}" minQueryLength="1"
+					effect="fade" var="paciente" itemLabel="" itemValue="#{paciente}"
+					forceSelection="true">
+					<p:column headerText="Nome Completo"
+						style="width:70%;text-align:center">#{paciente.nomeCompleto}</p:column>
+					<p:ajax event="itemSelect" listener="#{pacienteMB.onItemSelect}" />
+					<p:ajax event="click" listener="#{pacienteMB.onFocus()}"
+						process="@this" />
+				</p:autoComplete>
+				<br />
 			</h:form>
 		</p:panel>
 

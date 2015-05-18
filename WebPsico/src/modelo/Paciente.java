@@ -16,8 +16,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import persistence.EntidadeBase;
+
 @Entity
-public class Paciente extends Pessoa implements Serializable {
+public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,6 +39,8 @@ public class Paciente extends Pessoa implements Serializable {
 	private Double preco; // Valor combinado entre o psicologo e o paciente por
 							// sessão
 
+	private Boolean desativado = false;
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Contato> contatos = new ArrayList<>();
 
@@ -46,13 +50,16 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public Paciente(Indicacao indicacao, Date dataInicio, Date dataUtimaSessao,
-			String frequencia, Turno preferenciaTurno, Double preco) {
+			String frequencia, Turno preferenciaTurno, Double preco, Boolean desativado) {
 		super();
+		Endereco endereco = new Endereco();
+		this.setEndereco(endereco);
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
 		this.dataUltimaSessao = dataUtimaSessao;
 		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
+		this.desativado = desativado;
 	}
 
 	public Paciente(Integer id, String nome, String email, Sexo sexo,
@@ -78,7 +85,8 @@ public class Paciente extends Pessoa implements Serializable {
 		return "Paciente [indicacao=" + indicacao + ", dataInicio="
 				+ dataInicio + ", dataUltimaSessao=" + dataUltimaSessao
 				+ ", preferenciaTurno=" + preferenciaTurno + ", preco=" + preco
-				+ ", contatos=" + contatos + "]" + super.toString();
+				+ ", desativado=" + desativado + ", contatos=" + contatos + "]"
+				+ super.toString();
 	}
 
 	public List<Contato> getContatos() {
@@ -102,7 +110,7 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public void setDataInicio(Date dataInicio) {
-//		dataInicio.setYear(dataInicio.getYear() - 1900);
+		// dataInicio.setYear(dataInicio.getYear() - 1900);
 		this.dataInicio = dataInicio;
 	}
 
@@ -111,7 +119,7 @@ public class Paciente extends Pessoa implements Serializable {
 	}
 
 	public void setDataUltimaSessao(Date dataUltimaSessao) {
-//		dataUltimaSessao.setYear(dataUltimaSessao.getYear() - 1900);
+		// dataUltimaSessao.setYear(dataUltimaSessao.getYear() - 1900);
 		this.dataUltimaSessao = dataUltimaSessao;
 	}
 
@@ -131,6 +139,14 @@ public class Paciente extends Pessoa implements Serializable {
 		this.preco = preco;
 	}
 
+	public Boolean getDesativado() {
+		return desativado;
+	}
+
+	public void setDesativado(Boolean desativado) {
+		this.desativado = desativado;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -143,6 +159,8 @@ public class Paciente extends Pessoa implements Serializable {
 		result = prime * result
 				+ ((indicacao == null) ? 0 : indicacao.hashCode());
 		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
+		result = prime * result
+				+ ((desativado == null) ? 0 : desativado.hashCode());
 		result = prime
 				* result
 				+ ((preferenciaTurno == null) ? 0 : preferenciaTurno.hashCode());
@@ -178,6 +196,11 @@ public class Paciente extends Pessoa implements Serializable {
 				return false;
 		} else if (!preco.equals(other.preco))
 			return false;
+		if (desativado == null) {
+			if (other.desativado != null)
+				return false;
+		} else if (!desativado.equals(other.desativado))
+			return false;
 		if (preferenciaTurno != other.preferenciaTurno)
 			return false;
 		return true;
@@ -189,6 +212,7 @@ public class Paciente extends Pessoa implements Serializable {
 		private Date dataUltimaSessao;
 		private Turno preferenciaTurno;
 		private Double preco;
+		private Boolean desativado;
 
 		private Integer id;
 		private String nome;
@@ -204,7 +228,6 @@ public class Paciente extends Pessoa implements Serializable {
 		private EstadoCivil estadoCivil;
 		private Escolaridade escolaridade;
 		private String profissao;
-		private Boolean desativado;
 		private String obs;
 
 		public Builder indicacao(Indicacao indicacao) {
@@ -323,6 +346,7 @@ public class Paciente extends Pessoa implements Serializable {
 		this.setDataUltimaSessao(builder.dataUltimaSessao);
 		this.setPreferenciaTurno(builder.preferenciaTurno);
 		this.setPreco(builder.preco);
+		this.setDesativado(builder.desativado);
 
 		this.setId(builder.id);
 		this.setNome(builder.nome);
@@ -338,7 +362,6 @@ public class Paciente extends Pessoa implements Serializable {
 		this.setEstadoCivil(builder.estadoCivil);
 		this.setEscolaridade(builder.escolaridade);
 		this.setProfissao(builder.profissao);
-		this.setDesativado(builder.desativado);
 		this.setObs(builder.obs);
 	}
 }
