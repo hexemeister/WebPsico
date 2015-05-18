@@ -59,8 +59,22 @@ public class PacienteMB implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void salvar() {
-		new PacienteDao().create(pacienteSelecionado);
+	public void salvarPaciente() {
+		// novo contato
+		try {
+			System.out.println("----------"+pacienteSelecionado);
+			pacienteSelecionado = new PacienteDao().createAndGetId(pacienteSelecionado);
+			System.out.println("++++++++++"+pacienteSelecionado);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listaPaciente.add(pacienteSelecionado);
+		FacesMessage msg = new FacesMessage("Paciente salvo",
+				pacienteSelecionado.getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update(":pesquisaPaciente:tabelaPaciente");
 	}
 
 	public void prepararNovoPaciente() {
@@ -137,31 +151,31 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void criaContato() {
-		//novo contato
+		// novo contato
 		if (contatoSelecionado.getId() == null) {
 			try {
-				contatoSelecionado = new ContatoDao().salvar(contatoSelecionado);
-				System.out.println(contatoSelecionado.getId());
+				contatoSelecionado = new ContatoDao()
+						.salvar(contatoSelecionado);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			List<Paciente> lista = new ArrayList<>(
 					contatoSelecionado.getPacientes());
 			lista.add(pacienteSelecionado);
 			contatoSelecionado.setPacientes(lista);
-			
+
 			List<Contato> lista2 = new ArrayList<>(
 					pacienteSelecionado.getContatos());
 			lista2.add(contatoSelecionado);
 			pacienteSelecionado.setContatos(lista2);
-			
+
 			new ContatoDao().update(contatoSelecionado);
 			listaContato.add(contatoSelecionado);
-			
-		// altera contato
-		} else { 
+
+			// altera contato
+		} else {
 			new ContatoDao().update(contatoSelecionado,
 					contatoSelecionado.getId());
 		}
