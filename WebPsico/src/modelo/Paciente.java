@@ -47,6 +47,8 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 	public Paciente() {
 		Endereco endereco = new Endereco();
 		this.setEndereco(endereco);
+		Indicacao indicacao = new Indicacao();
+		this.setIndicacao(indicacao);
 	}
 
 	public Paciente(Indicacao indicacao, Date dataInicio, Date dataUtimaSessao,

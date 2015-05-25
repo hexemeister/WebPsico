@@ -268,30 +268,31 @@
 
 					</p:tab>
 				</p:tabView>
+				
+				<p:separator />
+				
+				<p:commandButton value="Teste" action="#{pacienteMB.teste}" />
+				<p:outputLabel for="pesquisaPac" value="Procurar por um Paciente: " />
+				<p:inputText id="pesquisaPac" placeholder="Paciente procurado"
+					requiredMessage="Informe o nome do paciente  a ser pesquisado"
+					size="30" />
+				<p:spacer width="20" height="30" />
+				<p:commandButton id="salvarPacBtn" value="Salvar Paciente"
+					title="Salvar Paciente" action="#{pacienteMB.salvarPaciente}"
+					update=":pesquisaPaciente:tabelaPaciente" />
+				<p:commandButton id="atualizarPacBtn" value="Alterar Paciente"
+					title="Alterar Paciente" action="#{pacienteMB.atualizarPaciente}"
+					update=":pesquisaPaciente:tabelaPaciente" rendered="false" />
+				<p:spacer width="20" height="30" />
+				<p:commandButton id="novoPacBtn" value="Novo Paciente"
+					action="#{pacienteMB.prepararNovoPaciente}" process="@this"
+					update=":formPac:abas, :pesquisaPaciente, :formPac" />
 			</h:form>
 		</p:panel>
-		<p:separator />
 
 		<h:form id="pesquisaPaciente">
-			<p:outputLabel for="pesquisaPac" value="Procurar por um Paciente: " />
-			<p:inputText id="pesquisaPac" placeholder="Paciente procurado"
-				requiredMessage="Informe o nome do paciente  a ser pesquisado"
-				size="30" />
-			<p:spacer width="20" height="30" />
-			<p:commandButton id="salvarPacBtn" value="Salvar Paciente"
-				title="Salvar Paciente" action="#{pacienteMB.salvarPaciente}"
-				update=":pesquisaPaciente:tabelaPaciente" />
-			<p:commandButton id="atualizarPacBtn" value="Alterar Paciente"
-				title="Alterar Paciente" action="#{pacienteMB.atualizar}"
-				update=":pesquisaPaciente:tabelaPaciente" rendered="false" />
-			<p:spacer width="20" height="30" />
-			<p:commandButton id="novoPacBtn" value="Novo Paciente"
-				action="#{pacienteMB.prepararNovoPaciente}" process="@this"
-				update=":formPac:abas, :pesquisaPaciente" />
 
-			<p:separator />
-
-			<p:dataTable id="tabelaPaciente" rows="10" var="linha"
+			<p:dataTable id="tabelaPaciente" rows="5" var="linha" style="margin: 10px;"
 				emptyMessage="Nenhum paciente cadastrado."
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
 				paginator="true" paginatorPosition="bottom"

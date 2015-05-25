@@ -52,23 +52,27 @@ public class PacienteMB implements Serializable {
 		listaContato = pacienteSelecionado.getContatos();
 	}
 
+	public void teste() {
+		try {
+			System.out.println("*************** "+pacienteSelecionado);
+//			pacienteSelecionado = new PacienteDao().createAndGetId(pacienteSelecionado);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void atualizarPaciente() {
 		new PacienteDao().update(pacienteSelecionado);
 		FacesMessage msg = new FacesMessage("Paciente Atualizado",
 				pacienteSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update(":pesquisaPaciente:tabelaPaciente");
 	}
 
 	public void salvarPaciente() {
-		// novo contato
-		try {
-			System.out.println("----------"+pacienteSelecionado);
-			pacienteSelecionado = new PacienteDao().createAndGetId(pacienteSelecionado);
-			System.out.println("++++++++++"+pacienteSelecionado);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// novo Paciente
+		pacienteSelecionado = new PacienteDao().createAndGetId(pacienteSelecionado);
 		listaPaciente.add(pacienteSelecionado);
 		FacesMessage msg = new FacesMessage("Paciente salvo",
 				pacienteSelecionado.getNome());
@@ -80,10 +84,10 @@ public class PacienteMB implements Serializable {
 	public void prepararNovoPaciente() {
 		listaContato = new ArrayList<Contato>();
 		CommandButton comp = (CommandButton) Util
-				.findComponent("pesquisaPaciente:atualizarPacBtn");
+				.findComponent("formPac:atualizarPacBtn");
 		comp.setRendered(false);
 		comp = (CommandButton) Util
-				.findComponent("pesquisaPaciente:salvarPacBtn");
+				.findComponent("formPac:salvarPacBtn");
 		comp.setRendered(true);
 		CommandButton comp2 = (CommandButton) Util
 				.findComponent("formPac:abas:contatoNovoBtn");
@@ -211,16 +215,16 @@ public class PacienteMB implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		listaContato = pacienteSelecionado.getContatos();
-		UIComponent comp = Util.findComponent("pesquisaPaciente:salvarPacBtn");
+		UIComponent comp = Util.findComponent("formPac:salvarPacBtn");
 		comp.setRendered(false);
-		comp = Util.findComponent("pesquisaPaciente:atualizarPacBtn");
+		comp = Util.findComponent("formPac:atualizarPacBtn");
 		comp.setRendered(true);
 		CommandButton comp2 = (CommandButton) Util
 				.findComponent("formPac:abas:contatoNovoBtn");
 		comp2.setDisabled(false);
 		setDesabilitaAbaContato(Boolean.FALSE);
 		RequestContext context = RequestContext.getCurrentInstance();
-		context.update("pesquisaPaciente");
+		context.update("formPac");
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				((Paciente) event.getObject()).getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -229,15 +233,15 @@ public class PacienteMB implements Serializable {
 	public void onRowUnselect(UnselectEvent event) {
 		pacienteSelecionado = new Paciente();
 		listaContato = new ArrayList<Contato>();
-		UIComponent comp = Util.findComponent("pesquisaPaciente:salvarPacBtn");
+		UIComponent comp = Util.findComponent("formPac:salvarPacBtn");
 		comp.setRendered(true);
-		comp = Util.findComponent("pesquisaPaciente:atualizarPacBtn");
+		comp = Util.findComponent("formPac:atualizarPacBtn");
 		comp.setRendered(false);
 		CommandButton comp2 = (CommandButton) Util
 				.findComponent("formPac:abas:contatoNovoBtn");
 		comp2.setDisabled(true);
 		RequestContext context = RequestContext.getCurrentInstance();
-		context.update("pesquisaPaciente");
+		context.update("formPac");
 		setDesabilitaAbaContato(Boolean.TRUE);
 		FacesMessage msg = new FacesMessage("Seleção Limpa",
 				((Paciente) event.getObject()).getNome());
