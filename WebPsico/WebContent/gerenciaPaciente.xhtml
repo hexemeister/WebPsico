@@ -268,9 +268,9 @@
 
 					</p:tab>
 				</p:tabView>
-				
+
 				<p:separator />
-				
+
 				<p:commandButton value="Teste" action="#{pacienteMB.teste}" />
 				<p:outputLabel for="pesquisaPac" value="Procurar por um Paciente: " />
 				<p:inputText id="pesquisaPac" placeholder="Paciente procurado"
@@ -292,26 +292,41 @@
 
 		<h:form id="pesquisaPaciente">
 
-			<p:dataTable id="tabelaPaciente" rows="5" var="linha" style="margin: 10px;"
+			<p:dataTable id="tabelaPaciente" rows="5" var="linha"
+				widgetVar="pacienteTbl" style="margin: 10px;"
 				emptyMessage="Nenhum paciente cadastrado."
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
 				paginator="true" paginatorPosition="bottom"
 				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Pesquisa por paciente em todas as colunas:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('pacienteTbl').filter()" style="width:150px"
+							placeholder="Digite uma palavra-chave" />
+					</p:outputPanel>
+				</f:facet>
 				<p:ajax event="rowSelect" listener="#{pacienteMB.onRowSelect}"
 					update=":formPac:abas" />
 				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
 					update=":formPac:abas" />
-				<p:column headerText="Nome" sortBy="#{linha.nome}">
+				<p:column headerText="Nome" sortBy="#{linha.nome}"
+					filterBy="#{linha.nome}"
+					filterStyle="display:none; visibility:hidden;">
 					<p:outputLabel value="#{linha.nome}" />
 				</p:column>
-				<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}">
+				<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}"
+					filterBy="#{linha.telefoneFixo}"
+					filterStyle="display:none; visibility:hidden;">
 					<p:outputLabel value="#{linha.telefoneFixo}" />
 				</p:column>
 				<p:column headerText="Telefone Celular"
-					sortBy="#{linha.telefoneCelular}">
+					sortBy="#{linha.telefoneCelular}" filterBy="#{linha.telefoneCelular}"
+					filterStyle="display:none; visibility:hidden;">
 					<p:outputLabel value="#{linha.telefoneCelular}" />
 				</p:column>
-				<p:column headerText="Email" sortBy="#{linha.email}">
+				<p:column headerText="Email" sortBy="#{linha.email}" filterBy="#{linha.email}"
+					filterStyle="display:none; visibility:hidden;">
 					<p:outputLabel value="#{linha.email}" />
 				</p:column>
 			</p:dataTable>

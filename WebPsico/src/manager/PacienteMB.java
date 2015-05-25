@@ -40,6 +40,7 @@ public class PacienteMB implements Serializable {
 
 	private List<Paciente> listaPaciente;
 	private List<Contato> listaContato;
+	private List<Paciente> pacientesFiltrados;
 
 	private Boolean desabilitaAbaContato = Boolean.TRUE;
 
@@ -54,13 +55,14 @@ public class PacienteMB implements Serializable {
 
 	public void teste() {
 		try {
-			System.out.println("*************** "+pacienteSelecionado);
-//			pacienteSelecionado = new PacienteDao().createAndGetId(pacienteSelecionado);
+			System.out.println("*************** " + pacienteSelecionado);
+			// pacienteSelecionado = new
+			// PacienteDao().createAndGetId(pacienteSelecionado);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void atualizarPaciente() {
 		new PacienteDao().update(pacienteSelecionado);
 		FacesMessage msg = new FacesMessage("Paciente Atualizado",
@@ -72,7 +74,8 @@ public class PacienteMB implements Serializable {
 
 	public void salvarPaciente() {
 		// novo Paciente
-		pacienteSelecionado = new PacienteDao().createAndGetId(pacienteSelecionado);
+		pacienteSelecionado = new PacienteDao()
+				.createAndGetId(pacienteSelecionado);
 		listaPaciente.add(pacienteSelecionado);
 		FacesMessage msg = new FacesMessage("Paciente salvo",
 				pacienteSelecionado.getNome());
@@ -86,8 +89,7 @@ public class PacienteMB implements Serializable {
 		CommandButton comp = (CommandButton) Util
 				.findComponent("formPac:atualizarPacBtn");
 		comp.setRendered(false);
-		comp = (CommandButton) Util
-				.findComponent("formPac:salvarPacBtn");
+		comp = (CommandButton) Util.findComponent("formPac:salvarPacBtn");
 		comp.setRendered(true);
 		CommandButton comp2 = (CommandButton) Util
 				.findComponent("formPac:abas:contatoNovoBtn");
@@ -136,6 +138,14 @@ public class PacienteMB implements Serializable {
 
 	public void setListaPaciente(List<Paciente> listaPaciente) {
 		this.listaPaciente = listaPaciente;
+	}
+
+	public List<Paciente> getPacientesFiltrados() {
+		return pacientesFiltrados;
+	}
+
+	public void setPacientesFiltrados(List<Paciente> pacientesFiltrados) {
+		this.pacientesFiltrados = pacientesFiltrados;
 	}
 
 	public List<Contato> getListaContato() {
