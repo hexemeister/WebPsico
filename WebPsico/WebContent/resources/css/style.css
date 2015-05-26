@@ -60,3 +60,26 @@ body {
 	margin: 0 auto;
 	width: 1000px;
 }
+
+.hide{
+	display: none !important; 
+	visibility: hidden !important;
+}
+
+.centralizado{
+	text-align: center;
+}
+
+.direita{
+	text-align: right !important;
+}
+
+.esquerda{
+	text-align: left !important;
+}
+
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {
+  opacity: 1;
+  filter: Alpha(Opacity=35);
+  background-image: none;
+}

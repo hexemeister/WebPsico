@@ -12,7 +12,7 @@
 	<ui:define name="corpo">
 		<p:panel header="Gerenciar Paciente">
 			<h:form id="formPac">
-				<p:tabView id="abas" dynamic="true" cache="true" effect="fade">
+				<p:tabView id="abas" dynamic="false" cache="true" effect="fade">
 					<p:tab id="abapersonal" title="Dados Pessoais">
 						<h:panelGrid columns="5" id="dados"
 							columnClasses="label, value, ,label, value">
@@ -245,7 +245,7 @@
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:ajax event="rowSelect"
 								listener="#{pacienteMB.onRowContatoSelect}"
-								update=":formPac:abas:tbcontatos, :formPac:abas:tb" />
+								update=":formPac:abas:tbcontatos, :formPac:abas:tb, :formPac:abas:abapersonal" />
 							<p:ajax event="rowUnselect"
 								listener="#{pacienteMB.onRowContatoUnselect}"
 								update=":formPac:abas:tbcontatos, :formPac:abas:tb" />
@@ -269,14 +269,7 @@
 					</p:tab>
 				</p:tabView>
 
-				<p:separator />
 
-				<p:commandButton value="Teste" action="#{pacienteMB.teste}" />
-				<p:outputLabel for="pesquisaPac" value="Procurar por um Paciente: " />
-				<p:inputText id="pesquisaPac" placeholder="Paciente procurado"
-					requiredMessage="Informe o nome do paciente  a ser pesquisado"
-					size="30" />
-				<p:spacer width="20" height="30" />
 				<p:commandButton id="salvarPacBtn" value="Salvar Paciente"
 					title="Salvar Paciente" action="#{pacienteMB.salvarPaciente}"
 					update=":pesquisaPaciente:tabelaPaciente" />
@@ -293,16 +286,16 @@
 		<h:form id="pesquisaPaciente">
 
 			<p:dataTable id="tabelaPaciente" rows="5" var="linha"
-				widgetVar="pacienteTbl" style="margin: 10px;"
+				widgetVar="pacienteTbl" style="margin: 15px;"
 				emptyMessage="Nenhum paciente cadastrado."
 				value="#{pacienteMB.listaPaciente}" selectionMode="single"
 				paginator="true" paginatorPosition="bottom"
 				selection="#{pacienteMB.pacienteSelecionado}" rowKey="#{linha.id}">
 				<f:facet name="header">
-					<p:outputPanel>
+					<p:outputPanel layout="block" styleClass="esquerda">
 						<h:outputText value="Pesquisa por paciente em todas as colunas:" />
 						<p:inputText id="globalFilter"
-							onkeyup="PF('pacienteTbl').filter()" style="width:150px"
+							onkeyup="PF('pacienteTbl').filter()" style="width:150px;"
 							placeholder="Digite uma palavra-chave" />
 					</p:outputPanel>
 				</f:facet>
@@ -311,23 +304,27 @@
 				<p:ajax event="rowUnselect" listener="#{pacienteMB.onRowUnselect}"
 					update=":formPac:abas" />
 				<p:column headerText="Nome" sortBy="#{linha.nome}"
-					filterBy="#{linha.nome}"
-					filterStyle="display:none; visibility:hidden;">
+					filterBy="#{linha.nome}" filterStyleClass="hide">
 					<p:outputLabel value="#{linha.nome}" />
 				</p:column>
 				<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}"
-					filterBy="#{linha.telefoneFixo}"
-					filterStyle="display:none; visibility:hidden;">
+					filterBy="#{linha.telefoneFixo}" filterStyleClass="hide">
 					<p:outputLabel value="#{linha.telefoneFixo}" />
 				</p:column>
 				<p:column headerText="Telefone Celular"
-					sortBy="#{linha.telefoneCelular}" filterBy="#{linha.telefoneCelular}"
-					filterStyle="display:none; visibility:hidden;">
+					sortBy="#{linha.telefoneCelular}"
+					filterBy="#{linha.telefoneCelular}" filterStyleClass="hide">
 					<p:outputLabel value="#{linha.telefoneCelular}" />
 				</p:column>
-				<p:column headerText="Email" sortBy="#{linha.email}" filterBy="#{linha.email}"
-					filterStyle="display:none; visibility:hidden;">
+				<p:column headerText="Email" sortBy="#{linha.email}"
+					filterBy="#{linha.email}" filterStyleClass="hide">
 					<p:outputLabel value="#{linha.email}" />
+				</p:column>
+				<p:column headerText="Desativado" sortBy="#{linha.desativado}"
+					filterBy="#{linha.desativado}" filterStyleClass="hide"
+					styleClass="centralizado">
+					<p:selectBooleanCheckbox value="#{linha.desativado}"
+						disabled="true" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
