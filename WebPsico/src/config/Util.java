@@ -24,7 +24,9 @@ import modelo.Sexo;
 import modelo.Turno;
 import modelo.Uf;
 import modelo.Usuario;
+import persistence.AnamneseDao;
 import persistence.ContatoDao;
+import persistence.EvolucaoDao;
 import persistence.PacienteDao;
 import persistence.PersistenceUtil;
 import persistence.UsuarioDao;
@@ -134,18 +136,6 @@ public class Util {
 		System.out.println("****************** FIM DE populaBancoComContatos ********************");
 	}
 	
-	public static void populaBancoComEvolucao() {
-		e1 = new Evolucao(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-				+ " Suspendisse sagittis vehicula urna, vel pharetra augue. ",p1, u2, new Date(2015, 3, 11,17,30));
-	}
-	
-	public static void populaBancoComAnamnese() {
-		a1 = new Anamnese(null,u2, p1,"resumo","queixa","sintoma","tratamento","medicamento",
-				"cirurgia","acidente","vidaPessoal","familia","examePsico","atitude","humor",
-				"expansao","retrato","negacao","linguagem","conciente","hipotese","escola",
-				"irescola","gravidez","alergia","saude","alimentacao","sono","mania","obs");
-	}
-	
 	public static void populaBancoComPacientes() {
 
 		p1 = new Paciente.Builder().id(null)
@@ -179,12 +169,28 @@ public class Util {
 
 		List<Paciente> lista = new ArrayList<Paciente>();
 		lista.add(p1);
-		// lista.add(c2);
-		// lista.add(c3);
-		// lista.add(c4);
+		// lista.add(p2);
+		// lista.add(p3);
+		// lista.add(p4);
 		for (Paciente paciente: lista) {
 			pdao.update(paciente);
 		}
 		System.out.println("****************** FIM DE populaBancoComPacientes ********************");
+	}
+
+	public static void populaBancoComEvolucao() {
+		e1 = new Evolucao(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+				+ " Suspendisse sagittis vehicula urna, vel pharetra augue. ",new PacienteDao().findById(1), u2, new Date(2015, 3, 11,17,30));
+		new EvolucaoDao().update(e1);
+		System.out.println("****************** FIM DE populaBancoComEvolucao ********************");
+	}
+	
+	public static void populaBancoComAnamnese() {
+		a1 = new Anamnese(null,u2, new PacienteDao().findById(1),"resumo","queixa","sintoma","tratamento","medicamento",
+				"cirurgia","acidente","vidaPessoal","familia","examePsico","atitude","humor",
+				"expansao","retrato","negacao","linguagem","conciente","hipotese","escola",
+				"irescola","gravidez","alergia","saude","alimentacao","sono","mania","obs");
+		new AnamneseDao().update(a1);
+		System.out.println("****************** FIM DE populaBancoComAnamnese ********************");
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -43,9 +44,11 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 	private Boolean desativado = false;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Anamnese anamneses;
+	@JoinColumn(name="PACIENTE_ID")
+	private List<Anamnese> anamneses;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
+	@JoinColumn(name="PACIENTE_ID")
 	private List<Evolucao> evolucoes = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -79,7 +82,7 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 			Escolaridade escolaridade, String profissao, Boolean desativado,
 			String obs, Indicacao indicacao, Date dataInicio,
 			Date dataUltimaSessao, Turno preferenciaTurno, Double preco,
-			Boolean desativado2, Anamnese anamneses, List<Evolucao> evolucoes,
+			Boolean desativado2, List<Anamnese> anamneses, List<Evolucao> evolucoes,
 			List<Contato> contatos) {
 		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
 				telefoneFixo, telefoneCelular, naturalidade, nacionalidade,
@@ -163,11 +166,11 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 		this.desativado = desativado;
 	}
 
-	public Anamnese getAnamneses() {
+	public List<Anamnese> getAnamneses() {
 		return anamneses;
 	}
 
-	public void setAnamneses(Anamnese anamneses) {
+	public void setAnamneses(List<Anamnese> anamneses) {
 		this.anamneses = anamneses;
 	}
 
