@@ -1,6 +1,29 @@
 package modelo;
 
-public class Anamnese {
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import persistence.EntidadeBase;
+
+@Entity
+public class Anamnese  implements Serializable, EntidadeBase{
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	private Usuario psicologa;
+
+	@ManyToOne(cascade = CascadeType.ALL, optional = true)
+	private Paciente paciente;
 
 	private String resumo;
 	private String queixa;
@@ -29,20 +52,23 @@ public class Anamnese {
 	private String sono;
 	private String mania;
 	private String obs;
-	
+
 	public Anamnese() {
-		super();
 	}
 
-	public Anamnese(String resumo, String queixa, String sintoma,
-			String tratamento, String medicamento, String cirurgia,
-			String acidente, String vidaPessoal, String familia,
-			String examePsico, String atitude, String humor, String expansao,
-			String retrato, String negacao, String linguagem, String conciente,
+	public Anamnese(Integer id, Usuario psicologa, Paciente paciente,
+			String resumo, String queixa, String sintoma, String tratamento,
+			String medicamento, String cirurgia, String acidente,
+			String vidaPessoal, String familia, String examePsico,
+			String atitude, String humor, String expansao, String retrato,
+			String negacao, String linguagem, String conciente,
 			String hipotese, String escola, String irescola, String gravidez,
 			String alergia, String saude, String alimentacao, String sono,
 			String mania, String obs) {
 		super();
+		this.id = id;
+		this.psicologa = psicologa;
+		this.paciente = paciente;
 		this.resumo = resumo;
 		this.queixa = queixa;
 		this.sintoma = sintoma;
@@ -70,6 +96,48 @@ public class Anamnese {
 		this.sono = sono;
 		this.mania = mania;
 		this.obs = obs;
+	}
+
+	@Override
+	public String toString() {
+		return "Anamnese [id=" + id + ", psicologa=" + psicologa
+				+ ", paciente=" + paciente + ", resumo=" + resumo + ", queixa="
+				+ queixa + ", sintoma=" + sintoma + ", tratamento="
+				+ tratamento + ", medicamento=" + medicamento + ", cirurgia="
+				+ cirurgia + ", acidente=" + acidente + ", vidaPessoal="
+				+ vidaPessoal + ", familia=" + familia + ", examePsico="
+				+ examePsico + ", atitude=" + atitude + ", humor=" + humor
+				+ ", expansao=" + expansao + ", retrato=" + retrato
+				+ ", negacao=" + negacao + ", linguagem=" + linguagem
+				+ ", conciente=" + conciente + ", hipotese=" + hipotese
+				+ ", escola=" + escola + ", irescola=" + irescola
+				+ ", gravidez=" + gravidez + ", alergia=" + alergia
+				+ ", saude=" + saude + ", alimentacao=" + alimentacao
+				+ ", sono=" + sono + ", mania=" + mania + ", obs=" + obs + "]";
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Usuario getPsicologa() {
+		return psicologa;
+	}
+
+	public void setPsicologa(Usuario psicologa) {
+		this.psicologa = psicologa;
+	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	public String getResumo() {
@@ -287,7 +355,5 @@ public class Anamnese {
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
-	
-	
-	
+
 }

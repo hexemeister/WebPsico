@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -41,6 +42,12 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 
 	private Boolean desativado = false;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Anamnese anamneses;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
+	private List<Evolucao> evolucoes = new ArrayList<>();
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Contato> contatos = new ArrayList<>();
 
@@ -52,7 +59,8 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 	}
 
 	public Paciente(Indicacao indicacao, Date dataInicio, Date dataUtimaSessao,
-			String frequencia, Turno preferenciaTurno, Double preco, Boolean desativado) {
+			String frequencia, Turno preferenciaTurno, Double preco,
+			Boolean desativado) {
 		super();
 		Endereco endereco = new Endereco();
 		this.setEndereco(endereco);
@@ -70,25 +78,31 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 			String nacionalidade, EstadoCivil estadoCivil,
 			Escolaridade escolaridade, String profissao, Boolean desativado,
 			String obs, Indicacao indicacao, Date dataInicio,
-			Date dataUtimaSessao, String frequencia, Turno preferenciaTurno,
-			Double preco) {
+			Date dataUltimaSessao, Turno preferenciaTurno, Double preco,
+			Boolean desativado2, Anamnese anamneses, List<Evolucao> evolucoes,
+			List<Contato> contatos) {
 		super(id, nome, email, sexo, dataNascimento, endereco, cpf,
 				telefoneFixo, telefoneCelular, naturalidade, nacionalidade,
 				estadoCivil, escolaridade, profissao, desativado, obs);
 		this.indicacao = indicacao;
 		this.dataInicio = dataInicio;
-		this.dataUltimaSessao = dataUtimaSessao;
+		this.dataUltimaSessao = dataUltimaSessao;
 		this.preferenciaTurno = preferenciaTurno;
 		this.preco = preco;
+		desativado = desativado2;
+		this.anamneses = anamneses;
+		this.evolucoes = evolucoes;
+		this.contatos = contatos;
 	}
 
 	@Override
 	public String toString() {
-		return "Paciente [indicacao=" + indicacao + ", dataInicio="
-				+ dataInicio + ", dataUltimaSessao=" + dataUltimaSessao
-				+ ", preferenciaTurno=" + preferenciaTurno + ", preco=" + preco
-				+ ", desativado=" + desativado + ", contatos=" + contatos + "]"
-				+ super.toString();
+		return super.toString() + "Paciente [indicacao=" + indicacao
+				+ ", dataInicio=" + dataInicio + ", dataUltimaSessao="
+				+ dataUltimaSessao + ", preferenciaTurno=" + preferenciaTurno
+				+ ", preco=" + preco + ", desativado=" + desativado
+				+ ", anamneses=" + anamneses + ", evolucoes=" + evolucoes
+				+ ", contatos=" + contatos + "]";
 	}
 
 	public List<Contato> getContatos() {
@@ -149,20 +163,42 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 		this.desativado = desativado;
 	}
 
+	public Anamnese getAnamneses() {
+		return anamneses;
+	}
+
+	public void setAnamneses(Anamnese anamneses) {
+		this.anamneses = anamneses;
+	}
+
+	public List<Evolucao> getEvolucoes() {
+		return evolucoes;
+	}
+
+	public void setEvolucoes(List<Evolucao> evolucoes) {
+		this.evolucoes = evolucoes;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result
+				+ ((anamneses == null) ? 0 : anamneses.hashCode());
+		result = prime * result
+				+ ((contatos == null) ? 0 : contatos.hashCode());
 		result = prime * result
 				+ ((dataInicio == null) ? 0 : dataInicio.hashCode());
 		result = prime
 				* result
 				+ ((dataUltimaSessao == null) ? 0 : dataUltimaSessao.hashCode());
 		result = prime * result
+				+ ((desativado == null) ? 0 : desativado.hashCode());
+		result = prime * result
+				+ ((evolucoes == null) ? 0 : evolucoes.hashCode());
+		result = prime * result
 				+ ((indicacao == null) ? 0 : indicacao.hashCode());
 		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
-		result = prime * result
-				+ ((desativado == null) ? 0 : desativado.hashCode());
 		result = prime
 				* result
 				+ ((preferenciaTurno == null) ? 0 : preferenciaTurno.hashCode());
@@ -178,6 +214,16 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 		if (getClass() != obj.getClass())
 			return false;
 		Paciente other = (Paciente) obj;
+		if (anamneses == null) {
+			if (other.anamneses != null)
+				return false;
+		} else if (!anamneses.equals(other.anamneses))
+			return false;
+		if (contatos == null) {
+			if (other.contatos != null)
+				return false;
+		} else if (!contatos.equals(other.contatos))
+			return false;
 		if (dataInicio == null) {
 			if (other.dataInicio != null)
 				return false;
@@ -188,6 +234,16 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 				return false;
 		} else if (!dataUltimaSessao.equals(other.dataUltimaSessao))
 			return false;
+		if (desativado == null) {
+			if (other.desativado != null)
+				return false;
+		} else if (!desativado.equals(other.desativado))
+			return false;
+		if (evolucoes == null) {
+			if (other.evolucoes != null)
+				return false;
+		} else if (!evolucoes.equals(other.evolucoes))
+			return false;
 		if (indicacao == null) {
 			if (other.indicacao != null)
 				return false;
@@ -197,11 +253,6 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 			if (other.preco != null)
 				return false;
 		} else if (!preco.equals(other.preco))
-			return false;
-		if (desativado == null) {
-			if (other.desativado != null)
-				return false;
-		} else if (!desativado.equals(other.desativado))
 			return false;
 		if (preferenciaTurno != other.preferenciaTurno)
 			return false;

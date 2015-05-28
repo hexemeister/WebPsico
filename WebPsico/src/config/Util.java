@@ -1,6 +1,7 @@
 package config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +11,12 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import modelo.Anamnese;
 import modelo.Contato;
 import modelo.Endereco;
 import modelo.Escolaridade;
 import modelo.EstadoCivil;
+import modelo.Evolucao;
 import modelo.Indicacao;
 import modelo.Paciente;
 import modelo.Perfil;
@@ -28,6 +31,11 @@ import persistence.UsuarioDao;
 
 public class Util {
 	static EntityManager em = new PersistenceUtil().getEntityManager();
+	static Paciente p1;
+	static Contato c1, c2;
+	static Usuario u1, u2, u3, u4;
+	static Evolucao e1;
+	static Anamnese a1;
 
 	public static <T> Object getObjectSession(String attribute){        
 	    HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();    
@@ -47,14 +55,14 @@ public class Util {
 	 * popula Usuarios no banco
 	 */
 	public static void populaBancoComUsuarios() {
-		Usuario u1 = new Usuario(null, "Renato", "123", "Renato Moraes",
+		u1 = new Usuario(null, "Renato", "123", "Renato Moraes",
 				"hexemeister@gmail.com", Perfil.ADMINISTRADOR);
-		Usuario u2 = new Usuario(null, "Viviane", "123",
+		u2 = new Usuario(null, "Viviane", "123",
 				"Viviane Rose Val Porto", "rosevalporto@gmail.com",
 				Perfil.PSICOLOGA);
-		Usuario u3 = new Usuario(null, "Bruno", "123", "Bruno Fitzner",
+		u3 = new Usuario(null, "Bruno", "123", "Bruno Fitzner",
 				"brunofitzner1973@gmail.com", Perfil.ATENDENTE);
-		Usuario u4 = new Usuario(null, "Pablo", "123", "Pablo Rangel",
+		u4 = new Usuario(null, "Pablo", "123", "Pablo Rangel",
 				"pablo@gmail.com", Perfil.ATENDENTE, true);
 		UsuarioDao udao = new UsuarioDao();
 		List<Usuario> lista = new ArrayList<Usuario>();
@@ -126,9 +134,21 @@ public class Util {
 		System.out.println("****************** FIM DE populaBancoComContatos ********************");
 	}
 	
+	public static void populaBancoComEvolucao() {
+		e1 = new Evolucao(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+				+ " Suspendisse sagittis vehicula urna, vel pharetra augue. ",p1, u2, new Date(2015, 3, 11,17,30));
+	}
+	
+	public static void populaBancoComAnamnese() {
+		a1 = new Anamnese(null,u2, p1,"resumo","queixa","sintoma","tratamento","medicamento",
+				"cirurgia","acidente","vidaPessoal","familia","examePsico","atitude","humor",
+				"expansao","retrato","negacao","linguagem","conciente","hipotese","escola",
+				"irescola","gravidez","alergia","saude","alimentacao","sono","mania","obs");
+	}
+	
 	public static void populaBancoComPacientes() {
 
-		Paciente p1 = new Paciente.Builder().id(null)
+		p1 = new Paciente.Builder().id(null)
 											.nome("Lucas Val Porto")
 											.email("lucas@gmail.com")
 											.sexo(Sexo.M)
