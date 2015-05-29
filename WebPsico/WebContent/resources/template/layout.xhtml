@@ -38,7 +38,10 @@
 										disabled="#{usuarioMB.logado.isAtendente()}" />
 									<p:menuitem value="Anamnese" url="/anamnese.jsf"
 										disabled="#{usuarioMB.logado.isAtendente()}" />
-									<p:menuitem value="Relatórios" />
+									<p:submenu label="Relatórios" >
+										<p:menuitem value="Usuários"
+											action="#{relatorioMB.gerarRelatorio}" />
+									</p:submenu>
 									<p:menuitem value="Sobre" url="/sobre.jsf" />
 
 									<f:facet name="options">

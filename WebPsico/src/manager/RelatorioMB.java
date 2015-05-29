@@ -68,36 +68,31 @@ public class RelatorioMB {
 	}
 
 	public void gerarRelatorio() {
-		try {
-			InputStream arquivo = FacesContext.getCurrentInstance()
-					.getExternalContext()
-					.getResourceAsStream("/relpaciente.jasper");
-
-			Map parameters = new HashMap();
-			EntityManager em = new PersistenceUtil().getEntityManager();
-			parameters.put(
-					JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, em);
-
-			// apontar para o template
-			// HttpSession session = (HttpSession)
-			// FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-			Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("IDPACIENTE", mbCodigoPaciente);
-			byte report[] = JasperRunManager
-					.runReportToPdf(arquivo, parameters);
-			// JasperRunManager.runReportToHtmlFile("c:\rel.html",
-			// parametros,
-			// HibernateUtil.getSessionFactory().openSession().connection());
-			HttpServletResponse response = (HttpServletResponse) FacesContext
-					.getCurrentInstance().getExternalContext().getResponse();
+		try{
+			//buscando o arquivo (jasper)  -- layout
+			InputStream arquivo = FacesContext.getCurrentInstance().
+							getExternalContext().getResourceAsStream("/flango.jasper");
+			
+			
+			byte[] report = JasperRunManager.runReportToPdf(arquivo, 
+															null,
+									HibernateUtil.getSessionFactory().
+									openSession().connection());
+			
+			HttpServletResponse response = (HttpServletResponse)
+								FacesContext.getCurrentInstance().getExternalContext().
+								getResponse();
+			
 			ServletOutputStream out = response.getOutputStream();
-			out.write(report);
-			out.flush();
+				out.write(report);
+				out.flush();
 			FacesContext.getCurrentInstance().responseComplete();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			
+			
+			
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
 	}
 
 	public void pdf() throws JRException, IOException {
@@ -107,7 +102,7 @@ public class RelatorioMB {
 		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
 				listOfShoppingCart);
 		String reportPath = FacesContext.getCurrentInstance()
-				.getExternalContext().getRealPath("/reports/report.jasper");
+				.getExternalContext().getRealPath("/relatorios/usuarioRel.jasper");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath,
 				new HashMap(), beanCollectionDataSource);
 		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
