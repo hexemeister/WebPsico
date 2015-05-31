@@ -39,8 +39,14 @@
 									<p:menuitem value="Anamnese" url="/anamnese.jsf"
 										disabled="#{usuarioMB.logado.isAtendente()}" />
 									<p:submenu label="Relatórios" >
-										<p:menuitem value="Usuários"
-											action="#{relatorioMB.gerarRelatorio}" />
+										<p:menuitem value="Usuários" target="_blank" ajax="false"
+											action="#{relatorioMB.gerarRelatorioUsuarios}" />
+											<p:menuitem value="Pacientes" target="_blank" ajax="false"
+											action="#{relatorioMB.gerarRelatorioPacientes}" />
+											<p:menuitem value="Contatos" target="_blank" ajax="false"
+											action="#{relatorioMB.gerarRelatorioContatos}" />
+											<p:menuitem value="Evoluções" target="_blank" ajax="false"
+											action="#{relatorioMB.gerarRelatorioEvolucoes}" />
 									</p:submenu>
 									<p:menuitem value="Sobre" url="/sobre.jsf" />
 

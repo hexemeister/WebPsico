@@ -1,7 +1,7 @@
 package manager;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,25 +11,27 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.MaskFormatter;
+
+import org.apache.naming.java.javaURLContextFactory;
 
 import modelo.Paciente;
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import persistence.PacienteDao;
-import persistence.PersistenceUtil;
 
 @RequestScoped
 @Named
 public class RelatorioMB {
+
+	private Connection con = null;
 
 	private List<Paciente> listaPaciente;
 	private Integer mbCodigoPaciente;
@@ -67,52 +69,123 @@ public class RelatorioMB {
 		this.mbCodigoPaciente = mbCodigoPaciente;
 	}
 
-	public void gerarRelatorio() {
-		try{
-			//buscando o arquivo (jasper)  -- layout
-			InputStream arquivo = FacesContext.getCurrentInstance().
-							getExternalContext().getResourceAsStream("/flango.jasper");
-			
-			
-			byte[] report = JasperRunManager.runReportToPdf(arquivo, 
-															null,
-									HibernateUtil.getSessionFactory().
-									openSession().connection());
-			
-			HttpServletResponse response = (HttpServletResponse)
-								FacesContext.getCurrentInstance().getExternalContext().
-								getResponse();
-			
+	public void gerarRelatorioUsuarios() {
+
+		try {
+			// carregando o xml
+			JasperDesign jd = JRXmlLoader.load(FacesContext
+					.getCurrentInstance().getExternalContext()
+					.getRealPath("/resources/relatorios/usuarioRel.jrxml"));
+
+			// gerando o arquivo jasper em tempo de execução
+			JasperReport jasper = JasperCompileManager.compileReport(jd);
+
+			// passando a conexão com o bd
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/webpsicodb", "root",
+					"admin123");
+			Map parametros = new HashMap();
+			parametros.put("REPORT_CONNECTION", con);
+
+			// Preenchendo o relatorio
+			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
+					con);
+
+			// Gerando o pdf
+			byte[] report = JasperExportManager.exportReportToPdf(jp);
+
+			// Devolvendo pro navegador
+			HttpServletResponse response = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			response.addHeader("Content-disposition",
+					"filename=relatorio_usuarios.pdf");
 			ServletOutputStream out = response.getOutputStream();
-				out.write(report);
-				out.flush();
+			out.write(report);
+			out.flush();
 			FacesContext.getCurrentInstance().responseComplete();
-			
-			
-			
-			}catch(Exception ex){
-				ex.printStackTrace();
-			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
-	public void pdf() throws JRException, IOException {
-		EntityManager em = new PersistenceUtil().getEntityManager();
-		Query query = em.createQuery("select s from ShoppingCart s");
-		List listOfShoppingCart = (List) query.getResultList();
-		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
-				listOfShoppingCart);
-		String reportPath = FacesContext.getCurrentInstance()
-				.getExternalContext().getRealPath("/relatorios/usuarioRel.jasper");
-		JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath,
-				new HashMap(), beanCollectionDataSource);
-		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-				.getCurrentInstance().getExternalContext().getResponse();
-		httpServletResponse.addHeader("Content-disposition",
-				"attachment; filename=report.pdf");
-		ServletOutputStream servletOutputStream = httpServletResponse
-				.getOutputStream();
-		JasperExportManager.exportReportToPdfStream(jasperPrint,
-				servletOutputStream);
-		FacesContext.getCurrentInstance().responseComplete();
+	public void gerarRelatorioPacientes() {
+
+		try {
+			// carregando o xml
+			JasperDesign jd = JRXmlLoader.load(FacesContext
+					.getCurrentInstance().getExternalContext()
+					.getRealPath("/resources/relatorios/pacienteRel.jrxml"));
+
+			// gerando o arquivo jasper em tempo de execução
+			JasperReport jasper = JasperCompileManager.compileReport(jd);
+
+			// passando a conexão com o bd
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/webpsicodb", "root",
+					"admin123");
+			Map parametros = new HashMap();
+			parametros.put("REPORT_CONNECTION", con);
+
+			// Preenchendo o relatorio
+			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
+					con);
+
+			// Gerando o pdf
+			byte[] report = JasperExportManager.exportReportToPdf(jp);
+
+			// Devolvendo pro navegador
+			HttpServletResponse response = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			response.addHeader("Content-disposition",
+					"filename=relatorio_pacientes.pdf");
+			ServletOutputStream out = response.getOutputStream();
+			out.write(report);
+			out.flush();
+			FacesContext.getCurrentInstance().responseComplete();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
+
+public void gerarRelatorioContatos() {
+		
+		try {
+			// carregando o xml
+			JasperDesign jd = JRXmlLoader.load(FacesContext
+					.getCurrentInstance().getExternalContext()
+					.getRealPath("/resources/relatorios/contatoRel.jrxml"));
+
+			// gerando o arquivo jasper em tempo de execução
+			JasperReport jasper = JasperCompileManager.compileReport(jd);
+
+			// passando a conexão com o bd
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/webpsicodb", "root",
+					"admin123");
+			Map parametros = new HashMap();
+			parametros.put("REPORT_CONNECTION", con);
+
+			// Preenchendo o relatorio
+			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
+					con);
+				
+			// Gerando o pdf
+			byte[] report = JasperExportManager.exportReportToPdf(jp);
+
+			// Devolvendo pro navegador
+			HttpServletResponse response = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			response.addHeader("Content-disposition", "filename=relatorio_contatos.pdf");
+			ServletOutputStream out = response.getOutputStream();
+			out.write(report);
+			out.flush();
+			FacesContext.getCurrentInstance().responseComplete();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 }
