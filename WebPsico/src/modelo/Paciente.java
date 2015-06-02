@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 
 	private Boolean desativado = false;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="PACIENTE_ID")
 	private List<Anamnese> anamneses;
 
@@ -59,6 +60,8 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 		this.setEndereco(endereco);
 		Indicacao indicacao = new Indicacao();
 		this.setIndicacao(indicacao);
+		Anamnese anamnese = new Anamnese();
+		this.setAnamneses(Arrays.asList(anamnese));
 	}
 
 	public Paciente(Indicacao indicacao, Date dataInicio, Date dataUtimaSessao,

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import persistence.EntidadeBase;
@@ -20,6 +21,7 @@ public class Anamnese  implements Serializable, EntidadeBase{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JoinColumn
 	private Usuario psicologa;
 
 	@ManyToOne(cascade = CascadeType.ALL, optional = true)

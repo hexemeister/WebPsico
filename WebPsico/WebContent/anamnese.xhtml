@@ -52,7 +52,7 @@
 							size="50" placeholder="Pais, irmão, lar, conjugue" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta10" value="Exame Psíquico: " />
-						<p:inputText id="resposta10" value="#{anamneseMB.examePsico}"
+						<p:inputText id="resposta10" value="#{anamneseMB.examepsico}"
 							size="50" placeholder="a Aparência e o Comportamento" />
 
 						<h:outputText id="pergunta11"
@@ -128,6 +128,7 @@
 						<h:outputText id="observacao" value="Observação: " />					
 						<p:inputTextarea autoResize="true" style="width:1240px;" value="#{anamneseMB.obs}"/>
 					</h:panelGrid>
+				<p:commandButton value="teste" action="#{anamneseMB.teste}" />
 						<p:button value="Salvar"/>
 		
 			</h:form>
