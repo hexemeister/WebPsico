@@ -2,6 +2,7 @@ package manager;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,12 +11,19 @@ import modelo.Usuario;
 
 @Named
 @ViewScoped
-public class AnamneseMB implements Serializable{
+public class AnamneseMB implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	LoginMB loginMB;
 	
 	Usuario logado;
+
+	@PostConstruct
+	public void init() {
+		logado = loginMB.getLogado();
+	}
 
 	private String acidente;
 	private String alergia;
@@ -48,11 +56,12 @@ public class AnamneseMB implements Serializable{
 	public AnamneseMB() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public void teste() {
-		System.out.println("!!!!!!!!!!!!!!!!!" + loginMB.getLogado().getNomeCompleto());
+		System.out.println("!!!!!!!!" + logado + "!!!!!!!!!"
+				+ loginMB.getLogado().getNomeCompleto());
 	}
-	
+
 	public Usuario getLogado() {
 		return logado;
 	}
@@ -276,7 +285,5 @@ public class AnamneseMB implements Serializable{
 	public void setVidapessoal(String vidapessoal) {
 		this.vidapessoal = vidapessoal;
 	}
-
-	
 
 }
