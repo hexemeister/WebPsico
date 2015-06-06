@@ -245,7 +245,7 @@
 							selection="#{pacienteMB.contatoSelecionado}" rowKey="#{linha.id}">
 							<p:ajax event="rowSelect"
 								listener="#{pacienteMB.onRowContatoSelect}"
-								update=":formPac:abas:tbcontatos, :formPac:abas:tb, :formPac:abas:abapersonal" />
+								update=":formPac:abas:tbcontatos, :formPac:abas:tb" />
 							<p:ajax event="rowUnselect"
 								listener="#{pacienteMB.onRowContatoUnselect}"
 								update=":formPac:abas:tbcontatos, :formPac:abas:tb" />

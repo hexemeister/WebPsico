@@ -57,7 +57,7 @@ public class Anamnese  implements Serializable, EntidadeBase{
 
 	public Anamnese() {
 	}
-
+	
 	public Anamnese(Integer id, Usuario psicologa, Paciente paciente,
 			String resumo, String queixa, String sintoma, String tratamento,
 			String medicamento, String cirurgia, String acidente,

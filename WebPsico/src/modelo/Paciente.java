@@ -60,8 +60,8 @@ public class Paciente extends Pessoa implements Serializable, EntidadeBase {
 		this.setEndereco(endereco);
 		Indicacao indicacao = new Indicacao();
 		this.setIndicacao(indicacao);
-		Anamnese anamnese = new Anamnese();
-		this.setAnamneses(Arrays.asList(anamnese));
+		// Anamnese anamnese = new Anamnese();
+		// this.setAnamneses(Arrays.asList(anamnese));
 	}
 
 	public Paciente(Indicacao indicacao, Date dataInicio, Date dataUtimaSessao,

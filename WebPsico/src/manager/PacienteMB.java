@@ -53,16 +53,6 @@ public class PacienteMB implements Serializable {
 		listaContato = pacienteSelecionado.getContatos();
 	}
 
-	public void teste() {
-		try {
-			System.out.println("*************** " + pacienteSelecionado);
-			// pacienteSelecionado = new
-			// PacienteDao().createAndGetId(pacienteSelecionado);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void atualizarPaciente() {
 		new PacienteDao().update(pacienteSelecionado);
 		FacesMessage msg = new FacesMessage("Paciente Atualizado",

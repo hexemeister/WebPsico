@@ -1,5 +1,7 @@
 package manager;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -7,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
-public class LogoutMB {
+public class LogoutMB implements Serializable{
 
 	public void efetuarLogout() {
 		FacesContext fc = FacesContext.getCurrentInstance();

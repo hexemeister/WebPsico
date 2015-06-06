@@ -10,147 +10,185 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="corpo">
-		<p:panel header="Itens para a Anamnese" id="perguntas">
-			<h:form id="formulario">
-				<p:tab id="itens" title="Itens para a Anamnese - todos">
+		<h:form id="formulario">
+			<p:accordionPanel dynamic="true" cache="true" widgetVar="anamneseTab">
+			<p:tab title="Pesquisa Paciente">
+					<p:dataTable id="PacienteAnamneseTb" rows="5" var="linha"
+						widgetVar="pacienteTb" style="margin: 15px;"
+						emptyMessage="Nenhum paciente encontrado."
+						value="#{anamneseMB.listaPaciente}" selectionMode="single"
+						paginator="true" paginatorPosition="bottom"
+						selection="#{anamneseMB.pacienteSelecionado}" rowKey="#{linha.id}">
+						<f:facet name="header">
+							<p:outputPanel layout="block" styleClass="esquerda">
+								<h:outputText value="Pesquisa por paciente em todas as colunas:" />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('pacienteTb').filter()" style="width:150px;"
+									placeholder="Digite uma palavra-chave" />
+							</p:outputPanel>
+						</f:facet>
+						<p:ajax event="rowSelect" listener="#{anamneseMB.onRowSelect}"
+							update=":formulario" />
+						<p:ajax event="rowUnselect" listener="#{anamneseMB.onRowUnselect}"
+							update=":formulario" />
+						<p:column headerText="Nome" sortBy="#{linha.nome}"
+							filterBy="#{linha.nome}" filterStyleClass="hide">
+							<p:outputLabel value="#{linha.nome}" />
+						</p:column>
+						<p:column headerText="Telefone Fixo"
+							sortBy="#{linha.telefoneFixo}" filterBy="#{linha.telefoneFixo}"
+							filterStyleClass="hide">
+							<p:outputLabel value="#{linha.telefoneFixo}" />
+						</p:column>
+						<p:column headerText="Telefone Celular"
+							sortBy="#{linha.telefoneCelular}"
+							filterBy="#{linha.telefoneCelular}" filterStyleClass="hide">
+							<p:outputLabel value="#{linha.telefoneCelular}" />
+						</p:column>
+						<p:column headerText="Email" sortBy="#{linha.email}"
+							filterBy="#{linha.email}" filterStyleClass="hide">
+							<p:outputLabel value="#{linha.email}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Itens para a Anamnese">
 					<h:panelGrid columns="5" id="dadosGerais"
 						columnClasses="label, value, ,label, value">
 
 						<h:outputText id="pergunta1" value=" Resumo da avaliação: " />
-						<p:inputText id="restosta1" value="#{anamneseMB.resumo}" size="50" />
+						<p:inputText id="restosta1" value="#{anamneseMB.anamnese.resumo}"
+							size="50" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta2" value=" Queixa Principal: " />
-						<p:inputText id="resposta2" value="#{anamneseMB.queixa}" size="50"
+						<p:inputText id="resposta2" value="#{anamneseMB.anamnese.queixa}"
+							size="50"
 							placeholder="Início da patologia, qual a frequência e a Intensidade" />
 
 						<h:outputText id="pergunta3" value=" Qual os sintomas: " />
-						<p:inputText id="resposta3" value="#{anamneseMB.sintoma}"
+						<p:inputText id="resposta3" value="#{anamneseMB.anamnese.sintoma}"
 							size="50" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta4" value=" Tratamentos anteriores: " />
-						<p:inputText id="resposta4" value="#{anamneseMB.tratamento}"
-							size="50" placeholder="Com que profissional, Quais, Quanto tempo" />
+						<p:inputText id="resposta4"
+							value="#{anamneseMB.anamnese.tratamento}" size="50"
+							placeholder="Com que profissional, Quais, Quanto tempo" />
 
 						<h:outputText id="pergunta5" value="Uso de algum medicamento: " />
-						<p:inputText id="resposta5" value="#{anamneseMB.medicamento}"
-							size="50" placeholder="Uso continuo de medicamento" />
+						<p:inputText id="resposta5"
+							value="#{anamneseMB.anamnese.medicamento}" size="50"
+							placeholder="Uso continuo de medicamento" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta6" value="Fez cirurgia: " />
-						<p:inputText id="resposta6" value="#{anamneseMB.cirurgia}"
-							size="50" placeholder="Quando, como foi? " />
+						<p:inputText id="resposta6"
+							value="#{anamneseMB.anamnese.cirurgia}" size="50"
+							placeholder="Quando, como foi? " />
 
 						<h:outputText id="pergunta7" value="Sofreu algum acidente: " />
-						<p:inputText id="resposta7" value="#{anamneseMB.acidente}"
-							size="50" placeholder="quando? Como foi? " />
+						<p:inputText id="resposta7"
+							value="#{anamneseMB.anamnese.acidente}" size="50"
+							placeholder="quando? Como foi? " />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta8" value="Historia Pessoal: " />
-						<p:inputText id="resposta8" value="#{anamneseMB.vidapessoal}"
-							size="50" placeholder="Rotina, Vícios, Hobbies, Trabalho" />
+						<p:inputText id="resposta8"
+							value="#{anamneseMB.anamnese.vidaPessoal}" size="50"
+							placeholder="Rotina, Vícios, Hobbies, Trabalho" />
 
 						<h:outputText id="pergunta9" value="Relação com a Familia: " />
-						<p:inputText id="resposta9" value="#{anamneseMB.familia}"
+						<p:inputText id="resposta9" value="#{anamneseMB.anamnese.familia}"
 							size="50" placeholder="Pais, irmão, lar, conjugue" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta10" value="Exame Psíquico: " />
-						<p:inputText id="resposta10" value="#{anamneseMB.examepsico}"
-							size="50" placeholder="a Aparência e o Comportamento" />
+						<p:inputText id="resposta10"
+							value="#{anamneseMB.anamnese.examePsico}" size="50"
+							placeholder="a Aparência e o Comportamento" />
 
 						<h:outputText id="pergunta11"
 							value="Atitude para com o entrevistador:" />
-						<p:inputText id="resposta11" value="#{anamneseMB.atitude}"
-							size="50" placeholder="cooperativo, indiferente, resistente" />
+						<p:inputText id="resposta11"
+							value="#{anamneseMB.anamnese.atitude}" size="50"
+							placeholder="cooperativo, indiferente, resistente" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta12" value="Humor: " />
-						<p:inputText id="resposta12" value="#{anamneseMB.humor}" size="50"
+						<p:inputText id="resposta12" value="#{anamneseMB.anamnese.humor}"
+							size="50"
 							placeholder="normal, exaltado, baixo, quebra súbita da tonalidade do humor" />
 
 						<h:outputText id="pergunta13" value="Expansão do 'EU': " />
-						<p:inputText id="resposta13" value="#{anamneseMB.expansao}"
-							size="50" placeholder="grandeza, ciúme, reivindicação, salvadora" />
+						<p:inputText id="resposta13"
+							value="#{anamneseMB.anamnese.expansao}" size="50"
+							placeholder="grandeza, ciúme, reivindicação, salvadora" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta14" value="Retratação do 'EU': " />
-						<p:inputText id="resposta14" value="#{anamneseMB.retrato}"
-							size="50" placeholder="auto-referência, perseguição, influência, possessão, humildades" />
-						
+						<p:inputText id="resposta14"
+							value="#{anamneseMB.anamnese.retrato}" size="50"
+							placeholder="auto-referência, perseguição, influência, possessão, humildades" />
+
 						<h:outputText id="pergunta15" value="Negação do 'EU': " />
-						<p:inputText id="resposta15" value="#{anamneseMB.negacao}"
-							size="50"
+						<p:inputText id="resposta15"
+							value="#{anamneseMB.anamnese.negacao}" size="50"
 							placeholder="hipocondríaco, auto-acusação, culpa, tendência ao suicídio" />
-<p style="width: 10px" />
+						<p style="width: 10px" />
 						<h:outputText id="pergunta16" value="Linguagem: " />
-						<p:inputText id="resposta16" value="#{anamneseMB.linguagem}"
-							size="50" />
-						
+						<p:inputText id="resposta16"
+							value="#{anamneseMB.anamnese.linguagem}" size="50" />
+
 						<h:outputText id="pergunta17"
 							value="Consciência da doença atual: " />
-						<p:inputText id="resposta17" value="#{anamneseMB.conciente}"
-							size="50" placeholder="sim, não, há negação" />
-<p style="width: 10px" />
+						<p:inputText id="resposta17"
+							value="#{anamneseMB.anamnese.conciente}" size="50"
+							placeholder="sim, não, há negação" />
+						<p style="width: 10px" />
 						<h:outputText id="pergunta18" value="Hipótese diagnostica: " />
-						<p:inputText id="resposta18" value="#{anamneseMB.hipotese}"
-							size="50" placeholder="grandeza, ciúme, reivindicação, salvadora" />
+						<p:inputText id="resposta18"
+							value="#{anamneseMB.anamnese.hipotese}" size="50"
+							placeholder="grandeza, ciúme, reivindicação, salvadora" />
 
 						<h:outputText id="pergunta19" value="Escola: " />
-						<p:inputText id="resposta19" value="#{anamneseMB.escola}"
+						<p:inputText id="resposta19" value="#{anamneseMB.anamnese.escola}"
 							size="50" placeholder="Qual o nome, série, turno, professor " />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta20" value="Gosta de ir à escola: " />
-						<p:inputText id="resposta20" value="#{anamneseMB.irescola}"
-							size="50" placeholder="sim, não, tem preguiça" />
+						<p:inputText id="resposta20"
+							value="#{anamneseMB.anamnese.irescola}" size="50"
+							placeholder="sim, não, tem preguiça" />
 
 						<h:outputText id="pergunta21" value="Como foi a gravidez: " />
-						<p:inputText id="resposta21" value="#{anamneseMB.gravidez}"
-							size="50" placeholder="Condições emocionais e de saude da mãe" />
+						<p:inputText id="resposta21"
+							value="#{anamneseMB.anamnese.gravidez}" size="50"
+							placeholder="Condições emocionais e de saude da mãe" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta22" value="Reações alérgicas: " />
-						<p:inputText id="resposta22" value="#{anamneseMB.alergia}" placeholder="tem bronquite, asma, outros"
-							size="50"/>
+						<p:inputText id="resposta22"
+							value="#{anamneseMB.anamnese.alergia}"
+							placeholder="tem bronquite, asma, outros" size="50" />
 
-						<h:outputText id="pergunta23" value="Problemas com visão, audição: " />
-						<p:inputText id="resposta23" value="#{anamneseMB.saude}"
+						<h:outputText id="pergunta23"
+							value="Problemas com visão, audição: " />
+						<p:inputText id="resposta23" value="#{anamneseMB.anamnese.saude}"
 							size="50" placeholder="sim, não, quais" />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta24" value="Como é sua alimentação: " />
-						<p:inputText id="resposta24" value="#{anamneseMB.alimentacao}"
-							size="50" />
+						<p:inputText id="resposta24"
+							value="#{anamneseMB.anamnese.alimentacao}" size="50" />
 
 						<h:outputText id="pergunta25" value="Como é seu sono: " />
-						<p:inputText id="resposta25" value="#{anamneseMB.sono}"
+						<p:inputText id="resposta25" value="#{anamneseMB.anamnese.sono}"
 							size="50" placeholder="tranquilo, agitado, sonambulo " />
 						<p style="width: 10px" />
 						<h:outputText id="pergunta26" value="Tem mania ou TIC : " />
-						<p:inputText id="resposta26" value="#{anamneseMB.mania}"
+						<p:inputText id="resposta26" value="#{anamneseMB.anamnese.mania}"
 							size="50" placeholder="sim, não, Qual" />
-
 					</h:panelGrid>
-					</p:tab>
 					<h:panelGrid columns="2">
-						<h:outputText id="observacao" value="Observação: " />					
-						<p:inputTextarea autoResize="true" style="width:1240px;" value="#{anamneseMB.obs}"/>
+						<h:outputText id="observacao" value="Observação: " />
+						<p:inputTextarea autoResize="false"
+							style="width:1240px; resize: none;"
+							value="#{anamneseMB.anamnese.obs}" />
 					</h:panelGrid>
-				<p:commandButton value="teste" action="#{anamneseMB.teste}" />
-						<p:button value="Salvar"/>
-		
-			</h:form>
-		</p:panel>
-		<p:panel id="pesquisaPaciente" header="Pesquisa Paciente">
-			<h:form id="pesquisa">
-				<p:outputLabel for="pesquisaPacie" value="Procurar pelo Paciente: " />
-				<p:focus id="foco" for="pesquisaPacie" />
-				<p:autoComplete id="pesquisaPacie"
-					placeholder="Digite o Nome do Paciente" size="55" maxResults="10"
-					value="#{pacienteMB.pacienteSelecionado}"
-					completeMethod="#{pacienteMB.listaPaciente}" minQueryLength="1"
-					effect="fade" var="paciente" itemLabel="" itemValue="#{paciente}"
-					forceSelection="true">
-					<p:column headerText="Nome Completo"
-						style="width:70%;text-align:center">#{paciente.nomeCompleto}</p:column>
-					<p:ajax event="itemSelect" listener="#{pacienteMB.onItemSelect}" />
-					<p:ajax event="click" listener="#{pacienteMB.onFocus()}"
-						process="@this" />
-				</p:autoComplete>
-				<br />
-			</h:form>
-		</p:panel>
+					<p:commandButton value="Salvar"
+						action="#{anamneseMB.salvarAnamnese}" />
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
 	</ui:define>
 </ui:composition>
