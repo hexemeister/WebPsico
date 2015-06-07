@@ -75,16 +75,10 @@
 					</p:row>
 
 					<p:row>
-						<p:column>
-							<p:commandButton id="marcarBtn" value="Marcar"
+						<p:column colspan="3" styleClass="centralizado">
+							<p:commandButton id="marcarBtn" value="Marcar" 
 								actionListener="#{scheduleViewMB.addEvent}"
 								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
-						</p:column>
-						<p:column>
-							<p:commandButton id="evolucaoBtn" value="Evoluçao" />
-						</p:column>
-						<p:column>
-							<p:commandButton id="anamneseBtn" value="Anamnese" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

@@ -180,7 +180,7 @@ public class Util {
 
 	public static void populaBancoComEvolucao() {
 		e1 = new Evolucao(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-				+ " Suspendisse sagittis vehicula urna, vel pharetra augue. ",new PacienteDao().findById(1), u2, new Date(2015, 3, 11,17,30));
+				+ " Suspendisse sagittis vehicula urna, vel pharetra augue. ",new PacienteDao().findById(1), u2, new Date(2015-1900, 3, 11,17,30));
 		new EvolucaoDao().update(e1);
 		System.out.println("****************** FIM DE populaBancoComEvolucao ********************");
 	}

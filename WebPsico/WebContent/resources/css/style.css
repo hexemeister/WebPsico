@@ -43,7 +43,7 @@ body {
 	text-align: center;
 }
 
-.semBorda tr, .semBorda td. {
+.semBorda tr, .semBorda td {
 	border: none !important;
 }
 
@@ -67,7 +67,7 @@ body {
 }
 
 .centralizado{
-	text-align: center;
+	text-align: center !important;
 }
 
 .direita{

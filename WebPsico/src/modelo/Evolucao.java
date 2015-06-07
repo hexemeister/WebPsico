@@ -1,9 +1,11 @@
 package modelo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,10 +21,12 @@ import persistence.EntidadeBase;
 public class Evolucao implements Serializable, EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(length = 500)
 	private String texto;
 
 	@ManyToOne(cascade = CascadeType.ALL, optional = true)
@@ -30,7 +34,6 @@ public class Evolucao implements Serializable, EntidadeBase {
 
 	private Usuario psicologa;
 
-	@Past
 	@Temporal(TemporalType.DATE)
 	private Date data;
 

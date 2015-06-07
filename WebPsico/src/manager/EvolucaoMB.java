@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import modelo.Evolucao;
 import modelo.Paciente;
 import modelo.Usuario;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
@@ -30,7 +32,7 @@ public class EvolucaoMB {
 	private List<Paciente> listaPaciente;
 	private Paciente pacienteSelecionado;
 	private List<Evolucao> listaEvolucoes;
-	private Evolucao evolucao;
+	private Evolucao evolucaoSelecionada;
 
 	public EvolucaoMB() {
 	}
@@ -38,6 +40,7 @@ public class EvolucaoMB {
 	@PostConstruct
 	public void init() {
 		logado = loginMB.getLogado();
+		listaEvolucoes = new ArrayList<Evolucao>();
 	}
 
 	public void onRowSelect(SelectEvent event) {
@@ -45,12 +48,43 @@ public class EvolucaoMB {
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				pacienteSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		if (pacienteSelecionado.getEvolucoes().size()>0) {
+			for (Evolucao e : pacienteSelecionado.getEvolucoes()) {
+				if (e.getPsicologa().equals(logado)) {
+					listaEvolucoes.add(e);
+				}
+			}
+		} else {
+			listaEvolucoes = new ArrayList<Evolucao>();
+		}
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('evolucaoTabs').select(1)");
+		// para depois: dar o focus no editor quando a aba abrir
+		evolucaoSelecionada = new Evolucao();
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
 		pacienteSelecionado = (Paciente) event.getObject();
 		FacesMessage msg = new FacesMessage("Seleção Removida",
 				pacienteSelecionado.getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		pacienteSelecionado = new Paciente();
+		listaEvolucoes = new ArrayList<Evolucao>();
+	}
+
+	public void onRowSelectEvolucao(SelectEvent event) {
+		evolucaoSelecionada = (Evolucao) event.getObject();
+		FacesMessage msg = new FacesMessage("Evolução Selecionada",
+				evolucaoSelecionada.getPaciente().getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('evolucaoTabs').select(1)");
+	}
+
+	public void onRowUnselectEvolucao(UnselectEvent event) {
+		evolucaoSelecionada = (Evolucao) event.getObject();
+		FacesMessage msg = new FacesMessage("Seleção Removida",
+				evolucaoSelecionada.getPaciente().getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -79,12 +113,12 @@ public class EvolucaoMB {
 		this.listaEvolucoes = listaEvolucoes;
 	}
 
-	public Evolucao getEvolucao() {
-		return evolucao;
+	public Evolucao getEvolucaoSelecionada() {
+		return evolucaoSelecionada;
 	}
 
-	public void setEvolucao(Evolucao evolucao) {
-		this.evolucao = evolucao;
+	public void setEvolucaoSelecionada(Evolucao evolucaoSelecionada) {
+		this.evolucaoSelecionada = evolucaoSelecionada;
 	}
 
 }

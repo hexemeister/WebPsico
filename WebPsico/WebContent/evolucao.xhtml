@@ -11,93 +11,85 @@
 
 	<ui:define name="corpo">
 
+		<h:form id="evolucaoFrm">
+			<p:accordionPanel widgetVar="evolucaoTabs" id="accordion">
 
-		<p:panel id="evolucaoAntiga" header="Evoluções Antigas">
-			<h:form id="evolucaoFrm">
-				<p:dataTable id="evol" var="evoluirMB" value="#{ff.b}" rows="5"
-					editable="true" editMode="cell" paginator="true"
-					paginatorPosition="top">
+				<p:tab title="Pesquisa Paciente">
+					<p:dataTable id="PacienteTb" rows="5" var="linha"
+						widgetVar="pacienteTb" style="margin: 15px;"
+						emptyMessage="Nenhum paciente encontrado."
+						value="#{evolucaoMB.listaPaciente}" selectionMode="single"
+						paginator="true" paginatorPosition="bottom"
+						selection="#{evolucaoMB.pacienteSelecionado}" rowKey="#{linha.id}">
+						<f:facet name="header">
+							<p:outputPanel layout="block" styleClass="esquerda">
+								<h:outputText value="Pesquisa por paciente em todas as colunas:" />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('pacienteTb').filter()" style="width:150px;"
+									placeholder="Digite uma palavra-chave" />
+							</p:outputPanel>
+						</f:facet>
+						<p:ajax event="rowSelect" listener="#{evolucaoMB.onRowSelect}"
+							update=":evolucaoFrm:accordion:evolucoesTb" />
+						<p:ajax event="rowUnselect" listener="#{evolucaoMB.onRowUnselect}"
+							update=":evolucaoFrm:accordion:evolucoesTb" />
+						<p:column headerText="Nome" sortBy="#{linha.nome}"
+							filterBy="#{linha.nome}" filterStyleClass="hide">
+							<p:outputLabel value="#{linha.nome}" />
+						</p:column>
+						<p:column headerText="Telefone Fixo"
+							sortBy="#{linha.telefoneFixo}" filterBy="#{linha.telefoneFixo}"
+							filterStyleClass="hide">
+							<p:outputLabel value="#{linha.telefoneFixo}" />
+						</p:column>
+						<p:column headerText="Telefone Celular"
+							sortBy="#{linha.telefoneCelular}"
+							filterBy="#{linha.telefoneCelular}" filterStyleClass="hide">
+							<p:outputLabel value="#{linha.telefoneCelular}" />
+						</p:column>
+						<p:column headerText="Email" sortBy="#{linha.email}"
+							filterBy="#{linha.email}" filterStyleClass="hide">
+							<p:outputLabel value="#{linha.email}" />
+						</p:column>
+						<p:column headerText="Id" sortBy="#{linha.desativado}"
+							filterBy="#{linha.id}" filterStyleClass="hide"
+							styleClass="centralizado">
+							<p:outputLabel value="#{linha.id}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
 
-					<p:ajax event="cellEdit" listener="#{ff.b}" />
+				<p:tab title="Evolução">
+					<p:editor id="editor" widgetVar="editorWidget" height="250"
+						value="#{evolucaoMB.evolucaoSelecionada.texto}" width="1000" rendered="true" />
+					<h:panelGrid columns="3" style="margin-top: 10px">
+						<p:commandButton value="Salvar" />
+						<p:commandButton value="Cancelar" />
+					</h:panelGrid>
+				</p:tab>
 
-					<p:column headerText="Data" width="15%" sortBy="evoluirMB.data">
-						<h:outputText value="#{evoluirMB.data}" dir="rtl" rendered="true">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-					<p:column headerText="Evolução">
-						<p:cellEditor>
-							<f:facet name="input">
-								<p:inputText value="#{evoluirMB.guardada}" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
+				<p:tab title="Histórico de Evoluções" id="evolucaoAntigaTab">
+					<p:dataTable id="evolucoesTb" var="linha"
+						value="#{evolucaoMB.listaEvolucoes}" rows="5" paginator="true"
+						paginatorPosition="bottom" selectionMode="single" emptyMessage="Nenhuma evolução foi encontrada."
+						selection="#{evolucaoMB.evolucaoSelecionada}" rowKey="#{linha.id}">
+						<p:ajax event="rowSelect" listener="#{evolucaoMB.onRowSelectEvolucao}"
+							update=":evolucaoFrm:accordion:editor" />
+						<p:ajax event="rowUnselect" listener="#{evolucaoMB.onRowUnselectEvolucao}"
+							update=":evolucaoFrm:accordion:editor" />
+						<p:column headerText="Data" width="15%" sortBy="linha.data"
+							styleClass="centralizado">
+							<h:outputText value="#{linha.data}" rendered="true">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Evolução">
+							<p:outputLabel value="#{linha.texto}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
 
-				</p:dataTable>
-			</h:form>
-		</p:panel>
-
-		<p:spacer />
-
-		<p:panel id="evolucao" header="Evolução">
-			<h:form id="editarEvolucao">
-				<p:editor id="editor" widgetVar="editorWidget" height="250"
-					value="#{editorView.text}" width="1000" rendered="true" />
-				<h:panelGrid columns="3" style="margin-top: 10px">
-					<p:commandButton value="Salvar" />
-					<p:commandButton value="Cancelar" />
-					<p:button id="anamnese" value="Anamnese" ajax="false"
-						actionListener="anamnese.jsp" onclick="open()"></p:button>
-				</h:panelGrid>
-			</h:form>
-		</p:panel>
-
-
-		<p:panel id="pesquisaPaciente" header="Pesquisa Paciente">
-			<h:form id="pesquisa">
-				<p:dataTable id="PacienteAnamneseTb" rows="5" var="linha"
-					widgetVar="pacienteTb" style="margin: 15px;"
-					emptyMessage="Nenhum paciente encontrado."
-					value="#{evolucaoMB.listaPaciente}" selectionMode="single"
-					paginator="true" paginatorPosition="bottom"
-					selection="#{evolucaoMB.pacienteSelecionado}" rowKey="#{linha.id}">
-					<f:facet name="header">
-						<p:outputPanel layout="block" styleClass="esquerda">
-							<h:outputText value="Pesquisa por paciente em todas as colunas:" />
-							<p:inputText id="globalFilter"
-								onkeyup="PF('pacienteTb').filter()" style="width:150px;"
-								placeholder="Digite uma palavra-chave" />
-						</p:outputPanel>
-					</f:facet>
-					<p:ajax event="rowSelect" listener="#{evolucaoMB.onRowSelect}"
-						update=":evolucaoFrm" />
-					<p:ajax event="rowUnselect" listener="#{evolucaoMB.onRowUnselect}"
-						update=":evolucaoFrm" />
-					<p:column headerText="Nome" sortBy="#{linha.nome}"
-						filterBy="#{linha.nome}" filterStyleClass="hide">
-						<p:outputLabel value="#{linha.nome}" />
-					</p:column>
-					<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}"
-						filterBy="#{linha.telefoneFixo}" filterStyleClass="hide">
-						<p:outputLabel value="#{linha.telefoneFixo}" />
-					</p:column>
-					<p:column headerText="Telefone Celular"
-						sortBy="#{linha.telefoneCelular}"
-						filterBy="#{linha.telefoneCelular}" filterStyleClass="hide">
-						<p:outputLabel value="#{linha.telefoneCelular}" />
-					</p:column>
-					<p:column headerText="Email" sortBy="#{linha.email}"
-						filterBy="#{linha.email}" filterStyleClass="hide">
-						<p:outputLabel value="#{linha.email}" />
-					</p:column>
-					<p:column headerText="Id" sortBy="#{linha.desativado}"
-						filterBy="#{linha.id}" filterStyleClass="hide"
-						styleClass="centralizado">
-						<p:outputLabel value="#{linha.id}" />
-					</p:column>
-				</p:dataTable>
-			</h:form>
-		</p:panel>
-
+			</p:accordionPanel>
+		</h:form>
 	</ui:define>
 </ui:composition>
