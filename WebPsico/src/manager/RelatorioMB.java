@@ -11,6 +11,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.MaskFormatter;
@@ -26,6 +29,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import persistence.PacienteDao;
+import persistence.PersistenceUtil;
 
 @RequestScoped
 @Named
@@ -72,6 +76,15 @@ public class RelatorioMB {
 	public void gerarRelatorioUsuarios() {
 
 		try {
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory(new PersistenceUtil().PERSISTENCE_UNIT);
+			Map<String, Object> propertiesMap = entityManagerFactory
+					.getProperties();
+
+			for (Map.Entry<String, Object> e : propertiesMap.entrySet()) {
+				System.out.println("key=" + e.getKey() + " value = "
+						+ e.getValue().toString());
+			}
 			// carregando o xml
 			JasperDesign jd = JRXmlLoader.load(FacesContext
 					.getCurrentInstance().getExternalContext()
@@ -84,6 +97,7 @@ public class RelatorioMB {
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/webpsicodb", "root",
 					"admin123");
+			
 			Map parametros = new HashMap();
 			parametros.put("REPORT_CONNECTION", con);
 
@@ -149,8 +163,8 @@ public class RelatorioMB {
 		}
 	}
 
-public void gerarRelatorioContatos() {
-		
+	public void gerarRelatorioContatos() {
+
 		try {
 			// carregando o xml
 			JasperDesign jd = JRXmlLoader.load(FacesContext
@@ -170,14 +184,15 @@ public void gerarRelatorioContatos() {
 			// Preenchendo o relatorio
 			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
 					con);
-				
+
 			// Gerando o pdf
 			byte[] report = JasperExportManager.exportReportToPdf(jp);
 
 			// Devolvendo pro navegador
 			HttpServletResponse response = (HttpServletResponse) FacesContext
 					.getCurrentInstance().getExternalContext().getResponse();
-			response.addHeader("Content-disposition", "filename=relatorio_contatos.pdf");
+			response.addHeader("Content-disposition",
+					"filename=relatorio_contatos.pdf");
 			ServletOutputStream out = response.getOutputStream();
 			out.write(report);
 			out.flush();
@@ -187,5 +202,5 @@ public void gerarRelatorioContatos() {
 			ex.printStackTrace();
 		}
 	}
-	
+
 }

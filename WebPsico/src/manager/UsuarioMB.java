@@ -113,7 +113,7 @@ public class UsuarioMB implements Serializable {
 		Util.findComponent("gerenciaUsuario:lbSenhaAtual").setRendered(true);
 		usuarioSelecionado = (Usuario) event.getObject();
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Usuário Selecionado", "Usuário Selecionado"));
+				new FacesMessage("Usuário Selecionado", usuarioSelecionado.getLogin()));
 	}
 
 	public void onFocus() {
@@ -121,7 +121,7 @@ public class UsuarioMB implements Serializable {
 		Util.findComponent("gerenciaUsuario:lbSenhaAtual").setRendered(true);
 		usuarioSelecionado = logado;
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Usuário Selecionado", "Usuário Selecionado"));
+				new FacesMessage("Usuário Selecionado", usuarioSelecionado.getLogin()));
 	}
 
 	public void salvar() {

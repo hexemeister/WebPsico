@@ -80,6 +80,7 @@ public class EvolucaoMB implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		setAbaDesabilitada(true);
 		pacienteSelecionado = new Paciente();
+		evolucaoSelecionada = new Evolucao();
 		textoDoEditor = null;
 		listaEvolucoes = new ArrayList<Evolucao>();
 	}
@@ -125,6 +126,7 @@ public class EvolucaoMB implements Serializable {
 		FacesMessage msg = new FacesMessage("Evolucao Salva",
 				pacienteSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		evolucaoSelecionada = new Evolucao();
 	}
 
 	public String cancelaEvolucao() {
