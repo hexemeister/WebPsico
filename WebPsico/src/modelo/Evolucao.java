@@ -1,7 +1,6 @@
 package modelo;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -13,12 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Past;
 
 import persistence.EntidadeBase;
 
 @Entity
-public class Evolucao implements Serializable, EntidadeBase {
+public class Evolucao implements Serializable, EntidadeBase,
+		Comparable<Evolucao> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,12 +28,13 @@ public class Evolucao implements Serializable, EntidadeBase {
 	@Column(length = 500)
 	private String texto;
 
-	@ManyToOne(cascade = CascadeType.ALL, optional = true)
+	@ManyToOne(cascade = {
+			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, optional = true)
 	private Paciente paciente;
 
 	private Usuario psicologa;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
 
 	public Evolucao() {
@@ -95,6 +95,11 @@ public class Evolucao implements Serializable, EntidadeBase {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	@Override
+	public int compareTo(Evolucao o) {
+		return this.data.compareTo(o.getData());
 	}
 
 }

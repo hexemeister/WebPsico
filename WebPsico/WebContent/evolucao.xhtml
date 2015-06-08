@@ -14,7 +14,7 @@
 		<h:form id="evolucaoFrm">
 			<p:accordionPanel widgetVar="evolucaoTabs" id="accordion">
 
-				<p:tab title="Pesquisa Paciente">
+				<p:tab id="pesquisaTab" title="Pesquisa Paciente">
 					<p:dataTable id="PacienteTb" rows="5" var="linha"
 						widgetVar="pacienteTb" style="margin: 15px;"
 						emptyMessage="Nenhum paciente encontrado."
@@ -30,9 +30,9 @@
 							</p:outputPanel>
 						</f:facet>
 						<p:ajax event="rowSelect" listener="#{evolucaoMB.onRowSelect}"
-							update=":evolucaoFrm:accordion:evolucoesTb" />
+							update=":evolucaoFrm:accordion" />
 						<p:ajax event="rowUnselect" listener="#{evolucaoMB.onRowUnselect}"
-							update=":evolucaoFrm:accordion:evolucoesTb" />
+							update=":evolucaoFrm:accordion" />
 						<p:column headerText="Nome" sortBy="#{linha.nome}"
 							filterBy="#{linha.nome}" filterStyleClass="hide">
 							<p:outputLabel value="#{linha.nome}" />
@@ -59,32 +59,39 @@
 					</p:dataTable>
 				</p:tab>
 
-				<p:tab title="Evolução">
-					<p:editor id="editor" widgetVar="editorWidget" height="250"
-						value="#{evolucaoMB.evolucaoSelecionada.texto}" width="1000" rendered="true" />
+				<p:tab id="evolucaoTab" title="Evolução"
+					disabled="#{evolucaoMB.abaDesabilitada}">
+					<p:editor id="editor" widgetVar="editorWidget" height="250" 
+						controls="bold italic underline strikethrough font size style color bullets numbering alignleft center alignright justify undo redo link unlink print removeformat"
+						value="#{evolucaoMB.textoDoEditor}" width="1000" />
 					<h:panelGrid columns="3" style="margin-top: 10px">
-						<p:commandButton value="Salvar" />
-						<p:commandButton value="Cancelar" />
+						<p:commandButton value="Salvar" update=":evolucaoFrm:accordion:evolucoesTb, :evolucaoFrm:accordion:editor"
+							action="#{evolucaoMB.salvarEvolucao}" />
+						<p:commandButton type="reset" value="Cancelar" action="#{evolucaoMB.cancelaEvolucao}"/>
 					</h:panelGrid>
 				</p:tab>
 
-				<p:tab title="Histórico de Evoluções" id="evolucaoAntigaTab">
-					<p:dataTable id="evolucoesTb" var="linha"
-						value="#{evolucaoMB.listaEvolucoes}" rows="5" paginator="true"
-						paginatorPosition="bottom" selectionMode="single" emptyMessage="Nenhuma evolução foi encontrada."
+				<p:tab title="Histórico de Evoluções" id="evolucaoAntigaTab"
+					disabled="#{evolucaoMB.abaDesabilitada}">
+					<p:dataTable id="evolucoesTb" var="linha" sortBy="#{linha.data}"
+						sortOrder="descending" value="#{evolucaoMB.listaEvolucoes}"
+						rows="5" paginator="true" paginatorPosition="bottom"
+						selectionMode="single"
+						emptyMessage="Nenhuma evolução foi encontrada."
 						selection="#{evolucaoMB.evolucaoSelecionada}" rowKey="#{linha.id}">
-						<p:ajax event="rowSelect" listener="#{evolucaoMB.onRowSelectEvolucao}"
+						<p:ajax event="rowSelect"
+							listener="#{evolucaoMB.onRowSelectEvolucao}"
 							update=":evolucaoFrm:accordion:editor" />
-						<p:ajax event="rowUnselect" listener="#{evolucaoMB.onRowUnselectEvolucao}"
+						<p:ajax event="rowUnselect"
+							listener="#{evolucaoMB.onRowUnselectEvolucao}"
 							update=":evolucaoFrm:accordion:editor" />
-						<p:column headerText="Data" width="15%" sortBy="linha.data"
-							styleClass="centralizado">
+						<p:column headerText="Data" width="15%" styleClass="centralizado">
 							<h:outputText value="#{linha.data}" rendered="true">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
 						</p:column>
 						<p:column headerText="Evolução">
-							<p:outputLabel value="#{linha.texto}" />
+							<p:outputLabel value="#{linha.texto}" escape="false"/>
 						</p:column>
 					</p:dataTable>
 				</p:tab>

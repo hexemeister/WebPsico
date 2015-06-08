@@ -1,6 +1,8 @@
 package manager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,11 +20,14 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import persistence.EvolucaoDao;
 import persistence.PacienteDao;
 
 @Named
 @ViewScoped
-public class EvolucaoMB {
+public class EvolucaoMB implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	LoginMB loginMB;
@@ -33,6 +38,9 @@ public class EvolucaoMB {
 	private Paciente pacienteSelecionado;
 	private List<Evolucao> listaEvolucoes;
 	private Evolucao evolucaoSelecionada;
+
+	private Boolean abaDesabilitada = true;
+	private String textoDoEditor;
 
 	public EvolucaoMB() {
 	}
@@ -48,7 +56,7 @@ public class EvolucaoMB {
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				pacienteSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		if (pacienteSelecionado.getEvolucoes().size()>0) {
+		if (pacienteSelecionado.getEvolucoes().size() > 0) {
 			for (Evolucao e : pacienteSelecionado.getEvolucoes()) {
 				if (e.getPsicologa().equals(logado)) {
 					listaEvolucoes.add(e);
@@ -58,6 +66,8 @@ public class EvolucaoMB {
 			listaEvolucoes = new ArrayList<Evolucao>();
 		}
 		RequestContext context = RequestContext.getCurrentInstance();
+		setAbaDesabilitada(false);
+		setTextoDoEditor(null);
 		context.execute("PF('evolucaoTabs').select(1)");
 		// para depois: dar o focus no editor quando a aba abrir
 		evolucaoSelecionada = new Evolucao();
@@ -68,7 +78,9 @@ public class EvolucaoMB {
 		FacesMessage msg = new FacesMessage("Seleção Removida",
 				pacienteSelecionado.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		setAbaDesabilitada(true);
 		pacienteSelecionado = new Paciente();
+		textoDoEditor = null;
 		listaEvolucoes = new ArrayList<Evolucao>();
 	}
 
@@ -77,17 +89,48 @@ public class EvolucaoMB {
 		FacesMessage msg = new FacesMessage("Evolução Selecionada",
 				evolucaoSelecionada.getPaciente().getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		textoDoEditor = evolucaoSelecionada.getTexto();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('evolucaoTabs').select(1)");
 	}
 
 	public void onRowUnselectEvolucao(UnselectEvent event) {
 		evolucaoSelecionada = (Evolucao) event.getObject();
+		evolucaoSelecionada = new Evolucao();
+		textoDoEditor = null;
 		FacesMessage msg = new FacesMessage("Seleção Removida",
 				evolucaoSelecionada.getPaciente().getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public void salvarEvolucao() {
+
+		try {
+			evolucaoSelecionada.setTexto(textoDoEditor);
+			evolucaoSelecionada = new EvolucaoDao().update(evolucaoSelecionada);
+		} catch (NullPointerException e) {
+			evolucaoSelecionada = new Evolucao();
+			evolucaoSelecionada.setPsicologa(logado);
+			evolucaoSelecionada.setPaciente(pacienteSelecionado);
+			evolucaoSelecionada.setData(new Date());
+			evolucaoSelecionada.setTexto(textoDoEditor);
+			evolucaoSelecionada = new EvolucaoDao().update(evolucaoSelecionada);
+			listaEvolucoes.add(evolucaoSelecionada);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		setTextoDoEditor(null);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('evolucaoTabs').select(2)");
+		FacesMessage msg = new FacesMessage("Evolucao Salva",
+				pacienteSelecionado.getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public String cancelaEvolucao() {
+		return "evolucao.jsf";
+	}
+	
 	public List<Paciente> getListaPaciente() {
 		listaPaciente = new PacienteDao().findAllPacientesAtivos();
 		return listaPaciente;
@@ -119,6 +162,22 @@ public class EvolucaoMB {
 
 	public void setEvolucaoSelecionada(Evolucao evolucaoSelecionada) {
 		this.evolucaoSelecionada = evolucaoSelecionada;
+	}
+
+	public Boolean getAbaDesabilitada() {
+		return abaDesabilitada;
+	}
+
+	public void setAbaDesabilitada(Boolean abaDesabilitada) {
+		this.abaDesabilitada = abaDesabilitada;
+	}
+
+	public String getTextoDoEditor() {
+		return textoDoEditor;
+	}
+
+	public void setTextoDoEditor(String textoDoEditor) {
+		this.textoDoEditor = textoDoEditor;
 	}
 
 }

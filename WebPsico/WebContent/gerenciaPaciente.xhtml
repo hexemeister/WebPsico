@@ -114,7 +114,7 @@
 								label="endereço" placeholder="Rua, Av., Est." size="40" />
 							<p style="width: 150px" />
 							<p:outputLabel for="cepPac" value="CEP:" />
-							<p:inputText id="cepPac"
+							<p:inputMask id="cepPac"
 								value="#{pacienteMB.pacienteSelecionado.endereco.cep}"
 								mask="99999-999" />
 
@@ -461,7 +461,7 @@
 								size="40" />
 							<p style="width: 150px" />
 							<p:outputLabel for="cepCont" value="CEP:" />
-							<p:inputText id="cepCont"
+							<p:inputMask id="cepCont"
 								value="#{pacienteMB.contatoSelecionado.endereco.cep}"
 								mask="99999-999" />
 
