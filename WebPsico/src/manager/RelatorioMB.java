@@ -76,15 +76,15 @@ public class RelatorioMB {
 	public void gerarRelatorioUsuarios() {
 
 		try {
-			EntityManagerFactory entityManagerFactory = Persistence
-					.createEntityManagerFactory(new PersistenceUtil().PERSISTENCE_UNIT);
-			Map<String, Object> propertiesMap = entityManagerFactory
-					.getProperties();
-
-			for (Map.Entry<String, Object> e : propertiesMap.entrySet()) {
-				System.out.println("key=" + e.getKey() + " value = "
-						+ e.getValue().toString());
-			}
+//			EntityManagerFactory entityManagerFactory = Persistence
+//					.createEntityManagerFactory(new PersistenceUtil().PERSISTENCE_UNIT);
+//			Map<String, Object> propertiesMap = entityManagerFactory
+//					.getProperties();
+//
+//			for (Map.Entry<String, Object> e : propertiesMap.entrySet()) {
+//				System.out.println("key=" + e.getKey() + " value = "
+//						+ e.getValue().toString());
+//			}
 			// carregando o xml
 			JasperDesign jd = JRXmlLoader.load(FacesContext
 					.getCurrentInstance().getExternalContext()

@@ -15,7 +15,7 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[SELECT * FROM usuario ORDER BY nomecompleto]]>
+		<![CDATA[SELECT * FROM USUARIO ORDER BY nomecompleto]]>
 	</queryString>
 	<field name="ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -53,7 +53,7 @@
 					<text><![CDATA[  Nome Completo:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="100" y="35" width="280" height="20" uuid="d6b009ee-02ee-4b47-8bcf-8df4d9136ca4"/>
+					<reportElement x="50" y="35" width="280" height="20" uuid="d6b009ee-02ee-4b47-8bcf-8df4d9136ca4"/>
 					<textFieldExpression><![CDATA[$F{NOMECOMPLETO}]]></textFieldExpression>
 				</textField>
 				<staticText>
@@ -77,7 +77,7 @@
 					<textFieldExpression><![CDATA[$F{DESATIVADO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="0" y="62" width="40" height="18" uuid="3b539505-5cd2-4bf6-9004-afa2dfcbae47"/>
+					<reportElement x="0" y="62" width="45" height="18" uuid="3b539505-5cd2-4bf6-9004-afa2dfcbae47"/>
 					<text><![CDATA[  E-mail:]]></text>
 				</staticText>
 				<staticText>

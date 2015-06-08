@@ -15,8 +15,8 @@
 		</conditionalStyle>
 	</style>
 	<queryString language="SQL">
-		<![CDATA[SELECT p.nome, u.nomecompleto, u.perfil, e.texto, e.data  FROM paciente p, usuario u, evolucao e
-WHERE u.perfil = 'psicologa']]>
+		<![CDATA[SELECT P.NOME, U.NOMECOMPLETO, U.PERFIL, E.TEXTO, E.DATA  FROM PACIENTE P, USUARIO U, EVOLUCAO E
+WHERE U.PERFIL = 'PSICOLOGA']]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
