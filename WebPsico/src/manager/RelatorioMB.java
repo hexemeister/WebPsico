@@ -202,5 +202,46 @@ public class RelatorioMB {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void gerarRelatorioEvolucoes() {
+		try {
+			// carregando o xml
+			JasperDesign jd = JRXmlLoader.load(FacesContext
+					.getCurrentInstance().getExternalContext()
+					.getRealPath("/resources/relatorios/evolucaoRel.jrxml"));
+
+			// gerando o arquivo jasper em tempo de execução
+			JasperReport jasper = JasperCompileManager.compileReport(jd);
+
+			// passando a conexão com o bd
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/webpsicodb", "root",
+					"admin123");
+			Map parametros = new HashMap();
+			parametros.put("REPORT_CONNECTION", con);
+			parametros.put("ID_PACIENTE", 1);
+			parametros.put("ID_PSICOLOGA", 2);
+
+			// Preenchendo o relatorio
+			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
+					con);
+
+			// Gerando o pdf
+			byte[] report = JasperExportManager.exportReportToPdf(jp);
+
+			// Devolvendo pro navegador
+			HttpServletResponse response = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			response.addHeader("Content-disposition",
+					"filename=relatorio_evolucoes.pdf");
+			ServletOutputStream out = response.getOutputStream();
+			out.write(report);
+			out.flush();
+			FacesContext.getCurrentInstance().responseComplete();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 }

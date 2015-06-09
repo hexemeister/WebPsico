@@ -14,8 +14,9 @@
 		<h:form id="evolucaoFrm">
 			<p:accordionPanel widgetVar="evolucaoTabs" id="accordion">
 
-				<p:tab id="pesquisaTab" title="Pesquisa Paciente">
-					<p:dataTable id="PacienteTb" rows="5" var="linha"
+				<p:tab id="pesquisaTab" title="Pesquisa Paciente" disabled="#{evolucaoMB.logado.isAtendente() or evolucaoMB.logado.isAdm()}">
+				<p:outputLabel value="Função apenas ativa para psicólogos" rendered="#{evolucaoMB.logado.isAtendente() or evolucaoMB.logado.isAdm()}"/>
+					<p:dataTable id="PacienteTb" rows="5" var="linha" rendered="#{evolucaoMB.logado.isPsicologa()}"
 						widgetVar="pacienteTb" style="margin: 15px;"
 						emptyMessage="Nenhum paciente encontrado."
 						value="#{evolucaoMB.listaPaciente}" selectionMode="single"
@@ -25,14 +26,14 @@
 							<p:outputPanel layout="block" styleClass="esquerda">
 								<h:outputText value="Pesquisa por paciente em todas as colunas:" />
 								<p:inputText id="globalFilter"
-									onkeyup="PF('pacienteTb').filter()" style="width:150px;"
+									onkeyup="PF('pacienteTb').filter()" style="width:150px;" disabled="#{evolucaoMB.logado.isAtendente() or evolucaoMB.logado.isAdm()}"
 									placeholder="Digite uma palavra-chave" />
 							</p:outputPanel>
 						</f:facet>
 						<p:ajax event="rowSelect" listener="#{evolucaoMB.onRowSelect}"
-							update=":evolucaoFrm:accordion" />
+							update=":evolucaoFrm:accordion" disabled="#{evolucaoMB.logado.isAtendente() or evolucaoMB.logado.isAdm()}" />
 						<p:ajax event="rowUnselect" listener="#{evolucaoMB.onRowUnselect}"
-							update=":evolucaoFrm:accordion" />
+							update=":evolucaoFrm:accordion" disabled="#{evolucaoMB.logado.isAtendente() or evolucaoMB.logado.isAdm()}" />
 						<p:column headerText="Nome" sortBy="#{linha.nome}"
 							filterBy="#{linha.nome}" filterStyleClass="hide">
 							<p:outputLabel value="#{linha.nome}" />

@@ -132,7 +132,7 @@ public class EvolucaoMB implements Serializable {
 	public String cancelaEvolucao() {
 		return "evolucao.jsf";
 	}
-	
+
 	public List<Paciente> getListaPaciente() {
 		listaPaciente = new PacienteDao().findAllPacientesAtivos();
 		return listaPaciente;
@@ -180,6 +180,14 @@ public class EvolucaoMB implements Serializable {
 
 	public void setTextoDoEditor(String textoDoEditor) {
 		this.textoDoEditor = textoDoEditor;
+	}
+
+	public Usuario getLogado() {
+		return logado;
+	}
+
+	public void setLogado(Usuario logado) {
+		this.logado = logado;
 	}
 
 }
