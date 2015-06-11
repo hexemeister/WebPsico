@@ -47,21 +47,45 @@
 											action="#{relatorioMB.gerarRelatorioPacientes}" />
 										<p:menuitem value="Contatos" target="_blank" ajax="false"
 											action="#{relatorioMB.gerarRelatorioContatos}" />
-										<p:menuitem value="Evoluções" target="_blank" ajax="false"
-											action="#{relatorioMB.gerarRelatorioEvolucoes}"
+										<p:menuitem value="Evoluções" url="/pesquisaEvolucoes.jsf"
 											rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}" />
 										<p:menuitem value="Anamneses" target="_blank" ajax="false"
 											action="#{relatorioMB.gerarRelatorioAnamneses}"
 											rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}" />
 									</p:submenu>
-									<p:menuitem value="Sobre" url="/sobre.jsf" />
+									<p:menuitem value="Sobre" onclick="PF('sobreDlg').show();" />
 
 									<f:facet name="options">
 										<p:commandButton id="logoutbtn" immediate="true"
 											value="#{loginMB.logado.login}" title="Sair do sistema"
 											icon="ui-icon-extlink" action="#{logoutMB.efetuarLogout}" />
 									</f:facet>
+
 								</p:menubar>
+
+								<p:dialog modal="true" closable="true" header="Sobre"
+									showEffect="fade" closeOnEscape="true" resizable="false"
+									draggable="false" widgetVar="sobreDlg" id="sobreDialogo"
+									appendTo="@(body)" styleClass="centralizado">
+									<p:panelGrid>
+										<h1>Desenvolvido para o projeto final na Universidade
+											Estácio de Sá</h1>
+										<h2>Rio de Janeiro, 20 de Junho de 2015</h2>
+										<h2>Sistema WEB para o Gerenciamento da Psicologia</h2>
+										<h3>
+											<p:outputLabel
+												value="Bruno Fitzner - E-mail: brunofitzner1973@gmail.com" />
+										</h3>
+										<h3>
+											<p:outputLabel
+												value="Viviane Val Porto - E-mail: rosevalporto@gmail.com" />
+										</h3>
+										<p:hotkey bind="return" handler="PF('sobreDlg').hide();" />
+										<p:commandButton value="Fechar"
+											onclick="PF('sobreDlg').hide();" style="margin-bottom: 15px;" />
+									</p:panelGrid>
+								</p:dialog>
+
 							</h:form>
 						</ui:insert>
 					</div>

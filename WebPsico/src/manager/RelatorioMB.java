@@ -1,26 +1,24 @@
 package manager;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.MaskFormatter;
-
-import org.apache.naming.java.javaURLContextFactory;
 
 import modelo.Paciente;
+import modelo.Usuario;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -28,63 +26,68 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import persistence.PacienteDao;
-import persistence.PersistenceUtil;
 
-@RequestScoped
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
+import persistence.PacienteDao;
+
+@ViewScoped
 @Named
-public class RelatorioMB {
+public class RelatorioMB implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Connection con = null;
 
 	private List<Paciente> listaPaciente;
-	private Integer mbCodigoPaciente;
+	private Paciente pacienteSelecionado;
+	
+	@Inject
+	private LoginMB loginMB;
+	private Usuario logado;
 
-	private List<SelectItem> listaPacientesSI;
-
-	// codigo e o nome do paciente (componente)
-
+	public RelatorioMB() {
+	}
+	
+	@PostConstruct
+	public void init() {
+		logado = loginMB.getLogado();
+	}
+	
 	public List<Paciente> getListaPaciente() {
 		listaPaciente = new PacienteDao().findAll();
 		return listaPaciente;
-	}
-
-	public List<SelectItem> getListaPacientesSI() {
-		listaPacientesSI = new ArrayList<SelectItem>();
-		for (Paciente p : new PacienteDao().findAll()) {
-			listaPacientesSI.add(new SelectItem(p.getId(), p.getNome()));
-		}
-		return listaPacientesSI;
-	}
-
-	public void setListaPacientesSI(List<SelectItem> listaPacientesSI) {
-		this.listaPacientesSI = listaPacientesSI;
 	}
 
 	public void setListaPaciente(List<Paciente> listaPaciente) {
 		this.listaPaciente = listaPaciente;
 	}
 
-	public Integer getMbCodigoPaciente() {
-		return mbCodigoPaciente;
+	public Paciente getPacienteSelecionado() {
+		return pacienteSelecionado;
 	}
 
-	public void setMbCodigoPaciente(Integer mbCodigoPaciente) {
-		this.mbCodigoPaciente = mbCodigoPaciente;
+	public void setPacienteSelecionado(Paciente pacienteSelecionado) {
+		this.pacienteSelecionado = pacienteSelecionado;
+	}
+
+	public Usuario getLogado() {
+		return logado = loginMB.getLogado();
 	}
 
 	public void gerarRelatorioUsuarios() {
-
 		try {
-//			EntityManagerFactory entityManagerFactory = Persistence
-//					.createEntityManagerFactory(new PersistenceUtil().PERSISTENCE_UNIT);
-//			Map<String, Object> propertiesMap = entityManagerFactory
-//					.getProperties();
-//
-//			for (Map.Entry<String, Object> e : propertiesMap.entrySet()) {
-//				System.out.println("key=" + e.getKey() + " value = "
-//						+ e.getValue().toString());
-//			}
+			// EntityManagerFactory entityManagerFactory = Persistence
+			// .createEntityManagerFactory(new
+			// PersistenceUtil().PERSISTENCE_UNIT);
+			// Map<String, Object> propertiesMap = entityManagerFactory
+			// .getProperties();
+			//
+			// for (Map.Entry<String, Object> e : propertiesMap.entrySet()) {
+			// System.out.println("key=" + e.getKey() + " value = "
+			// + e.getValue().toString());
+			// }
 			// carregando o xml
 			JasperDesign jd = JRXmlLoader.load(FacesContext
 					.getCurrentInstance().getExternalContext()
@@ -97,7 +100,7 @@ public class RelatorioMB {
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/webpsicodb", "root",
 					"admin123");
-			
+
 			Map parametros = new HashMap();
 			parametros.put("REPORT_CONNECTION", con);
 
@@ -202,7 +205,7 @@ public class RelatorioMB {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void gerarRelatorioEvolucoes() {
 		try {
 			// carregando o xml
@@ -219,8 +222,8 @@ public class RelatorioMB {
 					"admin123");
 			Map parametros = new HashMap();
 			parametros.put("REPORT_CONNECTION", con);
-			parametros.put("ID_PACIENTE", 1);
-			parametros.put("ID_PSICOLOGA", 2);
+			parametros.put("ID_PACIENTE", pacienteSelecionado.getId());
+			parametros.put("ID_PSICOLOGA", logado.getId());
 
 			// Preenchendo o relatorio
 			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
@@ -233,15 +236,14 @@ public class RelatorioMB {
 			HttpServletResponse response = (HttpServletResponse) FacesContext
 					.getCurrentInstance().getExternalContext().getResponse();
 			response.addHeader("Content-disposition",
-					"filename=relatorio_evolucoes.pdf");
+					"inline; filename=relatorio_evolucoes.pdf");
+			response.setContentType("application/pdf"); 
 			ServletOutputStream out = response.getOutputStream();
 			out.write(report);
 			out.flush();
 			FacesContext.getCurrentInstance().responseComplete();
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-
 }

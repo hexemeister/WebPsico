@@ -83,3 +83,7 @@ body {
   filter: Alpha(Opacity=35);
   background-image: none;
 }
+
+.novaAba {
+    target-new: tab !important;
+}

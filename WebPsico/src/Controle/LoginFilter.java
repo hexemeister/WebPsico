@@ -20,7 +20,7 @@ import modelo.Usuario;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/*")
+@WebFilter(urlPatterns="/pages/*", servletNames="{Faces Servlet}")
 public class LoginFilter implements Filter {
 
 	@Inject

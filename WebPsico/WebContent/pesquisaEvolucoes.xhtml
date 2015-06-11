@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/resources/template/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="corpo">
+
+		<h:form id="pesquisaFrm" styleClass="novaAba">
+			<p:outputLabel value="Função apenas ativa para psicólogos"
+				rendered="#{loginMB.logado.isAtendente() or loginMB.logado.isAdm()}" />
+			<p:dataTable id="PacienteTb" rows="5" var="linha"
+				rendered="#{loginMB.logado.isPsicologa()}" widgetVar="pacienteTb"
+				style="margin: 15px;" emptyMessage="Nenhum paciente encontrado."
+				value="#{relatorioMB.listaPaciente}" selectionMode="single"
+				paginator="true" paginatorPosition="bottom"
+				selection="#{relatorioMB.pacienteSelecionado}" rowKey="#{linha.id}">
+				<f:facet name="header">
+					<p:outputPanel layout="block" styleClass="esquerda">
+						<h:outputText value="Pesquisa por paciente em todas as colunas:" />
+						<p:inputText id="globalFilter" onkeyup="PF('pacienteTb').filter()"
+							style="width:150px;"
+							disabled="#{loginMB.logado.isAtendente() or loginMB.logado.isAdm()}"
+							placeholder="Digite uma palavra-chave" />
+					</p:outputPanel>
+				</f:facet>
+				<p:ajax event="rowSelect" onstart="document.getElementById('pesquisaFrm:PacienteTb:botao').click();"
+					disabled="#{loginMB.logado.isAtendente() or loginMB.logado.isAdm()}" >
+				</p:ajax>
+				<p:column headerText="Nome" sortBy="#{linha.nome}"
+					filterBy="#{linha.nome}" filterStyleClass="hide">
+					<p:outputLabel value="#{linha.nome}" />
+				</p:column>
+				<p:column headerText="Telefone Fixo" sortBy="#{linha.telefoneFixo}"
+					filterBy="#{linha.telefoneFixo}" filterStyleClass="hide">
+					<p:outputLabel value="#{linha.telefoneFixo}" />
+				</p:column>
+				<p:column headerText="Telefone Celular"
+					sortBy="#{linha.telefoneCelular}"
+					filterBy="#{linha.telefoneCelular}" filterStyleClass="hide">
+					<p:outputLabel value="#{linha.telefoneCelular}" />
+				</p:column>
+				<p:column headerText="Email" sortBy="#{linha.email}"
+					filterBy="#{linha.email}" filterStyleClass="hide">
+					<p:outputLabel value="#{linha.email}" />
+				</p:column>
+				<p:column headerText="Desativado" sortBy="#{linha.desativado}"
+					filterBy="#{linha.desativado}" filterStyleClass="hide"
+					styleClass="centralizado">
+					<p:selectBooleanCheckbox value="#{linha.desativado}"
+						disabled="true" />
+				</p:column>
+				<div align="left">
+					<f:facet name="footer">
+						<p:commandButton process="PacienteTb" icon="ui-icon-search" id="botao"
+							value="View" action="#{relatorioMB.gerarRelatorioEvolucoes}"
+							ajax="false" onclick="this.form.target='_blank'" />
+					</f:facet>
+				</div>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
