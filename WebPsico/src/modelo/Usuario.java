@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.Email;
+
 import persistence.EntidadeBase;
 
 @Entity
@@ -28,6 +30,7 @@ public class Usuario implements Serializable, EntidadeBase {
 
 	@Enumerated(EnumType.STRING)
 	private Perfil perfil;
+	@Email
 	private String email;
 
 	public Usuario() {
