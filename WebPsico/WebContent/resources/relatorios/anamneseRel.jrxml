@@ -17,8 +17,8 @@
 	<parameter name="ID_PACIENTE" class="java.lang.Integer"/>
 	<parameter name="ID_PSICOLOGA" class="java.lang.Integer"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM paciente p, anamnese a, usuario u
- WHERE p.ID = a.PACIENTE_ID and u.ID = a.PSICOLOGA_ID AND U.PERFIL = 'PSICOLOGA']]>
+		<![CDATA[SELECT * FROM PACIENTE p, ANAMNESE a, USUARIO u
+ WHERE p.ID = a.PACIENTE_ID and u.ID = a.PSICOLOGA_ID AND u.PERFIL = 'PSICOLOGA' AND p.ID = $P{ID_PACIENTE} AND u.ID = $P{ID_PSICOLOGA}]]>
 	</queryString>
 	<field name="ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
