@@ -47,10 +47,9 @@
 											action="#{relatorioMB.gerarRelatorioPacientes}" />
 										<p:menuitem value="Contatos" target="_blank" ajax="false"
 											action="#{relatorioMB.gerarRelatorioContatos}" />
-										<p:menuitem value="Evoluções" url="/pesquisaEvolucoes.jsf"
+										<p:menuitem value="Anamnese" url="/pesquisaAnamnese.jsf"
 											rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}" />
-										<p:menuitem value="Anamneses" target="_blank" ajax="false"
-											action="#{relatorioMB.gerarRelatorioAnamneses}"
+										<p:menuitem value="Evoluções" url="/pesquisaEvolucoes.jsf"
 											rendered="#{usuarioMB.logado.isAdm() or usuarioMB.logado.isPsicologa()}" />
 									</p:submenu>
 									<p:menuitem value="Sobre" onclick="PF('sobreDlg').show();" />

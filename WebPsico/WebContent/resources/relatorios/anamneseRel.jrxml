@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
-<!-- 2015-06-08T22:00:34 -->
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-06-11T21:59:13 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laudo anamnese" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="webPsico"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="WebPsico"/>
 	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
@@ -14,9 +14,11 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
+	<parameter name="ID_PACIENTE" class="java.lang.Integer"/>
+	<parameter name="ID_PSICOLOGA" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM paciente p, anamnese a, usuario u
- WHERE p.ID = a. PACIENTE_ID and u.ID = a.PSICOLOGA_ID]]>
+ WHERE p.ID = a.PACIENTE_ID and u.ID = a.PSICOLOGA_ID AND U.PERFIL = 'PSICOLOGA']]>
 	</queryString>
 	<field name="ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -185,9 +187,9 @@
 	<group name="Group1">
 		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
 		<groupFooter>
-			<band height="50">
+			<band height="85">
 				<line>
-					<reportElement x="243" y="40" width="313" height="1" uuid="9636f488-9479-44a1-b55a-f79fa03b6ac0"/>
+					<reportElement x="243" y="62" width="313" height="1" uuid="9636f488-9479-44a1-b55a-f79fa03b6ac0"/>
 				</line>
 				<staticText>
 					<reportElement x="0" y="0" width="230" height="30" uuid="b4b9a772-c5ef-473a-a262-cd32b6e19042"/>
@@ -196,6 +198,13 @@
 					</textElement>
 					<text><![CDATA[Rio de janeiro, ____________________.]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="SubTitle" mode="Transparent" x="253" y="66" width="294" height="15" forecolor="#0A0A0A" backcolor="#9DB1B8" uuid="075459a5-49a5-433e-9fd2-8e687138caa4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOMECOMPLETO}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -219,7 +228,7 @@
 			</frame>
 			<image>
 				<reportElement mode="Opaque" x="0" y="0" width="111" height="111" uuid="208ffbf2-4ae8-4874-bbf4-f77f4d099b1f"/>
-				<imageExpression><![CDATA["C:/Users/hexem_000/Desktop/psi.png"]]></imageExpression>
+				<imageExpression><![CDATA["../../resources/images/logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="111" y="80" width="442" height="30" uuid="40fa0c31-01f0-4b58-acda-560943901b50"/>
@@ -234,22 +243,30 @@
 		<band height="29" splitType="Stretch">
 			<property name="local_mesure_unitheight" value="pixel"/>
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="278" height="29" backcolor="#9DB1B8" uuid="42689670-b95a-4904-9e1f-07128d23d627">
-					<property name="local_mesure_unity" value="pixel"/>
+			<frame>
+				<reportElement x="0" y="-4" width="555" height="24" uuid="0ccf614e-4bef-4a20-a8b6-d3aac4b98698">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[ Nome do Paciente:]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="SubTitle" mode="Opaque" x="140" y="0" width="415" height="29" forecolor="#0A0A0A" backcolor="#9DB1B8" uuid="8f0ae948-ab08-447a-9d7f-58041eecda4c"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
-			</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="278" height="24" backcolor="#9DB1B8" uuid="42689670-b95a-4904-9e1f-07128d23d627">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Nome do Paciente:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="SubTitle" mode="Opaque" x="140" y="0" width="415" height="24" forecolor="#0A0A0A" backcolor="#9DB1B8" uuid="8f0ae948-ab08-447a-9d7f-58041eecda4c">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -267,7 +284,7 @@
 					<text><![CDATA[Dados Gerais ]]></text>
 				</staticText>
 			</frame>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="50" width="555" height="50" uuid="e25b225a-1b0a-4d0c-96e0-ce1920688ca9"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -281,7 +298,7 @@
 				</textElement>
 				<text><![CDATA[Motivo da indicação:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="140" width="555" height="40" uuid="6ffad72c-e7e1-4f5d-be31-f17bb7ac95bf"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -295,7 +312,7 @@
 				</textElement>
 				<text><![CDATA[Pincipais sintomas:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="220" width="555" height="30" uuid="51398a55-6767-4611-a96e-9c4d4f130bcf"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -309,7 +326,7 @@
 				</textElement>
 				<text><![CDATA[Houve tratamento anterior (Quando, Onde):]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="290" width="555" height="30" uuid="5ff1eb3d-7438-4f04-be32-b1fdedbf7507"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -323,7 +340,7 @@
 				</textElement>
 				<text><![CDATA[Possui alergias (A que):]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="360" width="555" height="40" uuid="aa6e7a33-7103-493b-8b2b-4b2fe6bd1bb4"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -337,7 +354,7 @@
 				</textElement>
 				<text><![CDATA[Problemas de saúde:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="440" width="555" height="30" uuid="7c82f339-fd4f-46bc-a5fe-a09c01f0a0cd"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -351,7 +368,7 @@
 				</textElement>
 				<text><![CDATA[Faz uso de medicamento (Quais, Por quanto tempo, Porque):]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="500" width="555" height="60" uuid="8d04652f-34e4-49a5-9c2a-e48ddae1d0a2"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -369,21 +386,11 @@
 				<reportElement x="0" y="570" width="554" height="1" uuid="e0c1ba74-b919-49de-aae7-ab24d245dc69"/>
 			</break>
 		</band>
-		<band height="736">
+		<band height="755">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 			<frame>
-				<reportElement x="0" y="0" width="555" height="736" uuid="a0fc896a-fd25-4e10-9b98-d52a2f1c9af0"/>
-				<frame>
-					<reportElement mode="Opaque" x="0" y="0" width="555" height="28" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="a05555b1-9127-4367-bfa8-433aea973bd9"/>
-					<staticText>
-						<reportElement x="0" y="0" width="555" height="28" uuid="b9b8a15d-5f52-421e-8447-c8184681e940"/>
-						<textElement textAlignment="Center" verticalAlignment="Middle">
-							<font fontName="Arial" size="14"/>
-						</textElement>
-						<text><![CDATA[Histórico Pessoal ]]></text>
-					</staticText>
-				</frame>
-				<textField>
+				<reportElement x="0" y="0" width="555" height="755" uuid="a0fc896a-fd25-4e10-9b98-d52a2f1c9af0"/>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="50" width="555" height="40" uuid="15e446b8-37f5-4911-8750-df899fd780f5"/>
 					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="12"/>
@@ -397,7 +404,7 @@
 					</textElement>
 					<text><![CDATA[O que sabe, como foi a sua gravidez:]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="110" width="555" height="50" uuid="2d1cf8ea-7938-4aeb-9e49-b33392ec596d"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -411,7 +418,7 @@
 					</textElement>
 					<text><![CDATA[Como foi a primeira infância (Escola, Atividades): ]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="178" width="555" height="32" uuid="0c1552aa-8d8c-4fdc-8b0c-7b35a63c240b"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -425,7 +432,7 @@
 					</textElement>
 					<text><![CDATA[Atividades em grupo (Quais, Esporte):]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="240" width="555" height="30" uuid="b4815da7-2e4a-49fb-9d58-cecd61453ef0"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -439,7 +446,7 @@
 					</textElement>
 					<text><![CDATA[Como é a rotina (Trabalho, Lazer):]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="300" width="555" height="45" uuid="7e9ae467-7d8f-48d8-b3ad-9114afa2aec0"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -453,7 +460,7 @@
 					</textElement>
 					<text><![CDATA[Relação com a familia (Pais, Irmãos, Conjuge, Filhos):]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="370" width="555" height="39" uuid="067c983b-10d9-4dd3-ac1d-a16a141c8e3e"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -467,7 +474,7 @@
 					</textElement>
 					<text><![CDATA[Como é o sono: ]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="450" width="555" height="35" uuid="cd922635-4345-4591-914c-c14df6a9c35b"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -481,7 +488,7 @@
 					</textElement>
 					<text><![CDATA[Como é a alimentação: ]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="520" width="555" height="44" uuid="852176f3-1475-407f-ba9b-c96151a9011e"/>
 					<textFieldExpression><![CDATA[$F{MANIA}]]></textFieldExpression>
 				</textField>
@@ -492,7 +499,7 @@
 					</textElement>
 					<text><![CDATA[Possui alguma mania (Cacoete):]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="600" width="555" height="44" uuid="b30814b5-e4fb-45a1-92a4-cfcc8d98d011"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -506,7 +513,7 @@
 					</textElement>
 					<text><![CDATA[Já sofreu algum acidente (Qual, Onde, Quando):]]></text>
 				</staticText>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="0" y="680" width="555" height="35" uuid="dccb8666-86ce-419f-93f9-a62548916cdb"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -520,20 +527,20 @@
 					</textElement>
 					<text><![CDATA[Já fez alguma cirurgia (Qual, Porque):]]></text>
 				</staticText>
-			</frame>
-		</band>
-		<band height="659">
-			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="556" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="f920b07e-e923-46c0-b765-2f788acb3135"/>
 				<staticText>
-					<reportElement x="0" y="2" width="556" height="20" uuid="dd69ee6e-a589-48cd-a90a-6624541fb817"/>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="24" backcolor="#9DB1B8" uuid="b9b8a15d-5f52-421e-8447-c8184681e940">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="14"/>
 					</textElement>
-					<text><![CDATA[Avaliação Psicológica]]></text>
+					<text><![CDATA[Histórico Pessoal ]]></text>
 				</staticText>
 			</frame>
-			<textField>
+		</band>
+		<band height="659">
+			<textField isStretchWithOverflow="true">
 				<reportElement x="1" y="280" width="553" height="30" uuid="57e09faa-6335-46e6-90d9-139747a143da"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -547,7 +554,7 @@
 				</textElement>
 				<text><![CDATA[Retratação do "EU":]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="1" y="230" width="554" height="30" uuid="9ab6d3cc-8e46-42c5-a213-f766ec2d3d9d"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -561,7 +568,7 @@
 				</textElement>
 				<text><![CDATA[Negação do "EU":]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="40" width="555" height="40" uuid="580d8d32-2bce-4413-a6ef-efb1b110ad74"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -575,7 +582,7 @@
 				</textElement>
 				<text><![CDATA[Linguagem corporal e fisica:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="160" width="552" height="50" uuid="337a417e-672c-4a08-8eb0-e37003977435"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -589,7 +596,7 @@
 				</textElement>
 				<text><![CDATA[Atitude com a(o) psicologa(o): ]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="1" y="99" width="553" height="41" uuid="928e2bc4-3441-45d0-af82-fffabd5c976b"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
@@ -603,7 +610,7 @@
 				</textElement>
 				<text><![CDATA[Consciente da doença:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="1" y="330" width="553" height="30" uuid="7d7a3caf-6eec-49a5-8986-72b1b042a898"/>
 				<textFieldExpression><![CDATA[$F{EXPANSAO}]]></textFieldExpression>
 			</textField>
@@ -614,7 +621,7 @@
 				</textElement>
 				<text><![CDATA[Expansão do "EU":]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="1" y="440" width="556" height="30" uuid="449ddb60-f81a-4205-afb0-7272c4cd0805"/>
 				<textFieldExpression><![CDATA[$F{EXAMEPSICO}]]></textFieldExpression>
 			</textField>
@@ -625,7 +632,7 @@
 				</textElement>
 				<text><![CDATA[Exame psico:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="380" width="553" height="40" uuid="3372dd72-6180-404d-ac4f-4fc1eb235d66"/>
 				<textFieldExpression><![CDATA[$F{HUMOR}]]></textFieldExpression>
 			</textField>
@@ -636,7 +643,7 @@
 				</textElement>
 				<text><![CDATA[Humor:]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="1" y="490" width="554" height="60" uuid="13c85111-206a-4034-81c8-3728e5357a30"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_41}]]></textFieldExpression>
 			</textField>
@@ -647,7 +654,7 @@
 				</textElement>
 				<text><![CDATA[Observações: ]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="570" width="552" height="80" uuid="219adde3-4eac-44f8-b3f2-067136110067"/>
 				<textFieldExpression><![CDATA[$F{HIPOTESE}]]></textFieldExpression>
 			</textField>
@@ -658,10 +665,20 @@
 				</textElement>
 				<text><![CDATA[Diagnostico:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="24" backcolor="#9DB1B8" uuid="dd69ee6e-a589-48cd-a90a-6624541fb817">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Avaliação Psicológica]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="14" splitType="Stretch">
+		<band height="13" splitType="Stretch">
 			<frame>
 				<reportElement mode="Opaque" x="2" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="bfdca178-800d-445c-9a31-bb616a00e8ce"/>
 				<textField evaluationTime="Report">

@@ -12,7 +12,7 @@
 	<ui:define name="corpo">
 
 		<h:form id="pesquisaFrm" styleClass="novaAba">
-			<p:fieldset legend="Relatório de Evoluções">
+			<p:fieldset legend="Laudo de Anamnese">
 				<p:outputLabel value="Função apenas ativa para psicólogos"
 					rendered="#{loginMB.logado.isAtendente() or loginMB.logado.isAdm()}" />
 				<p:dataTable id="PacienteTb" rows="5" var="linha"
@@ -61,7 +61,7 @@
 				</p:dataTable>
 				<p:commandButton icon="ui-icon-search" id="botao"
 					value="Gerar Relatório"
-					action="#{relatorioMB.gerarRelatorioEvolucoes}" ajax="false"
+					action="#{relatorioMB.gerarRelatorioAnamnese}" ajax="false"
 					onclick="this.form.target='_blank'" styleClass="hide" />
 			</p:fieldset>
 		</h:form>

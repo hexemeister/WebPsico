@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import modelo.Paciente;
@@ -26,10 +24,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
-
 import persistence.PacienteDao;
 
 @ViewScoped
@@ -42,19 +36,19 @@ public class RelatorioMB implements Serializable {
 
 	private List<Paciente> listaPaciente;
 	private Paciente pacienteSelecionado;
-	
+
 	@Inject
 	private LoginMB loginMB;
 	private Usuario logado;
 
 	public RelatorioMB() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		logado = loginMB.getLogado();
 	}
-	
+
 	public List<Paciente> getListaPaciente() {
 		listaPaciente = new PacienteDao().findAll();
 		return listaPaciente;
@@ -237,7 +231,48 @@ public class RelatorioMB implements Serializable {
 					.getCurrentInstance().getExternalContext().getResponse();
 			response.addHeader("Content-disposition",
 					"inline; filename=relatorio_evolucoes.pdf");
-			response.setContentType("application/pdf"); 
+			response.setContentType("application/pdf");
+			ServletOutputStream out = response.getOutputStream();
+			out.write(report);
+			out.flush();
+			FacesContext.getCurrentInstance().responseComplete();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void gerarRelatorioAnamnese() {
+		try {
+			// carregando o xml
+			JasperDesign jd = JRXmlLoader.load(FacesContext
+					.getCurrentInstance().getExternalContext()
+					.getRealPath("/resources/relatorios/anamneseRel.jrxml"));
+
+			// gerando o arquivo jasper em tempo de execução
+			JasperReport jasper = JasperCompileManager.compileReport(jd);
+
+			// passando a conexão com o bd
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/webpsicodb", "root",
+					"admin123");
+			Map parametros = new HashMap();
+			parametros.put("REPORT_CONNECTION", con);
+			parametros.put("ID_PACIENTE", pacienteSelecionado.getId());
+			parametros.put("ID_PSICOLOGA", logado.getId());
+
+			// Preenchendo o relatorio
+			JasperPrint jp = JasperFillManager.fillReport(jasper, parametros,
+					con);
+
+			// Gerando o pdf
+			byte[] report = JasperExportManager.exportReportToPdf(jp);
+
+			// Devolvendo pro navegador
+			HttpServletResponse response = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			response.addHeader("Content-disposition",
+					"inline; filename=relatorio_anamnese.pdf");
+			response.setContentType("application/pdf");
 			ServletOutputStream out = response.getOutputStream();
 			out.write(report);
 			out.flush();
