@@ -38,6 +38,20 @@ public class PacienteDao extends GenericDao<Paciente> {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Paciente> findAllPacientesAtivosByInitial(String string) {
+		List<Paciente> resp;
+		try {
+			em = super.getEntityManager();
+			query = em
+					.createQuery("SELECT DISTINCT p FROM Paciente p WHERE p.desativado = false and p.nome like '%" + string + "%'");
+			resp = query.getResultList();
+		} catch (NoResultException e) {
+			resp = null;
+		}
+		return resp;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Paciente> findAllPacientesByNomeOfPsicologaLogada(Usuario user) {
 		List<Paciente> resp;
 		try {

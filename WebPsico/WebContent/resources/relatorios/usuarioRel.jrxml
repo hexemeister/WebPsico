@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
-<!-- 2015-05-28T08:40:34 -->
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-06-13T21:48:33 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usuarioRel" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="webpsico"/>
@@ -53,7 +53,7 @@
 					<text><![CDATA[  Nome Completo:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="50" y="35" width="280" height="20" uuid="d6b009ee-02ee-4b47-8bcf-8df4d9136ca4"/>
+					<reportElement x="90" y="35" width="280" height="20" uuid="d6b009ee-02ee-4b47-8bcf-8df4d9136ca4"/>
 					<textFieldExpression><![CDATA[$F{NOMECOMPLETO}]]></textFieldExpression>
 				</textField>
 				<staticText>

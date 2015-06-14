@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/resources/template/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="corpo">
+		<p:panel header="Marcação de Consultas">
+			<h:form id="gerenciaConsulta">
+				<p:focus />
+				<h:panelGrid columns="2">
+					<p:outputLabel for="pesquisaPaciente" value="Nome do Paciente" />
+					<p:autoComplete id="pesquisaPaciente"
+						placeholder="Digite nome do paciente" size="45" maxResults="10"
+						converterMessage="Falha no Converter"
+						value="#{agendaMB.pacienteSelecionado}" dropdown="true"
+						completeMethod="#{agendaMB.getListaPacientes}" minQueryLength="1"
+						effect="fade" var="paciente" itemLabel="#{paciente.nome}" itemValue="#{paciente}"
+						converter="pacienteConverter" forceSelection="true">
+						<p:column headerText="Nome Completo"
+							style="width:70%;text-align:center">#{paciente.nome}</p:column>
+						<p:ajax event="itemSelect" listener="#{agendaMB.onPacienteSelect}"
+							update=":gerenciaConsulta" />
+					</p:autoComplete>
+
+					<p:outputLabel for="pesquisaPsicologo" value="Nome do Psicólogo" />
+					<p:autoComplete id="pesquisaPsicologo"
+						placeholder="Digite nome do psicólogo" size="45" maxResults="5"
+						converterMessage="Falha no Converter"
+						value="#{agendaMB.psicologaSelecionada}" dropdown="true"
+						completeMethod="#{agendaMB.getListaPsicologas}" minQueryLength="1"
+						effect="fade" var="psicologa" itemLabel="#{psicologa.nomeCompleto}"
+						itemValue="#{psicologa}" converter="usuarioConverter"
+						forceSelection="true">
+						<p:column headerText="Login" style="width:30%;text-align:center">#{psicologa.login}</p:column>
+						<p:column headerText="Nome Completo"
+							style="width:70%;text-align:center">#{psicologa.nomeCompleto}</p:column>
+						<p:ajax event="itemSelect"
+							listener="#{agendaMB.onPsicologaSelect}" />
+					</p:autoComplete>
+
+					<p:outputLabel for="calendar" value="Data" />
+					<p:calendar id="calendar"
+						value="#{agendaMB.compromisso.dataMarcada}" stepMinute="30"
+						pattern="dd/MM/yyyy HH:mm" mindate="#{agendaMB.dataInicial}" />
+				</h:panelGrid>
+
+				<p:spacer width="0" height="40" />
+
+				<p:commandButton id="salvar" value="Marcar Consulta"
+					action="#{agendaMB.salvarCompromisso}" />
+				<p:spacer width="40" />
+			</h:form>
+		</p:panel>
+
+		<p:panel header="Lista de Consultas">
+			<h:form id="listaConsultas">
+				<p:outputPanel>
+					<p:outputLabel for="dataInicio" value="Data Inicial"
+						style="padding: 10px" />
+					<p:calendar id="dataInicio" pattern="dd/MM/yyyy"
+						value="#{agendaMB.dataInicial}" style="padding: 10px"
+						required="true" requiredMessage="Escolha uma Data!">
+						<p:ajax event="dateSelect" update=":listaConsultas:dataFim" />
+					</p:calendar>
+
+					<p:outputLabel for="dataFim" value="Data Final"
+						style="padding: 10px" />
+					<p:calendar id="dataFim" pattern="dd/MM/yyyy"
+						mindate="#{agendaMB.dataInicial}" style="padding: 10px" />
+
+					<p:commandButton value="Listar" />
+				</p:outputPanel>
+
+				<p:spacer width="20" />
+
+				<p:dataTable emptyMessage="Não foram encontrados registros">
+
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

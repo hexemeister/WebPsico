@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import modelo.Perfil;
 import modelo.Usuario;
 
 public class UsuarioDao extends GenericDao<Usuario> {
@@ -64,6 +65,20 @@ public class UsuarioDao extends GenericDao<Usuario> {
 			resp = (Usuario) query.getSingleResult();
 		} catch (NoResultException e) {
 			resp = null;
+		}
+		return resp;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> findAllPsicologas(String string) {
+		List<Usuario> resp = new ArrayList<Usuario>();
+		try {
+			em = super.getEntityManager();
+			query = em.createQuery("select u from Usuario u where u.desativado = 'false' and u.perfil = modelo.Perfil.PSICOLOGA AND u.login LIKE '%"
+					+ string + "%' OR u.nomeCompleto LIKE '%" + string + "%' and u.desativado = 'false' and u.perfil = modelo.Perfil.PSICOLOGA");
+			resp = query.getResultList();
+		} catch (NoResultException e) {
+			resp = new ArrayList<Usuario>();
 		}
 		return resp;
 	}

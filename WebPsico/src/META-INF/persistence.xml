@@ -9,6 +9,7 @@
 		<class>modelo.Endereco</class>
 		<class>modelo.Anamnese</class>
 		<class>modelo.Evolucao</class>
+		<class>modelo.Compromisso</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/webpsicodb?createDatabaseIfNotExist=true"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>

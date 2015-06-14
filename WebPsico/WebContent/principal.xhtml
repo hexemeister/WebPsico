@@ -8,6 +8,8 @@
 
 	<ui:define name="corpo">
 		<h:form id="agenda">
+
+			<!-- 
 			<h:panelGrid id="agendaPainel" styleClass="corpo">
 				<p:schedule id="schedule" value="#{scheduleViewMB.eventModel}"
 					allDaySlot="false" aspectRatio="1.6" widgetVar="myschedule"
@@ -25,14 +27,13 @@
 					<p:ajax event="eventResize"
 						listener="#{scheduleViewMB.onEventResize}"
 						update=":formcab:messages" />
-
 				</p:schedule>
-
 			</h:panelGrid>
+
 			<p:dialog widgetVar="eventDialog" header="Marcação de Consulta"
 				resizable="false" showEffect="clip" hideEffect="clip" modal="true"
 				appendTo="@(body)">
-				<p:panelGrid id="eventDetails" styleClass="semBorda" >
+				<p:panelGrid id="eventDetails" styleClass="semBorda">
 					<p:row>
 						<p:column>
 							<h:outputLabel for="nomePaciente" value="Nome do Paciente:" />
@@ -76,13 +77,28 @@
 
 					<p:row>
 						<p:column colspan="3" styleClass="centralizado">
-							<p:commandButton id="marcarBtn" value="Marcar" 
+							<p:commandButton id="marcarBtn" value="Marcar"
 								actionListener="#{scheduleViewMB.addEvent}"
 								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
 			</p:dialog>
+-->
+			<div style="width: 75%; margin-left: auto; margin-right: auto;">
+				<p:dataTable value="#{agendaMB.agenda}" var="linha"
+					emptyMessage="Nenhum paciente Agendado para esse mês">
+					<p:column headerText="Data">
+						<p:outputLabel value="#{linha.dataMarcada}" />
+					</p:column>
+					<p:column headerText="Paciente">
+						<p:outputLabel value="#{linha.paciente.nome}" />
+					</p:column>
+					<p:column headerText="Psicólogo">
+						<p:outputLabel value="#{linha.psicologa.nomeCompleto}" />
+					</p:column>
+				</p:dataTable>
+			</div>
 		</h:form>
 	</ui:define>
 </ui:composition>
