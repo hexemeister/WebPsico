@@ -2,7 +2,6 @@ package manager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -38,15 +37,8 @@ public class AgendaMB implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		Calendar calendar = Calendar.getInstance();
-		int firstDay = calendar.getActualMinimum(Calendar.DATE);
-		int lastDay = calendar.getActualMaximum(Calendar.DATE);
-
-		calendar.set(Calendar.DATE, firstDay);
-		Date inicio = calendar.getTime();
-
-		calendar.set(Calendar.DATE, lastDay);
-		Date fim = calendar.getTime();
+		Date inicio = new Date();
+		Date fim = new Date(inicio.getTime() + TimeUnit.DAYS.toMillis(30));
 
 		agenda = new AgendaDao().buscaPorData(inicio, fim);
 
