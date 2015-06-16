@@ -18,7 +18,7 @@
 	<parameter name="ID_PSICOLOGA" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT P.NOME, U.NOMECOMPLETO, U.PERFIL, E.TEXTO, E.DATA FROM PACIENTE P, USUARIO U, EVOLUCAO E
-WHERE U.PERFIL = 'PSICOLOGA' AND U.ID = $P{ID_PSICOLOGA} AND P.ID = $P{ID_PACIENTE}]]>
+WHERE U.PERFIL = 'PSICOLOGA' AND U.ID = $P{ID_PSICOLOGA} AND P.ID = $P{ID_PACIENTE} AND U.ID = E.PSICOLOGA_ID AND P.ID = E.PACIENTE_ID]]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>

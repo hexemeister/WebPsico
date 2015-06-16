@@ -23,8 +23,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Past;
 
-import br.com.caelum.stella.bean.validation.CPF;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.br.CPF;
+
+
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -37,11 +41,13 @@ public abstract class Pessoa implements Serializable {
 	private Integer id;
 	private String nome;
 	
+	@Email
 	private String email;
 
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 
+	@Past
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
@@ -51,7 +57,7 @@ public abstract class Pessoa implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Endereco endereco;
 
-	@CPF(formatted = false, message = "CPF invalido")
+	@CPF
 	private String cpf;
 
 	@Column(length = 10)
