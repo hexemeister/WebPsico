@@ -36,6 +36,10 @@ public class UsuarioConverter implements Converter {
 		if (u.equals(null)) {
 			u = logado;
 		}
-		return u.getId().toString();
+		if (u.getId() != null) {
+			return u.getId().toString();
+		} else {
+			return "";
+		}
 	}
 }

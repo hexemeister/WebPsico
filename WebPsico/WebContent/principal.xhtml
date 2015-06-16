@@ -86,16 +86,33 @@
 			</p:dialog>
 -->
 			<div style="width: 75%; margin-left: auto; margin-right: auto;">
-				<p:dataTable value="#{agendaMB.agenda}" var="linha"
-					emptyMessage="Nenhum paciente Agendado para esse mês">
-					<p:column headerText="Data">
-						<p:outputLabel value="#{linha.dataMarcada}" />
+				<p:dataTable id="agendaTb" value="#{agendaMB.agenda}" var="linha"
+					emptyMessage="Nenhum paciente agendado para esse mês">
+					<p:column headerText="Dia da semana" styleClass="centralizado">
+						<p:outputLabel value="#{linha.dataMarcada}">
+							<f:convertDateTime timeZone="America/Sao_Paulo" pattern="EEEE" />
+						</p:outputLabel>
 					</p:column>
-					<p:column headerText="Paciente">
+					<p:column headerText="Data" styleClass="centralizado">
+						<p:outputLabel value="#{linha.dataMarcada}">
+							<f:convertDateTime timeZone="America/Sao_Paulo" pattern="dd/MM" />
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Hora" styleClass="centralizado">
+						<p:outputLabel value="#{linha.dataMarcada}">
+							<f:convertDateTime timeZone="America/Sao_Paulo" pattern="HH:mm" />
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Paciente" styleClass="centralizado">
 						<p:outputLabel value="#{linha.paciente.nome}" />
 					</p:column>
-					<p:column headerText="Psicólogo">
+					<p:column headerText="Psicólogo" styleClass="centralizado">
 						<p:outputLabel value="#{linha.psicologa.nomeCompleto}" />
+					</p:column>
+					<p:column headerText="Desmarcar" styleClass="centralizado">
+						<p:commandButton title="Desmarca paciente" icon="ui-icon-trash"
+							action="#{agendaMB.removerCompromisso(linha)}"
+							update=":agenda:agendaTb" />
 					</p:column>
 				</p:dataTable>
 			</div>

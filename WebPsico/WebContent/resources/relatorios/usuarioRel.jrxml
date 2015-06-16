@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-13T21:48:33 -->
+<!-- 2015-06-15T22:07:52 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usuarioRel" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="webpsico"/>
@@ -73,8 +73,8 @@
 					<textFieldExpression><![CDATA[$F{EMAIL}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="485" y="90" width="70" height="20" uuid="d91307b8-96c0-4a46-9134-19d06b74a694"/>
-					<textFieldExpression><![CDATA[$F{DESATIVADO}]]></textFieldExpression>
+					<reportElement x="455" y="90" width="70" height="20" uuid="d91307b8-96c0-4a46-9134-19d06b74a694"/>
+					<textFieldExpression><![CDATA[$F{DESATIVADO}==true?"Sim":"Não"]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="62" width="45" height="18" uuid="3b539505-5cd2-4bf6-9004-afa2dfcbae47"/>

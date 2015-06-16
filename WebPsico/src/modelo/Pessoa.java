@@ -36,6 +36,7 @@ public abstract class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
 	private String email;
 
 	@Enumerated(EnumType.STRING)

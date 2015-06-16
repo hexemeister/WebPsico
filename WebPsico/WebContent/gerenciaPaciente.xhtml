@@ -370,7 +370,7 @@
 							<p:calendar id="dataNascimento"
 								value="#{pacienteMB.contatoSelecionado.dataNascimento}"
 								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
-								mask="99/99/9999" effect="fold">
+								mask="99/99/9999" effect="fold" yearRange="c-60:c">
 								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}"
 									update="idadeContato" />
 							</p:calendar>

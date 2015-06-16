@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -79,7 +80,8 @@ public class AgendaMB implements Serializable {
 	}
 
 	public List<Paciente> getListaPacientes(String query) {
-		return listaPacientes = new PacienteDao().findAllPacientesAtivosByInitial(query);
+		return listaPacientes = new PacienteDao()
+				.findAllPacientesAtivosByInitial(query);
 	}
 
 	public void setListaPacientes(List<Paciente> listaPacientes) {
@@ -110,28 +112,71 @@ public class AgendaMB implements Serializable {
 		this.dataInicial = dataInicial;
 	}
 
+	public Boolean temConflitoCompromisso(Compromisso c) {
+		Date inicio = new Date(c.getDataMarcada().getTime()
+				+ TimeUnit.HOURS.toMillis(-1));
+		Date fim = new Date(c.getDataMarcada().getTime()
+				+ TimeUnit.HOURS.toMillis(1));
+
+		try {
+			List<Compromisso> lista = new AgendaDao().buscaPorData(inicio, fim);
+			if (!lista.isEmpty()) {
+				for (Compromisso compromisso : lista) {
+					if (compromisso.getPsicologa().equals(c.getPsicologa())
+							|| compromisso.getPaciente()
+									.equals(c.getPaciente())) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		return true;
+
+	}
+
 	public void salvarCompromisso() {
 		try {
 			compromisso.setPaciente(pacienteSelecionado);
 			compromisso.setPsicologa(psicologaSelecionada);
-			compromisso = new AgendaDao().salvar(compromisso);
-			if (!agenda.contains(compromisso)) {
-				agenda.add(compromisso);
+			if (!temConflitoCompromisso(compromisso)) {
+				compromisso = new AgendaDao().salvar(compromisso);
+				FacesMessage msg = new FacesMessage("Sessão agendada com sucesso!",
+						pacienteSelecionado.getNome() + " marcado");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				pacienteSelecionado = new Paciente();
+				psicologaSelecionada = new Usuario();
+				compromisso = new Compromisso();
 			} else {
-				int index = -1;
-				for (int i = 0; i < agenda.size(); i++) {
-					if (agenda.get(index).equals(compromisso)) {
-						index = i;
-					}
-				}
-				if (index >= 0) {
-					agenda.set(index, compromisso);
-				}
-
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Agendamento não realizado","");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
+				//			if (!agenda.contains(compromisso)) {
+				//				agenda.add(compromisso);
+				//			} else {
+				//				int index = -1;
+				//				for (int i = 0; i < agenda.size(); i++) {
+				//					if (agenda.get(index).equals(compromisso)) {
+				//						index = i;
+				//					}
+				//				}
+				//				if (index >= 0) {
+				//					agenda.set(index, compromisso);
+				//				}
+				//
+				//			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	public void onPsicologaSelect(SelectEvent event) {
@@ -150,9 +195,11 @@ public class AgendaMB implements Serializable {
 						.getNome()));
 	}
 
-	public void removerCompromisso() {
+	public void removerCompromisso(Compromisso compromisso) {
 		new AgendaDao().delete(compromisso);
 		agenda.remove(compromisso);
+		FacesMessage msg = new FacesMessage("Agendamento Cancelado!", compromisso.getPaciente().getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 		compromisso = new Compromisso();
 	}
 

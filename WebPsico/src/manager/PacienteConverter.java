@@ -25,6 +25,10 @@ public class PacienteConverter implements Converter {
 			p.setNome("");
 			return p.getNome();
 		}
-		return p.getId().toString();
+		if (p.getId() != null) {
+			return p.getId().toString();
+		} else {
+			return "";
+		}
 	}
 }

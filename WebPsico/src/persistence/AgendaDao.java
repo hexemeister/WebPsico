@@ -29,7 +29,7 @@ public class AgendaDao extends GenericDao<Compromisso> {
 
 		Expression<Date> data = r.get("dataMarcada");
 		cq.where(cb.between(data, dataInicio, dataFim));
-
+		cq.orderBy(cb.asc(r.get("dataMarcada")));
 		TypedQuery<Compromisso> q = getEntityManager().createQuery(cq);
 		q.setParameter("inicio", inicio);
 		q.setParameter("fim", fim);

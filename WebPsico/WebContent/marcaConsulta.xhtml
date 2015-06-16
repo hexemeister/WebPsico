@@ -19,8 +19,9 @@
 						converterMessage="Falha no Converter"
 						value="#{agendaMB.pacienteSelecionado}" dropdown="true"
 						completeMethod="#{agendaMB.getListaPacientes}" minQueryLength="1"
-						effect="fade" var="paciente" itemLabel="#{paciente.nome}" itemValue="#{paciente}"
-						converter="pacienteConverter" forceSelection="true">
+						effect="fade" var="paciente" itemLabel="#{paciente.nome}"
+						itemValue="#{paciente}" converter="pacienteConverter"
+						forceSelection="true">
 						<p:column headerText="Nome Completo"
 							style="width:70%;text-align:center">#{paciente.nome}</p:column>
 						<p:ajax event="itemSelect" listener="#{agendaMB.onPacienteSelect}"
@@ -33,9 +34,9 @@
 						converterMessage="Falha no Converter"
 						value="#{agendaMB.psicologaSelecionada}" dropdown="true"
 						completeMethod="#{agendaMB.getListaPsicologas}" minQueryLength="1"
-						effect="fade" var="psicologa" itemLabel="#{psicologa.nomeCompleto}"
-						itemValue="#{psicologa}" converter="usuarioConverter"
-						forceSelection="true">
+						effect="fade" var="psicologa"
+						itemLabel="#{psicologa.nomeCompleto}" itemValue="#{psicologa}"
+						converter="usuarioConverter" forceSelection="true">
 						<p:column headerText="Login" style="width:30%;text-align:center">#{psicologa.login}</p:column>
 						<p:column headerText="Nome Completo"
 							style="width:70%;text-align:center">#{psicologa.nomeCompleto}</p:column>
@@ -46,13 +47,15 @@
 					<p:outputLabel for="calendar" value="Data" />
 					<p:calendar id="calendar"
 						value="#{agendaMB.compromisso.dataMarcada}" stepMinute="30"
-						pattern="dd/MM/yyyy HH:mm" mindate="#{agendaMB.dataInicial}" />
+						pattern="dd/MM/yyyy HH:mm" mindate="#{agendaMB.dataInicial}">
+						<p:ajax event="dateSelect" update="gerenciaConsulta" />
+					</p:calendar>
 				</h:panelGrid>
 
 				<p:spacer width="0" height="40" />
 
 				<p:commandButton id="salvar" value="Marcar Consulta"
-					action="#{agendaMB.salvarCompromisso}" />
+					action="#{agendaMB.salvarCompromisso}" update="gerenciaConsulta" />
 				<p:spacer width="40" />
 			</h:form>
 		</p:panel>
