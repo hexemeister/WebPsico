@@ -16,7 +16,7 @@
 					<p:outputLabel for="pesquisaPaciente" value="Nome do Paciente" />
 					<p:autoComplete id="pesquisaPaciente"
 						placeholder="Digite nome do paciente" size="45" maxResults="10"
-						converterMessage="Falha no Converter"
+						converterMessage="Falha no Converter" required="true"
 						value="#{agendaMB.pacienteSelecionado}" dropdown="true"
 						completeMethod="#{agendaMB.getListaPacientes}" minQueryLength="1"
 						effect="fade" var="paciente" itemLabel="#{paciente.nome}"
@@ -29,7 +29,7 @@
 					</p:autoComplete>
 
 					<p:outputLabel for="pesquisaPsicologo" value="Nome do Psicólogo" />
-					<p:autoComplete id="pesquisaPsicologo"
+					<p:autoComplete id="pesquisaPsicologo" required="true"
 						placeholder="Digite nome do psicólogo" size="45" maxResults="5"
 						converterMessage="Falha no Converter"
 						value="#{agendaMB.psicologaSelecionada}" dropdown="true"
@@ -59,7 +59,7 @@
 			</h:form>
 		</p:panel>
 
-		<p:panel header="Lista de Consultas">
+		<p:panel header="Lista de Agendamentos">
 			<h:form id="listaConsultas">
 				<p:outputPanel>
 					<p:outputLabel for="dataInicio" value="Data Inicial"
@@ -80,9 +80,38 @@
 
 				<p:spacer width="20" />
 
-				<p:dataTable emptyMessage="Não foram encontrados registros">
+				<div style="width: 75%; margin-left: auto; margin-right: auto;">
+					<p:dataTable id="agendaTb" value="#{agendaMB.agenda}" var="linha"
+						emptyMessage="Nenhum paciente agendado para este período">
+						<p:column headerText="Dia da semana" styleClass="centralizado">
+							<p:outputLabel value="#{linha.dataMarcada}">
+								<f:convertDateTime timeZone="America/Sao_Paulo" pattern="EEEE" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Data" styleClass="centralizado">
+							<p:outputLabel value="#{linha.dataMarcada}">
+								<f:convertDateTime timeZone="America/Sao_Paulo" pattern="dd/MM" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Hora" styleClass="centralizado">
+							<p:outputLabel value="#{linha.dataMarcada}">
+								<f:convertDateTime timeZone="America/Sao_Paulo" pattern="HH:mm" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Paciente" styleClass="centralizado">
+							<p:outputLabel value="#{linha.paciente.nome}" />
+						</p:column>
+						<p:column headerText="Psicólogo" styleClass="centralizado">
+							<p:outputLabel value="#{linha.psicologa.nomeCompleto}" />
+						</p:column>
+						<p:column headerText="Desmarcar" styleClass="centralizado">
+							<p:commandButton id="desmarcaBt" title="Desmarca paciente" icon="ui-icon-trash"
+								action="#{agendaMB.removerCompromisso(linha)}"
+								update=":listaConsultas:agendaTb" />
+						</p:column>
+					</p:dataTable>
+				</div>
 
-				</p:dataTable>
 			</h:form>
 		</p:panel>
 	</ui:define>
