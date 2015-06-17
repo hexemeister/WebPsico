@@ -66,16 +66,22 @@
 						style="padding: 10px" />
 					<p:calendar id="dataInicio" pattern="dd/MM/yyyy"
 						value="#{agendaMB.dataInicial}" style="padding: 10px"
-						required="true" requiredMessage="Escolha uma Data!">
+						required="true" requiredMessage="Escolha uma data inicial!">
 						<p:ajax event="dateSelect" update=":listaConsultas:dataFim" />
 					</p:calendar>
 
 					<p:outputLabel for="dataFim" value="Data Final"
 						style="padding: 10px" />
-					<p:calendar id="dataFim" pattern="dd/MM/yyyy"
-						mindate="#{agendaMB.dataInicial}" style="padding: 10px" />
+					<p:calendar id="dataFim" pattern="dd/MM/yyyy" required="true"
+						requiredMessage="Escolha uma data final!"
+						value="#{agendaMB.dataFinal}" mindate="#{agendaMB.dataInicial}"
+						style="padding: 10px">
+						<p:ajax event="dateSelect" update=":listaConsultas:dataInicio" />
+					</p:calendar>
 
-					<p:commandButton value="Listar" />
+					<p:commandButton value="Listar"
+						action="#{agendaMB.listaCompromissosPorData}"
+						update=":listaConsultas:agendaTb" />
 				</p:outputPanel>
 
 				<p:spacer width="20" />
@@ -105,13 +111,23 @@
 							<p:outputLabel value="#{linha.psicologa.nomeCompleto}" />
 						</p:column>
 						<p:column headerText="Desmarcar" styleClass="centralizado">
-							<p:commandButton id="desmarcaBt" title="Desmarca paciente" icon="ui-icon-trash"
+							<p:commandButton id="desmarcaBt" title="Desmarca paciente"
+								icon="ui-icon-trash"
 								action="#{agendaMB.removerCompromisso(linha)}"
-								update=":listaConsultas:agendaTb" />
+								update=":listaConsultas:agendaTb">
+								<p:confirm header="Confirmação" message="Tem certeza?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
 						</p:column>
 					</p:dataTable>
 				</div>
-
+				<p:confirmDialog global="true" showEffect="fade"
+					hideEffect="explode">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
 			</h:form>
 		</p:panel>
 	</ui:define>

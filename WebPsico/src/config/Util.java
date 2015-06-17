@@ -64,8 +64,8 @@ public class Util {
 				Perfil.PSICOLOGA);
 		u3 = new Usuario(null, "Bruno", "123", "Bruno Fitzner",
 				"brunofitzner1973@gmail.com", Perfil.ATENDENTE);
-		u4 = new Usuario(null, "Pablo", "123", "Pablo Rangel",
-				"pablo@gmail.com", Perfil.ATENDENTE, true);
+		u4 = new Usuario(null, "Tamara", "123", "Pablo Rangel",
+				"tamara@gmail.com", Perfil.ATENDENTE, true);
 		UsuarioDao udao = new UsuarioDao();
 		List<Usuario> lista = new ArrayList<Usuario>();
 		lista.add(u1);

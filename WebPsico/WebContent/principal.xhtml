@@ -86,7 +86,10 @@
 			</p:dialog>
 -->
 			<div style="width: 75%; margin-left: auto; margin-right: auto;">
-				<p:dataTable id="agendaTb" value="#{agendaMB.agenda}" var="linha"
+
+				<p:dataTable id="agendaTb" value="#{agendaMB.agenda}" rows="10"
+					widgetVar="agendaWidget" var="linha" paginator="true"
+					paginatorPosition="bottom"
 					emptyMessage="Nenhum paciente agendado para esse mês">
 					<p:column headerText="Dia da semana" styleClass="centralizado">
 						<p:outputLabel value="#{linha.dataMarcada}">
@@ -112,10 +115,19 @@
 					<p:column headerText="Desmarcar" styleClass="centralizado">
 						<p:commandButton title="Desmarca paciente" icon="ui-icon-trash"
 							action="#{agendaMB.removerCompromisso(linha)}"
-							update=":agenda:agendaTb" />
+							update=":agenda:agendaTb">
+							<p:confirm header="Confirmação" message="Tem certeza?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</div>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 </ui:composition>
