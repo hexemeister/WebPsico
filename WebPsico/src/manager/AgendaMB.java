@@ -112,6 +112,7 @@ public class AgendaMB implements Serializable {
 
 	public Date getDataFinal() {
 		Calendar c = Calendar.getInstance();
+		c.setTime(dataFinal);
 		c.set(Calendar.HOUR_OF_DAY, 23);
 		c.set(Calendar.MINUTE, 59);
 		c.set(Calendar.SECOND, 59);
@@ -122,6 +123,7 @@ public class AgendaMB implements Serializable {
 
 	public void setDataFinal(Date dataFinal) {
 		Calendar c = Calendar.getInstance();
+		c.setTime(dataFinal);
 		c.set(Calendar.HOUR_OF_DAY, 23);
 		c.set(Calendar.MINUTE, 59);
 		c.set(Calendar.SECOND, 59);
@@ -171,6 +173,7 @@ public class AgendaMB implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 				pacienteSelecionado = new Paciente();
 				psicologaSelecionada = new Usuario();
+				listaCompromissosPorData();
 				compromisso = new Compromisso();
 			} else {
 				FacesMessage msg = new FacesMessage(

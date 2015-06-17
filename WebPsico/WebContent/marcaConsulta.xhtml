@@ -54,7 +54,7 @@
 				<p:spacer width="0" height="40" />
 
 				<p:commandButton id="salvar" value="Marcar Consulta"
-					action="#{agendaMB.salvarCompromisso}" update="gerenciaConsulta" />
+					action="#{agendaMB.salvarCompromisso}" update=":gerenciaConsulta, :listaConsultas:agendaTb" />
 				<p:spacer width="40" />
 			</h:form>
 		</p:panel>
