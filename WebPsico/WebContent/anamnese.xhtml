@@ -12,14 +12,17 @@
 	<ui:define name="corpo">
 		<h:form id="formulario">
 			<p:accordionPanel dynamic="true" cache="true" widgetVar="anamneseTab">
-			<p:tab title="Pesquisa Paciente" disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}">
-			<p:outputLabel value="Função apenas ativa para psicólogos" rendered="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}"/>
-					<p:dataTable id="PacienteAnamneseTb" rows="5" var="linha" rendered="#{anamneseMB.logado.isPsicologa()}"
+				<p:tab title="Pesquisa Paciente"
+					disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}">
+					<p:outputLabel value="Função apenas ativa para psicólogos"
+						rendered="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}" />
+					<p:dataTable id="PacienteAnamneseTb" rows="5" var="linha"
+						rendered="#{anamneseMB.logado.isPsicologa()}"
 						widgetVar="pacienteTb" style="margin: 15px;"
 						emptyMessage="Nenhum paciente encontrado."
 						value="#{anamneseMB.listaPaciente}" selectionMode="single"
 						paginator="true" paginatorPosition="bottom"
-						selection="#{anamneseMB.pacienteSelecionado}" rowKey="#{linha.id}" >
+						selection="#{anamneseMB.pacienteSelecionado}" rowKey="#{linha.id}">
 						<f:facet name="header">
 							<p:outputPanel layout="block" styleClass="esquerda">
 								<h:outputText value="Pesquisa por paciente em todas as colunas:" />
@@ -29,9 +32,11 @@
 							</p:outputPanel>
 						</f:facet>
 						<p:ajax event="rowSelect" listener="#{anamneseMB.onRowSelect}"
-							update=":formulario" disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}" />
+							update=":formulario"
+							disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}" />
 						<p:ajax event="rowUnselect" listener="#{anamneseMB.onRowUnselect}"
-							update=":formulario" disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}"/>
+							update=":formulario"
+							disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}" />
 						<p:column headerText="Nome" sortBy="#{linha.nome}"
 							filterBy="#{linha.nome}" filterStyleClass="hide">
 							<p:outputLabel value="#{linha.nome}" />
@@ -52,7 +57,8 @@
 						</p:column>
 					</p:dataTable>
 				</p:tab>
-				<p:tab title="Itens para a Anamnese" disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}">
+				<p:tab title="Itens para a Anamnese"
+					disabled="#{anamneseMB.logado.isAtendente() or anamneseMB.logado.isAdm()}">
 					<h:panelGrid columns="5" id="dadosGerais"
 						columnClasses="label, value, ,label, value">
 

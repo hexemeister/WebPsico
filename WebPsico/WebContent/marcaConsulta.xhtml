@@ -54,7 +54,8 @@
 				<p:spacer width="0" height="40" />
 
 				<p:commandButton id="salvar" value="Marcar Consulta"
-					action="#{agendaMB.salvarCompromisso}" update=":gerenciaConsulta, :listaConsultas:agendaTb" />
+					action="#{agendaMB.salvarCompromisso}"
+					update=":gerenciaConsulta, :listaConsultas:agendaTb" />
 				<p:spacer width="40" />
 			</h:form>
 		</p:panel>
@@ -88,7 +89,8 @@
 
 				<div style="width: 75%; margin-left: auto; margin-right: auto;">
 					<p:dataTable id="agendaTb" value="#{agendaMB.agenda}" var="linha"
-						emptyMessage="Nenhum paciente agendado para este período">
+						emptyMessage="Nenhum paciente agendado para este período"
+						paginator="true" paginatorPosition="bottom">
 						<p:column headerText="Dia da semana" styleClass="centralizado">
 							<p:outputLabel value="#{linha.dataMarcada}">
 								<f:convertDateTime timeZone="America/Sao_Paulo" pattern="EEEE" />

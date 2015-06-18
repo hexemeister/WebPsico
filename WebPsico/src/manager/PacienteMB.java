@@ -3,12 +3,14 @@ package manager;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -20,6 +22,7 @@ import modelo.Sexo;
 import modelo.Turno;
 import modelo.Uf;
 
+import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -209,10 +212,20 @@ public class PacienteMB implements Serializable {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		facesContext.addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Data Selecionada",
 						format.format(event.getObject())));
 	}
 
+	public void onDateSelectByBlur(AjaxBehaviorEvent event) {
+		Calendar c = (Calendar) event.getSource();
+		Date data = (Date) c.getValue();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		facesContext.addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Data Selecionada",
+						format.format(data)));
+	}
+	
 	public void onRowSelect(SelectEvent event) {
 		listaContato = pacienteSelecionado.getContatos();
 		UIComponent comp = Util.findComponent("formPac:salvarPacBtn");

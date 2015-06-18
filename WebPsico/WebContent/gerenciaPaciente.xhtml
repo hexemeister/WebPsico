@@ -26,15 +26,18 @@
 							<p:outputLabel for="cpfPac" value="CPF:" />
 							<p:inputMask id="cpfPac"
 								value="#{pacienteMB.pacienteSelecionado.cpf}"
-								mask="999.999.999-99" required="true"  />
+								mask="999.999.999-99" required="true" />
 							<p:outputLabel for="dataNascimentoPac"
 								value="Data de Nascimento:" />
 							<p:calendar id="dataNascimentoPac"
+								widgetVar="dataNascimentoWidget"
 								placeholder="Informe a data de nascimento"
 								value="#{pacienteMB.pacienteSelecionado.dataNascimento}"
 								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
 								yearRange="c-60:c" mask="true">
 								<p:ajax event="dateSelect" listener="#{pacienteMB.onDateSelect}"
+									update="idadePac" />
+								<p:ajax event="blur" listener="#{pacienteMB.onDateSelectByBlur}"
 									update="idadePac" />
 							</p:calendar>
 
@@ -178,7 +181,11 @@
 							<p:calendar id="dataInicioPac"
 								value="#{pacienteMB.pacienteSelecionado.dataInicio}"
 								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy"
-								required="true" mask="99/99/9999" />
+								required="true" mask="99/99/9999">
+								<p:ajax event="dateSelect" update=":formPac:abas:dataFinalPac" />
+								<p:ajax event="blur" listener="#{pacienteMB.onDateSelectByBlur}"
+									update=":formPac:abas:dataFinalPac" />
+							</p:calendar>
 
 							<p style="width: 150px" />
 
@@ -186,7 +193,12 @@
 							<p:calendar id="dataFinalPac"
 								value="#{pacienteMB.pacienteSelecionado.dataUltimaSessao}"
 								locale="pt_BR" navigator="true" pattern="dd/MM/yyyy HH:mm"
-								required="true" mask="99/99/9999 99:99" />
+								mindate="#{pacienteMB.pacienteSelecionado.dataInicio}"
+								required="true" mask="99/99/9999 99:99" >
+								<p:ajax event="dateSelect" update=":formPac:abas:dataInicioPac" />
+								<p:ajax event="blur" listener="#{pacienteMB.onDateSelectByBlur}"
+									update=":formPac:abas:dataInicioPac" />
+							</p:calendar>
 
 
 							<p:outputLabel for="preferenciaTurnoPac"
@@ -201,7 +213,7 @@
 
 							<p style="width: 150px" />
 							<p:outputLabel for="precoCombinadoPac"
-								value="Preço combinado por sessão:" />
+								value="Preço combinado por sessão: R$" />
 							<p:inputMask id="precoCombinadoPac"
 								value="#{pacienteMB.pacienteSelecionado.preco}">
 								<f:convertNumber type="currency" currencySymbol="R$"
@@ -362,7 +374,7 @@
 							<p style="width: 150px" />
 
 							<p:outputLabel for="cpf" value="CPF:" />
-							<p:inputMask id="cpf"
+							<p:inputMask id="cpf" required="true"
 								value="#{pacienteMB.contatoSelecionado.cpf}"
 								mask="999.999.999-99" />
 

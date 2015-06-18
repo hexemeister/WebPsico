@@ -49,6 +49,7 @@ public class EvolucaoMB implements Serializable {
 	public void init() {
 		logado = loginMB.getLogado();
 		listaEvolucoes = new ArrayList<Evolucao>();
+		listaPaciente = new PacienteDao().findAllPacientesAtivos();
 	}
 
 	public void onRowSelect(SelectEvent event) {
@@ -134,7 +135,6 @@ public class EvolucaoMB implements Serializable {
 	}
 
 	public List<Paciente> getListaPaciente() {
-		listaPaciente = new PacienteDao().findAllPacientesAtivos();
 		return listaPaciente;
 	}
 

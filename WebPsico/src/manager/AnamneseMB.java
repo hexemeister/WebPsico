@@ -38,6 +38,7 @@ public class AnamneseMB implements Serializable {
 	@PostConstruct
 	public void init() {
 		logado = loginMB.getLogado();
+		listaPaciente = new PacienteDao().findAllPacientesAtivos();
 	}
 
 	public AnamneseMB() {
@@ -79,7 +80,6 @@ public class AnamneseMB implements Serializable {
 	}
 	
 	public List<Paciente> getListaPaciente() {
-		listaPaciente = new PacienteDao().findAllPacientesAtivos();
 		return listaPaciente;
 	}
 
