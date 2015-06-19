@@ -53,6 +53,7 @@ public class EvolucaoMB implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
+		listaEvolucoes = new ArrayList<Evolucao>();
 		pacienteSelecionado = (Paciente) event.getObject();
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				pacienteSelecionado.getNome());

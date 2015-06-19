@@ -77,10 +77,10 @@
 						selection="#{evolucaoMB.evolucaoSelecionada}" rowKey="#{linha.id}">
 						<p:ajax event="rowSelect"
 							listener="#{evolucaoMB.onRowSelectEvolucao}"
-							update=":evolucaoFrm:accordion:editor" />
+							update=":evolucaoFrm:accordion:editor, :evolucaoFrm:accordion:evolucoesTb" />
 						<p:ajax event="rowUnselect"
 							listener="#{evolucaoMB.onRowUnselectEvolucao}"
-							update=":evolucaoFrm:accordion:editor" />
+							update=":evolucaoFrm:accordion:editor, :evolucaoFrm:accordion:evolucoesTb" />
 						<p:column headerText="Data" width="15%" styleClass="centralizado">
 							<h:outputText value="#{linha.data}" rendered="true">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
