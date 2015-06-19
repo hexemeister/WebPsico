@@ -64,8 +64,8 @@ public class Util {
 				Perfil.PSICOLOGA);
 		u3 = new Usuario(null, "Bruno", "123", "Bruno Fitzner",
 				"brunofitzner1973@gmail.com", Perfil.ATENDENTE);
-		u4 = new Usuario(null, "Tamara", "123", "Pablo Rangel",
-				"tamara@gmail.com", Perfil.ATENDENTE, true);
+		u4 = new Usuario(null, "Tamara", "123", "Tamara Alencar",
+				"tamara@gmail.com", Perfil.PSICOLOGA, true);
 		UsuarioDao udao = new UsuarioDao();
 		List<Usuario> lista = new ArrayList<Usuario>();
 		lista.add(u1);
@@ -83,9 +83,9 @@ public class Util {
 		Contato c1 = new Contato.Builder().nome("Venina Val Porto")
 											.email("venina@gmail.com")
 											.sexo(Sexo.F)
-											.dataNascimento(new Date(1945, 8, 21))
+											.dataNascimento(new Date(45, 8, 21))
 											.endereco(new Endereco(null,"Estrada Curipós", "JPA", "521","Jardim Clarice","Rio de Janeiro",Uf.RJ,"22000-000"))
-											.cpf("12345678901")
+											.cpf("838.517.660-83")
 											.telefoneFixo("2124477654")
 											.telefoneCelular("21999998888")
 											.naturalidade(Uf.RJ)
@@ -100,7 +100,7 @@ public class Util {
 		Contato c2 = new Contato.Builder().nome("Luiz Augusto Andrade de Moraes")
 				.email("luiz@gmail.com")
 				.sexo(Sexo.M)
-				.dataNascimento(new Date(1952, 3, 16))
+				.dataNascimento(new Date(52, 3, 16))
 				.endereco(new Endereco.Builder()
 								.logradouro("Rua Primeiros Sonhos")
 								.numero("123")
@@ -111,7 +111,7 @@ public class Util {
 								.uf(Uf.RJ)
 								.build()
 							)
-				.cpf("29633699720")
+				.cpf("838.517.660-83")
 				.telefoneFixo("2133339999")
 				.telefoneCelular("21888887777")
 				.naturalidade(Uf.RJ)
@@ -142,9 +142,9 @@ public class Util {
 											.nome("Lucas Val Porto")
 											.email("lucas@gmail.com")
 											.sexo(Sexo.M)
-											.dataNascimento(new Date(2005, 2, 11))
+											.dataNascimento(new Date(105, 2, 11))
 											.endereco(new Endereco(null,"Estrada do Dendê", "Ilha do Governador", "542","Tauá","Rio de Janeiro",Uf.RJ,"21920-000"))
-											.cpf("12345678910")
+											.cpf("838.517.660-83")
 											.telefoneFixo("2133932975")
 											.telefoneCelular("21999998888")
 											.naturalidade(Uf.RJ)
