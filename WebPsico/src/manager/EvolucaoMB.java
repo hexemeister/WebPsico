@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -24,7 +25,7 @@ import persistence.EvolucaoDao;
 import persistence.PacienteDao;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class EvolucaoMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -53,7 +54,7 @@ public class EvolucaoMB implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		listaEvolucoes = new ArrayList<Evolucao>();
+//		listaEvolucoes = new ArrayList<Evolucao>();
 		pacienteSelecionado = (Paciente) event.getObject();
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				pacienteSelecionado.getNome());
