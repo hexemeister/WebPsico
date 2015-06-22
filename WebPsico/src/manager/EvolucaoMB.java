@@ -25,7 +25,7 @@ import persistence.EvolucaoDao;
 import persistence.PacienteDao;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class EvolucaoMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -54,7 +54,7 @@ public class EvolucaoMB implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-//		listaEvolucoes = new ArrayList<Evolucao>();
+		listaEvolucoes = new ArrayList<Evolucao>();
 		pacienteSelecionado = (Paciente) event.getObject();
 		FacesMessage msg = new FacesMessage("Paciente Selecionado",
 				pacienteSelecionado.getNome());
@@ -65,8 +65,6 @@ public class EvolucaoMB implements Serializable {
 					listaEvolucoes.add(e);
 				}
 			}
-		} else {
-			listaEvolucoes = new ArrayList<Evolucao>();
 		}
 		RequestContext context = RequestContext.getCurrentInstance();
 		setAbaDesabilitada(false);
@@ -108,7 +106,6 @@ public class EvolucaoMB implements Serializable {
 	}
 
 	public void salvarEvolucao() {
-
 		try {
 			evolucaoSelecionada.setTexto(textoDoEditor);
 			evolucaoSelecionada = new EvolucaoDao().update(evolucaoSelecionada);
@@ -119,12 +116,13 @@ public class EvolucaoMB implements Serializable {
 			evolucaoSelecionada.setData(new Date());
 			evolucaoSelecionada.setTexto(textoDoEditor);
 			evolucaoSelecionada = new EvolucaoDao().update(evolucaoSelecionada);
-			listaEvolucoes.add(evolucaoSelecionada);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		listaEvolucoes = new EvolucaoDao().findEvolucoesFromPacienteAndPsicologa(pacienteSelecionado, logado);
 		setTextoDoEditor(null);
 		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("evolcaoFrm:accordion:evolucoesTb");
 		context.execute("PF('evolucaoTabs').select(2)");
 		FacesMessage msg = new FacesMessage("Evolucao Salva",
 				pacienteSelecionado.getNome());
